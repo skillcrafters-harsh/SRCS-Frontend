@@ -56,69 +56,9 @@ export default function RollCuttingOptimization() {
 
     try {
       console.log("Optimizing with data:", data, "from source:", source)
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      const mockResults = {
-        summary: {
-          totalRollsUsed: 4,
-          totalWastage: 50.8,
-          totalCutterChanges: 3,
-          utilizationPercentage: 98.86,
-          efficiency: 89.95,
-          costSavings: 4373,
-        },
-        strategies: {
-          minimizeCutterChanges: {
-            rollsUsed: 4,
-            wastage: 50.8,
-            cutterChanges: 3,
-            efficiency: 89.95,
-          },
-          minimizeWastage: {
-            rollsUsed: 4,
-            wastage: 50.8,
-            cutterChanges: 3,
-            efficiency: 89.95,
-          },
-        },
-        cuttingPlan: [
-          {
-            rollId: 1,
-            decalSize: 4470.4,
-            cuts: [
-              { size: 812.8, quantity: 2, actualSize: 32, uom: "IN" },
-              { size: 736.6, quantity: 2, actualSize: 29, uom: "IN" },
-              { size: 685.8, quantity: 2, actualSize: 27, uom: "IN" },
-            ],
-            wastage: 0,
-            usagePercent: 100,
-          },
-          {
-            rollId: 2,
-            decalSize: 4470.4,
-            cuts: [
-              { size: 1016, quantity: 3, actualSize: 40, uom: "IN" },
-              { size: 736.6, quantity: 1, actualSize: 29, uom: "IN" },
-              { size: 685.8, quantity: 1, actualSize: 27, uom: "IN" },
-            ],
-            wastage: 0,
-            usagePercent: 100,
-          },
-          {
-            rollId: 3,
-            decalSize: 4470.4,
-            cuts: [
-              { size: 1016, quantity: 1, actualSize: 40, uom: "IN" },
-              { size: 863.6, quantity: 3, actualSize: 34, uom: "IN" },
-              { size: 812.8, quantity: 1, actualSize: 32, uom: "IN" },
-            ],
-            wastage: 50.8,
-            usagePercent: 98.86,
-          },
-        ],
-      }
-
-      setOptimizationResults(mockResults)
+      
+      // Set the actual API response data
+      setOptimizationResults(data)
       setActiveMainTab("run")
       setShowSuccessPopup(true)
       setTimeout(() => setShowSuccessPopup(false), 3000)

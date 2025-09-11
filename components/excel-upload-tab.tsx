@@ -104,9 +104,29 @@ export default function ExcelUploadTab({ onOptimize, isOptimizing }: ExcelUpload
     return basicFieldsValid && fileValid
   }
 
-  const handleOptimize = () => {
-    if (isFormValid()) {
-      onOptimize({ formData, file: uploadedFile, data: previewData }, "excel")
+  const handleOptimize = async () => {
+    if (isFormValid() && uploadedFile) {
+      const formDataToSend = new FormData()
+      formDataToSend.append('file', uploadedFile)
+      formDataToSend.append('decal_size', formData.motherRollWidth)
+      formDataToSend.append('no_of_cut', formData.maxCuts)
+      formDataToSend.append('customer_name', formData.customerName)
+      formDataToSend.append('so_no', formData.soNo)
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://192.168.29.138:8000'}/optimize-cutting-from-excel`, {
+          method: 'POST',
+          body: formDataToSend
+        })
+
+        const result = await response.json()
+        // Add form data to the result for export purposes
+        result.formData = formData
+        onOptimize(result, "excel")
+      } catch (error) {
+        console.error('API Error:', error)
+        // Handle error appropriately
+      }
     }
   }
 

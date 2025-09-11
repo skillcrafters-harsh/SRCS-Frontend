@@ -60,10 +60,7 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
     },
   ])
 
-  useEffect(() => {
-    // Don't clear form data when results are received
-    // This maintains the input state after optimization
-  }, [optimizationResults])
+
 
   const itemOptions = {
     1: "KRAFT PAPER SIZE (151 TO ABOVE)",
@@ -191,9 +188,36 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
     return basicFieldsValid && rollSpecsValid
   }
 
-  const handleOptimize = () => {
+  const handleOptimize = async () => {
     if (isFormValid()) {
-      onOptimize({ formData, rollSpecs, optionalFields }, "manual")
+      const payload = {
+        decal_size: parseInt(formData.motherRollWidth),
+        no_of_cut: parseInt(formData.maxCuts),
+        rolls: rollSpecs.map(spec => ({
+          item_name: spec.itemName,
+          size: parseInt(spec.size),
+          uom: spec.uom.split(' - ')[0],
+          nor: parseInt(spec.nor)
+        }))
+      }
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://192.168.29.138:8000'}/optimize-cutting`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload)
+        })
+
+        const result = await response.json()
+        // Add form data to the result for export purposes
+        result.formData = formData
+        onOptimize(result, "manual")
+      } catch (error) {
+        console.error('API Error:', error)
+        // Handle error appropriately
+      }
     }
   }
 

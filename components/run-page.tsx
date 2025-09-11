@@ -67,7 +67,7 @@ export default function RunPage({ onOptimize, isOptimizing, optimizationResults 
           </TabsContent>
 
           <TabsContent value="results" className="space-y-6 animate-fade-in">
-            {optimizationResults && <ResultsTab results={optimizationResults} />}
+            {optimizationResults && <ResultsTab results={optimizationResults} formData={optimizationResults.formData} />}
           </TabsContent>
         </Tabs>
       </CardContent>
