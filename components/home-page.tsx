@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   PlayIcon,
   ArrowRightIcon,
@@ -12,10 +12,10 @@ import {
   ChartBarIcon,
   ClockIcon,
   StarIcon,
-} from "@heroicons/react/24/outline"
+} from "@heroicons/react/24/outline";
 
 interface HomePageProps {
-  onNavigate: (tab: string) => void
+  onNavigate: (tab: string) => void;
 }
 
 export default function HomePage({ onNavigate }: HomePageProps) {
@@ -26,13 +26,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         {/* Background Video/Image Option */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
-          <img 
-            src="/bg.png" 
-            alt="High Material Wastage Problem" 
+          <img
+            src="/bg.png"
+            alt="High Material Wastage Problem"
             className="w-full h-full object-cover"
           />
         </div>
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text Content */}
@@ -43,16 +43,18 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   Stop Losing Money
                 </Badge>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  Stop Wasteful Roll Cutting. 
+                  Stop Wasteful Roll Cutting.
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">
                     Start Boosting Profits.
                   </span>
                 </h1>
                 <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
-                  Smart Roll Cutting's AI-powered platform transforms manual, error-prone material planning into automated, optimized production.
+                  Smart Roll Cutting's AI-powered platform transforms manual,
+                  error-prone material planning into automated, optimized
+                  production.
                 </p>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Button
                   onClick={() => onNavigate("run")}
@@ -72,7 +74,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 </Button>
               </div>
             </div>
-            
+
             {/* Video/Image Placeholder */}
             <div className="relative">
               <div className="aspect-video bg-gray-800/50 rounded-2xl border border-white/20 backdrop-blur-sm flex items-center justify-center">
@@ -80,7 +82,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto">
                     <PlayIcon className="h-8 w-8 text-white" />
                   </div>
-                  <p className="text-white/80 text-sm">Watch Our Solution in Action</p>
+                  <p className="text-white/80 text-sm">
+                    Watch Our Solution in Action
+                  </p>
                 </div>
               </div>
             </div>
@@ -96,7 +100,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               The Hidden Costs of Traditional Roll Cutting
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-              Every day you delay optimization, you're losing money. Here's what's really costing you:
+              Every day you delay optimization, you're losing money. Here's
+              what's really costing you:
             </p>
           </div>
 
@@ -111,18 +116,22 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 Are You Throwing Profits Away?
               </h3>
               <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                Manual calculations and inefficient cutting patterns lead to massive material scrap. Every inch of wasted paper is money lost directly from your bottom line, causing your operational costs to spiral upwards.
+                Manual calculations and inefficient cutting patterns lead to
+                massive material scrap. Every inch of wasted paper is money lost
+                directly from your bottom line, causing your operational costs
+                to spiral upwards.
               </p>
               <div className="bg-red-50 border-l-4 border-red-400 p-4">
                 <p className="text-red-800 font-semibold">
-                  "The average manufacturer loses 15-25% of material to poor cutting patterns. That's thousands of dollars every month."
+                  "The average manufacturer loses 15-25% of material to poor
+                  cutting patterns. That's thousands of dollars every month."
                 </p>
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="/hcsuhcishcs.png" 
-                alt="High Material Wastage - Frustrated worker with waste pile" 
+              <img
+                src="/hcsuhcishcs.png"
+                alt="High Material Wastage - Frustrated worker with waste pile"
                 className="rounded-2xl shadow-2xl w-full h-auto"
               />
               <div className="absolute -top-4 -right-4 bg-red-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
@@ -134,9 +143,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           {/* Problem 2: Downtime & Lost Productivity */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
             <div className="order-2 lg:order-1 relative">
-              <img 
-                src="/_wasteNdowntime.png" 
-                alt="Downtime and Lost Productivity - Worker with hands up" 
+              <img
+                src="/_wasteNdowntime.png"
+                alt="Downtime and Lost Productivity - Worker with hands up"
                 className="rounded-2xl shadow-2xl w-full h-auto"
               />
               <div className="absolute -bottom-4 -left-4 bg-orange-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-lg">
@@ -152,11 +161,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 Downtime is Your Biggest Enemy.
               </h3>
               <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                Miscalculations don't just waste material; they halt production. Machine downtime, re-runs, and rework kill productivity, delay orders, and erode your competitive edge.
+                Miscalculations don't just waste material; they halt production.
+                Machine downtime, re-runs, and rework kill productivity, delay
+                orders, and erode your competitive edge.
               </p>
               <div className="bg-orange-50 border-l-4 border-orange-400 p-4">
                 <p className="text-orange-800 font-semibold">
-                  "Every hour of unplanned downtime costs manufacturers an average of $260,000 per year."
+                  "Every hour of unplanned downtime costs manufacturers an
+                  average of $260,000 per year."
                 </p>
               </div>
             </div>
@@ -173,18 +185,21 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 Frequent Cutter Changes Draining Your Resources?
               </h3>
               <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                Sub-optimal cutting plans can lead to excessive wear and tear on your machinery, necessitating frequent, costly cutter changes and increasing your overall maintenance expenditure.
+                Sub-optimal cutting plans can lead to excessive wear and tear on
+                your machinery, necessitating frequent, costly cutter changes
+                and increasing your overall maintenance expenditure.
               </p>
               <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
                 <p className="text-purple-800 font-semibold">
-                  "Poor cutting patterns can increase maintenance costs by up to 40% due to excessive equipment wear."
+                  "Poor cutting patterns can increase maintenance costs by up to
+                  40% due to excessive equipment wear."
                 </p>
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="/cutterChangeProblem.png" 
-                alt="Higher Maintenance Costs - Worker fixing cutter" 
+              <img
+                src="/cutterChangeProblem.png"
+                alt="Higher Maintenance Costs - Worker fixing cutter"
                 className="rounded-2xl shadow-2xl w-full h-auto"
               />
               <div className="absolute -top-4 -right-4 bg-purple-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
@@ -203,7 +218,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               Transform Waste into Profit with Smart Roll Cutting
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-              Stop losing money to inefficiency. Here's how Smart Roll Cutting transforms your operation:
+              Stop losing money to inefficiency. Here's how Smart Roll Cutting
+              transforms your operation:
             </p>
           </div>
 
@@ -218,11 +234,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 Achieve Up To 40% Waste Reduction Instantly.
               </h3>
               <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                Our AI-powered optimization engine generates the most efficient cutting patterns in seconds, dramatically reducing material waste and turning your current losses into significant savings. See the impact directly on our intuitive dashboard.
+                Our AI-powered optimization engine generates the most efficient
+                cutting patterns in seconds, dramatically reducing material
+                waste and turning your current losses into significant savings.
+                See the impact directly on our intuitive dashboard.
               </p>
               <div className="bg-green-50 border-l-4 border-green-400 p-4">
                 <p className="text-green-800 font-semibold">
-                  "Our customers see an average of 40% waste reduction within the first month of implementation."
+                  "Our customers see an average of 40% waste reduction within
+                  the first month of implementation."
                 </p>
               </div>
               <div className="flex items-center space-x-6">
@@ -237,9 +257,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="/wasteImproved.png" 
-                alt="Smart Roll Cutting Dashboard - Happy worker with reduced costs" 
+              <img
+                src="/wasteImproved.png"
+                alt="Smart Roll Cutting Dashboard - Happy worker with reduced costs"
                 className="rounded-2xl shadow-2xl w-full h-auto"
               />
               <div className="absolute -top-4 -right-4 bg-green-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
@@ -251,9 +271,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           {/* Solution 2: Boost Productivity & Profit Growth */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
             <div className="order-2 lg:order-1 relative">
-              <img 
-                src="/fewCutterchange.png" 
-                alt="Profit Growth - Two happy workers with growth graph" 
+              <img
+                src="/fewCutterchange.png"
+                alt="Profit Growth - Two happy workers with growth graph"
                 className="rounded-2xl shadow-2xl w-full h-auto"
               />
               <div className="absolute -bottom-4 -left-4 bg-blue-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
@@ -269,11 +289,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 Maximize Uptime. Maximize Profit.
               </h3>
               <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
-                By providing optimized plans, Smart Roll Cutting enables longer, uninterrupted production runs, minimizes cutter changes, and eliminates costly re-runs. This leads to increased throughput, reduced labor, and a clear path to sustained profit growth.
+                By providing optimized plans, Smart Roll Cutting enables longer,
+                uninterrupted production runs, minimizes cutter changes, and
+                eliminates costly re-runs. This leads to increased throughput,
+                reduced labor, and a clear path to sustained profit growth.
               </p>
               <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
                 <p className="text-blue-800 font-semibold">
-                  "Longer runs without interruptions mean 25% more production capacity and 30% higher profit margins."
+                  "Longer runs without interruptions mean 25% more production
+                  capacity and 30% higher profit margins."
                 </p>
               </div>
               <div className="flex items-center space-x-6">
@@ -299,7 +323,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               Simple to Implement, Powerful to Perform
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
-              Get started in minutes, see results immediately. Our 3-step process makes optimization effortless.
+              Get started in minutes, see results immediately. Our 3-step
+              process makes optimization effortless.
             </p>
           </div>
 
@@ -311,7 +336,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               </div>
               <h3 className="text-xl font-semibold text-gray-900">Integrate</h3>
               <p className="text-gray-600">
-                Connect Smart Roll Cutting to your existing ERP and production data. Seamless integration with your current workflow.
+                Connect Smart Roll Cutting to your existing ERP and production
+                data. Seamless integration with your current workflow.
               </p>
             </div>
 
@@ -322,7 +348,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               </div>
               <h3 className="text-xl font-semibold text-gray-900">Optimize</h3>
               <p className="text-gray-600">
-                Our AI analyzes your orders and materials to generate the perfect cut plan. Get optimized patterns in seconds.
+                Our AI analyzes your orders and materials to generate the
+                perfect cut plan. Get optimized patterns in seconds.
               </p>
             </div>
 
@@ -333,7 +360,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               </div>
               <h3 className="text-xl font-semibold text-gray-900">Produce</h3>
               <p className="text-gray-600">
-                Execute with confidence, knowing you're maximizing material and minimizing downtime. Start saving immediately.
+                Execute with confidence, knowing you're maximizing material and
+                minimizing downtime. Start saving immediately.
               </p>
             </div>
           </div>
@@ -348,7 +376,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               Trusted by Industry Leaders Worldwide
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-gray-600">
-              Join hundreds of manufacturers who are transforming their operations
+              Join hundreds of manufacturers who are transforming their
+              operations
             </p>
           </div>
 
@@ -358,20 +387,29 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <div className="flex justify-center mb-6">
                 <div className="flex space-x-1">
                   {[...Array(5)].map((_, i) => (
-                    <StarIcon key={i} className="h-6 w-6 text-yellow-400 fill-current" />
+                    <StarIcon
+                      key={i}
+                      className="h-6 w-6 text-yellow-400 fill-current"
+                    />
                   ))}
                 </div>
               </div>
               <blockquote className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900 mb-6">
-                "Smart Roll Cutting changed our entire operation. We saw an immediate 30% reduction in waste, and our team now works with unparalleled efficiency. The ROI was clear within months."
+                "Smart Roll Cutting changed our entire operation. We saw an
+                immediate 30% reduction in waste, and our team now works with
+                unparalleled efficiency. The ROI was clear within months."
               </blockquote>
               <div className="flex items-center justify-center space-x-4">
                 <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
                   MR
                 </div>
                 <div className="text-left">
-                  <div className="font-semibold text-gray-900">Maria Rodriguez</div>
-                  <div className="text-gray-600">Operations Director, Global Manufacturing Co.</div>
+                  <div className="font-semibold text-gray-900">
+                    Maria Rodriguez
+                  </div>
+                  <div className="text-gray-600">
+                    Operations Director, Global Manufacturing Co.
+                  </div>
                 </div>
               </div>
             </div>
@@ -380,16 +418,28 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           {/* Key Statistics */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-green-600 mb-2">40%</div>
-              <div className="text-base sm:text-lg text-gray-600">Average Waste Reduction</div>
+              <div className="text-3xl sm:text-4xl font-bold text-green-600 mb-2">
+                40%
+              </div>
+              <div className="text-base sm:text-lg text-gray-600">
+                Average Waste Reduction
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">95%</div>
-              <div className="text-base sm:text-lg text-gray-600">Customer Retention Rate</div>
+              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">
+                95%
+              </div>
+              <div className="text-base sm:text-lg text-gray-600">
+                Customer Retention Rate
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-bold text-purple-600 mb-2">$2M+</div>
-              <div className="text-base sm:text-lg text-gray-600">Average Annual Savings</div>
+              <div className="text-3xl sm:text-4xl font-bold text-purple-600 mb-2">
+                $2M+
+              </div>
+              <div className="text-base sm:text-lg text-gray-600">
+                Average Annual Savings
+              </div>
             </div>
           </div>
         </div>
@@ -402,9 +452,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             Ready to Revolutionize Your Production?
           </h2>
           <p className="text-base sm:text-lg lg:text-xl text-blue-100 mb-8 leading-relaxed">
-            Stop letting inefficiency erode your margins. Join the hundreds of manufacturers who are transforming their operations with Smart Roll Cutting.
+            Stop letting inefficiency erode your margins. Join the hundreds of
+            manufacturers who are transforming their operations with Smart Roll
+            Cutting.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Button
               onClick={() => onNavigate("run")}
@@ -430,5 +482,5 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }
