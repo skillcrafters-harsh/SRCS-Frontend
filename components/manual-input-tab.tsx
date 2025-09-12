@@ -386,7 +386,7 @@ export default function ManualInputTab({
           <h3 className="text-md font-semibold text-gray-900 mb-4">
             Configure Optional Fields
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
             {["dia", "bf", "gsm", "quality", "quantity"].map((field) => (
               <div
                 key={field}

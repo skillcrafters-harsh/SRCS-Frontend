@@ -237,7 +237,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
         {/* 2/3: Two Rows */}
         <div className="lg:col-span-2 space-y-6">
           {/* 1st Row: 4 Metric Boxes Horizontally */}
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
               <CardContent className="p-3">
                 <div className="text-center">
@@ -536,7 +536,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                 </div>
 
                 {/* Size Details Grid */}
-                <div className="grid grid-cols-8 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
                   {plan.sizes
                     .filter((size: any) => size.actual_size > 0)
                     .map((size: any, sizeIndex: number) => (
