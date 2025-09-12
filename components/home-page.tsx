@@ -252,7 +252,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1 relative">
               <img 
-                src="/fewCutterChange.png" 
+                src="/fewCutterchange.png" 
                 alt="Profit Growth - Two happy workers with growth graph" 
                 className="rounded-2xl shadow-2xl"
               />
