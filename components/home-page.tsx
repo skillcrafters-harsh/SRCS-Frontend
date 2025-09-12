@@ -33,7 +33,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           />
         </div>
         
-        <div className="relative z-10 max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text Content */}
             <div className="text-white space-y-6 lg:space-y-8">

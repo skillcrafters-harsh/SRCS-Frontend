@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { HomeIcon, DocumentTextIcon, PlayIcon, CodeBracketIcon, BookOpenIcon } from "@heroicons/react/24/outline"
+import { HomeIcon, DocumentTextIcon, PlayIcon, CodeBracketIcon, BookOpenIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 import HomePage from "@/components/home-page"
 import ExamplePage from "@/components/example-page"
 import RunPage from "@/components/run-page"
@@ -50,6 +50,7 @@ export default function RollCuttingOptimization() {
   const [optimizationResults, setOptimizationResults] = useState<OptimizationResults | null>(null)
   const [isOptimizing, setIsOptimizing] = useState(false)
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleOptimization = async (data: any, source: "manual" | "excel") => {
     setIsOptimizing(true)
@@ -87,21 +88,19 @@ export default function RollCuttingOptimization() {
       )}
 
       <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-40">
-        <div className="w-full px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3 animate-slide-in-left">
               <div className="flex-shrink-0">
-                <img src="/main-logo.png" alt="Smart Roll Cutting Solution" className="w-15 h-15" />
+                <img src="/main-logo.png" alt="Smart Roll Cutting Solution" className="w-10 h-10 sm:w-12 sm:h-12" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Smart Roll Cutting Solutions</h1>
-                {/* <p className="text-sm text-primary">
-                  Optimize your material usage with advanced cutting pattern algorithms
-                </p> */}
+                <h1 className="text-lg sm:text-xl font-bold text-foreground">Smart Roll Cutting Solutions</h1>
               </div>
             </div>
 
-            <nav className="flex space-x-1 animate-slide-in-right">
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex space-x-1 animate-slide-in-right">
               <button
                 onClick={() => setActiveMainTab("home")}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
@@ -158,7 +157,101 @@ export default function RollCuttingOptimization() {
                 <span>API Reference</span>
               </button>
             </nav>
+
+            {/* Mobile menu button */}
+            <div className="lg:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="inline-flex items-center justify-center p-2 rounded-md text-muted-foreground hover:text-primary hover:bg-muted/50 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+                aria-expanded="false"
+              >
+                <span className="sr-only">Open main menu</span>
+                {isMobileMenuOpen ? (
+                  <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                ) : (
+                  <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                )}
+              </button>
+            </div>
           </div>
+
+          {/* Mobile Navigation Menu */}
+          {isMobileMenuOpen && (
+            <div className="lg:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 backdrop-blur-md border-t border-border">
+                <button
+                  onClick={() => {
+                    setActiveMainTab("home")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
+                    activeMainTab === "home"
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted/50"
+                  }`}
+                >
+                  <HomeIcon className="h-5 w-5" />
+                  <span>Home</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveMainTab("example")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
+                    activeMainTab === "example"
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted/50"
+                  }`}
+                >
+                  <DocumentTextIcon className="h-5 w-5" />
+                  <span>Example</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveMainTab("run")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
+                    activeMainTab === "run"
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted/50"
+                  }`}
+                >
+                  <PlayIcon className="h-5 w-5" />
+                  <span>Run</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveMainTab("api-docs")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
+                    activeMainTab === "api-docs"
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted/50"
+                  }`}
+                >
+                  <BookOpenIcon className="h-5 w-5" />
+                  <span>API Docs</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setActiveMainTab("api-reference")
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
+                    activeMainTab === "api-reference"
+                      ? "bg-primary text-primary-foreground shadow-md"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted/50"
+                  }`}
+                >
+                  <CodeBracketIcon className="h-5 w-5" />
+                  <span>API Reference</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
