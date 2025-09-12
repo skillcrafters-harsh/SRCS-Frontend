@@ -212,7 +212,7 @@ export default function ExcelUploadTab({
         onOptimize(result, "excel");
       } catch (error) {
         console.error("API Error:", error);
-        alert(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
+        toast.error(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
       }
     }
   };
@@ -340,7 +340,7 @@ export default function ExcelUploadTab({
         </CardHeader>
         <CardContent className="p-6">
           <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+            className={`border-2 border-dashed rounded-lg p-4 sm:p-6 md:p-8 text-center transition-colors ${
               isDragOver
                 ? "border-black bg-gray-50"
                 : "border-gray-300 hover:border-gray-400"
@@ -479,7 +479,7 @@ export default function ExcelUploadTab({
           onClick={handleOptimize}
           disabled={!isFormValid() || isOptimizing}
           size="lg"
-          className="px-8 py-3 text-lg font-semibold bg-black hover:bg-gray-800 text-white"
+          className="w-full sm:w-auto px-4 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold bg-black hover:bg-gray-800 text-white"
         >
           {isOptimizing ? (
             <>

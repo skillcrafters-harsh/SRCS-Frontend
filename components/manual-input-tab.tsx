@@ -19,6 +19,7 @@ import {
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface RollSpec {
   id: string;
@@ -283,17 +284,17 @@ export default function ManualInputTab({
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({ message: 'Unknown error occurred' }));
-          alert(`Error: ${errorData.message || 'Failed to process request'}`);
+          toast.error(`Error: ${errorData.message || 'Failed to process request'}`);
           return;
         }
 
         const result = await response.json();
         result.formData = formData;
-        alert('Optimization completed successfully!');
+        toast.success('Optimization completed successfully!');
         onOptimize(result, "manual");
       } catch (error) {
         console.error("API Error:", error);
-        alert(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
+        toast.error(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
       }
     }
   };
@@ -310,7 +311,7 @@ export default function ManualInputTab({
             Begin by providing the key inputs for your optimization run.
           </p>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6 border-b border-blue-100">
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-3 sm:p-4 md:p-6 border-b border-blue-100">
           <div className="space-y-2">
             <Label
               htmlFor="motherRollWidth"
@@ -382,11 +383,11 @@ export default function ManualInputTab({
         </CardContent>
 
         {/* Optional Fields */}
-        <div className="px-6 py-4 border-b border-blue-100">
+        <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-blue-100">
           <h3 className="text-md font-semibold text-gray-900 mb-4">
             Configure Optional Fields
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {["dia", "bf", "gsm", "quality", "quantity"].map((field) => (
               <div
                 key={field}
@@ -413,10 +414,10 @@ export default function ManualInputTab({
         </div>
 
         {/* Roll Specifications */}
-        <div className="flex flex-row items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 px-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 px-3 sm:px-4 md:px-6 gap-2 sm:gap-0">
           <div>
-            <h3 className="text-lg font-semibold">2. Cutting Specifications</h3>
-            <p className="text-sm">
+            <h3 className="text-base sm:text-lg font-semibold">2. Cutting Specifications</h3>
+            <p className="text-xs sm:text-sm">
               Add all the roll sizes and requirements you need to optimize.
             </p>
           </div>
@@ -645,7 +646,7 @@ export default function ManualInputTab({
             onClick={handleOptimize}
             disabled={!isFormValid() || isOptimizing}
             size="lg"
-            className="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl"
+            className="w-full sm:w-auto px-4 sm:px-8 py-3 sm:py-4 text-base sm:text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl"
           >
             {isOptimizing ? (
               <>
