@@ -22,7 +22,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className="space-y-0">
       {/* Hero Section - Problem-Solution Hook */}
-      <div className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800">
+      <div className="relative min-h-[80vh] sm:min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800">
         {/* Background Video/Image Option */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
@@ -33,27 +33,27 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           />
         </div>
         
-        <div className="relative z-10 max-w-[100rem] mx-auto px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative z-10 max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text Content */}
-            <div className="text-white space-y-8">
+            <div className="text-white space-y-6 lg:space-y-8">
               <div className="space-y-4">
                 <Badge className="bg-red-500/20 text-red-300 border-red-500/30 px-4 py-2 text-sm">
                   <ExclamationTriangleIcon className="h-4 w-4 mr-2" />
                   Stop Losing Money
                 </Badge>
-                <h1 className="text-5xl lg:text-6xl font-bold leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                   Stop Wasteful Roll Cutting. 
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">
                     Start Boosting Profits.
                   </span>
                 </h1>
-                <p className="text-xl text-gray-300 leading-relaxed">
+                <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
                   Smart Roll Cutting's AI-powered platform transforms manual, error-prone material planning into automated, optimized production.
                 </p>
               </div>
               
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Button
                   onClick={() => onNavigate("run")}
                   size="lg"
