@@ -49,7 +49,7 @@ export default function RunPage({
   }, [optimizationResults, isOptimizing]);
 
   return (
-    <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300 w-[90rem] mx-auto">
+    <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300 w-full max-w-7xl mx-auto">
       <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 flex flex-col items-center justify-center">
         <CardTitle className="text-2xl font-bold text-center text-gray-900">
           Optimization Dashboard
