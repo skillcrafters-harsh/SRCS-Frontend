@@ -17,9 +17,6 @@ import {
   PlusIcon,
   TrashIcon,
   DocumentDuplicateIcon,
-  XMarkIcon,
-  CheckCircleIcon,
-  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import { Loader2 } from "lucide-react";
 
@@ -53,8 +50,6 @@ export default function ManualInputTab({
     customerName: "Himesh",
     soNo: "Reshmia",
   });
-
-  const [toast, setToast] = useState<{message: string; type: 'success' | 'error'} | null>(null);
 
   const [optionalFields, setOptionalFields] = useState({
     dia: false,
@@ -288,32 +283,23 @@ export default function ManualInputTab({
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({ message: 'Unknown error occurred' }));
-          setToast({message: `Error: ${errorData.message || 'Failed to process request'}`, type: 'error'});
+          alert(`Error: ${errorData.message || 'Failed to process request'}`);
           return;
         }
 
         const result = await response.json();
         result.formData = formData;
-        setToast({message: 'Optimization completed successfully!', type: 'success'});
+        alert('Optimization completed successfully!');
         onOptimize(result, "manual");
       } catch (error) {
         console.error("API Error:", error);
-        setToast({message: `Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`, type: 'error'});
+        alert(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
       }
     }
   };
 
   return (
     <div className="space-y-2 animate-fade-in">
-      {toast && (
-        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg flex items-center space-x-2 ${toast.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
-          {toast.type === 'success' ? <CheckCircleIcon className="h-5 w-5" /> : <ExclamationTriangleIcon className="h-5 w-5" />}
-          <span>{toast.message}</span>
-          <button onClick={() => setToast(null)} className="ml-2">
-            <XMarkIcon className="h-4 w-4" />
-          </button>
-        </div>
-      )}
       {/* Basic Information */}
       <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
         <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 ">

@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CloudArrowUpIcon, DocumentIcon, XMarkIcon, CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { CloudArrowUpIcon, DocumentIcon } from "@heroicons/react/24/outline";
 import { Loader2 } from "lucide-react";
 import * as XLSX from "xlsx";
+import { toast } from "sonner";
 
 interface ExcelUploadTabProps {
   onOptimize: (data: any, source: "manual" | "excel") => void;
@@ -30,7 +31,6 @@ export default function ExcelUploadTab({
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [previewData, setPreviewData] = useState<any[]>([]);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [toast, setToast] = useState<{message: string; type: 'success' | 'error'} | null>(null);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -202,32 +202,23 @@ export default function ExcelUploadTab({
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({ message: 'Unknown error occurred' }));
-          setToast({message: `Error: ${errorData.message || 'Failed to process request'}`, type: 'error'});
+          toast.error(`Error: ${errorData.message || 'Failed to process request'}`);
           return;
         }
 
         const result = await response.json();
         result.formData = formData;
-        setToast({message: 'Optimization completed successfully!', type: 'success'});
+        toast.success('Optimization completed successfully!');
         onOptimize(result, "excel");
       } catch (error) {
         console.error("API Error:", error);
-        setToast({message: `Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`, type: 'error'});
+        alert(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
       }
     }
   };
 
   return (
     <div className="space-y-6">
-      {toast && (
-        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg flex items-center space-x-2 ${toast.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
-          {toast.type === 'success' ? <CheckCircleIcon className="h-5 w-5" /> : <ExclamationTriangleIcon className="h-5 w-5" />}
-          <span>{toast.message}</span>
-          <button onClick={() => setToast(null)} className="ml-2">
-            <XMarkIcon className="h-4 w-4" />
-          </button>
-        </div>
-      )}
       {/* Basic Information */}
       <Card className="shadow-sm border-gray-200">
         <CardHeader className="bg-gray-50 py-3 flex items-center">
