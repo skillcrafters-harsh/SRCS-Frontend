@@ -89,28 +89,28 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* Problem Agitation Section */}
-      <div className="bg-gray-50 py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+      <div className="bg-gray-50 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               The Hidden Costs of Traditional Roll Cutting
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Every day you delay optimization, you're losing money. Here's what's really costing you:
             </p>
           </div>
 
           {/* Problem 1: Material Wastage & Rising Costs */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-semibold">
                 <ExclamationTriangleIcon className="h-4 w-4 mr-2" />
                 Problem #1
               </div>
-              <h3 className="text-3xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
                 Are You Throwing Profits Away?
               </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 Manual calculations and inefficient cutting patterns lead to massive material scrap. Every inch of wasted paper is money lost directly from your bottom line, causing your operational costs to spiral upwards.
               </p>
               <div className="bg-red-50 border-l-4 border-red-400 p-4">
@@ -132,14 +132,14 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Problem 2: Downtime & Lost Productivity */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
             <div className="order-2 lg:order-1 relative">
               <img 
                 src="/_wasteNdowntime.png" 
                 alt="Downtime and Lost Productivity - Worker with hands up" 
-                className="rounded-2xl shadow-2xl"
+                className="rounded-2xl shadow-2xl w-full h-auto"
               />
-              <div className="absolute -bottom-4 -left-4 bg-orange-500 text-white px-4 py-2 rounded-full font-bold text-lg">
+              <div className="absolute -bottom-4 -left-4 bg-orange-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-lg">
                 Profit Loss
               </div>
             </div>
@@ -148,10 +148,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 <ClockIcon className="h-4 w-4 mr-2" />
                 Problem #2
               </div>
-              <h3 className="text-3xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
                 Downtime is Your Biggest Enemy.
               </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 Miscalculations don't just waste material; they halt production. Machine downtime, re-runs, and rework kill productivity, delay orders, and erode your competitive edge.
               </p>
               <div className="bg-orange-50 border-l-4 border-orange-400 p-4">
@@ -163,16 +163,16 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Problem 3: Maintenance & Frequent Changes */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
                 <WrenchScrewdriverIcon className="h-4 w-4 mr-2" />
                 Problem #3
               </div>
-              <h3 className="text-3xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
                 Frequent Cutter Changes Draining Your Resources?
               </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 Sub-optimal cutting plans can lead to excessive wear and tear on your machinery, necessitating frequent, costly cutter changes and increasing your overall maintenance expenditure.
               </p>
               <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
@@ -196,28 +196,28 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* Solution Section - Smart Roll Cutting's Transformation */}
-      <div className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+      <div className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               Transform Waste into Profit with Smart Roll Cutting
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Stop losing money to inefficiency. Here's how Smart Roll Cutting transforms your operation:
             </p>
           </div>
 
           {/* Solution 1: Guaranteed Waste Reduction */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
                 <CheckCircleIcon className="h-4 w-4 mr-2" />
                 Solution #1
               </div>
-              <h3 className="text-3xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
                 Achieve Up To 40% Waste Reduction Instantly.
               </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 Our AI-powered optimization engine generates the most efficient cutting patterns in seconds, dramatically reducing material waste and turning your current losses into significant savings. See the impact directly on our intuitive dashboard.
               </p>
               <div className="bg-green-50 border-l-4 border-green-400 p-4">
@@ -249,7 +249,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Solution 2: Boost Productivity & Profit Growth */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
             <div className="order-2 lg:order-1 relative">
               <img 
                 src="/fewCutterchange.png" 
@@ -265,10 +265,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 <ChartBarIcon className="h-4 w-4 mr-2" />
                 Solution #2
               </div>
-              <h3 className="text-3xl font-bold text-gray-900">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
                 Maximize Uptime. Maximize Profit.
               </h3>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 By providing optimized plans, Smart Roll Cutting enables longer, uninterrupted production runs, minimizes cutter changes, and eliminates costly re-runs. This leads to increased throughput, reduced labor, and a clear path to sustained profit growth.
               </p>
               <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
@@ -292,13 +292,13 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* How It Works Section */}
-      <div className="bg-gray-50 py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+      <div className="bg-gray-50 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               Simple to Implement, Powerful to Perform
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Get started in minutes, see results immediately. Our 3-step process makes optimization effortless.
             </p>
           </div>
