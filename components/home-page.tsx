@@ -34,7 +34,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
         
         <div className="relative z-10 max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text Content */}
             <div className="text-white space-y-6 lg:space-y-8">
               <div className="space-y-4">
@@ -101,7 +101,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Problem 1: Material Wastage & Rising Costs */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-semibold">
                 <ExclamationTriangleIcon className="h-4 w-4 mr-2" />
@@ -123,16 +123,16 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <img 
                 src="/hcsuhcishcs.png" 
                 alt="High Material Wastage - Frustrated worker with waste pile" 
-                className="rounded-2xl shadow-2xl"
+                className="rounded-2xl shadow-2xl w-full h-auto"
               />
-              <div className="absolute -top-4 -right-4 bg-red-500 text-white px-4 py-2 rounded-full font-bold text-lg">
+              <div className="absolute -top-4 -right-4 bg-red-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
                 Costs Rising
               </div>
             </div>
           </div>
 
           {/* Problem 2: Downtime & Lost Productivity */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
             <div className="order-2 lg:order-1 relative">
               <img 
                 src="/_wasteNdowntime.png" 
@@ -163,7 +163,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Problem 3: Maintenance & Frequent Changes */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
                 <WrenchScrewdriverIcon className="h-4 w-4 mr-2" />
@@ -185,9 +185,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <img 
                 src="/cutterChangeProblem.png" 
                 alt="Higher Maintenance Costs - Worker fixing cutter" 
-                className="rounded-2xl shadow-2xl"
+                className="rounded-2xl shadow-2xl w-full h-auto"
               />
-              <div className="absolute -top-4 -right-4 bg-purple-500 text-white px-4 py-2 rounded-full font-bold text-lg">
+              <div className="absolute -top-4 -right-4 bg-purple-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
                 Higher Costs
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Solution 1: Guaranteed Waste Reduction */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
             <div className="space-y-6">
               <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
                 <CheckCircleIcon className="h-4 w-4 mr-2" />
@@ -240,23 +240,23 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <img 
                 src="/wasteImproved.png" 
                 alt="Smart Roll Cutting Dashboard - Happy worker with reduced costs" 
-                className="rounded-2xl shadow-2xl"
+                className="rounded-2xl shadow-2xl w-full h-auto"
               />
-              <div className="absolute -top-4 -right-4 bg-green-500 text-white px-4 py-2 rounded-full font-bold text-lg">
+              <div className="absolute -top-4 -right-4 bg-green-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
                 Costs Reduced
               </div>
             </div>
           </div>
 
           {/* Solution 2: Boost Productivity & Profit Growth */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
             <div className="order-2 lg:order-1 relative">
               <img 
                 src="/fewCutterchange.png" 
                 alt="Profit Growth - Two happy workers with growth graph" 
-                className="rounded-2xl shadow-2xl"
+                className="rounded-2xl shadow-2xl w-full h-auto"
               />
-              <div className="absolute -bottom-4 -left-4 bg-blue-500 text-white px-4 py-2 rounded-full font-bold text-lg">
+              <div className="absolute -bottom-4 -left-4 bg-blue-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
                 Profit Growth
               </div>
             </div>
@@ -341,19 +341,19 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* Social Proof and Credibility Section */}
-      <div className="bg-white py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+      <div className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
               Trusted by Industry Leaders Worldwide
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600">
               Join hundreds of manufacturers who are transforming their operations
             </p>
           </div>
 
           {/* Testimonial */}
-          <div className="bg-gray-50 rounded-2xl p-8 mb-12">
+          <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 mb-12">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex justify-center mb-6">
                 <div className="flex space-x-1">
@@ -362,7 +362,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   ))}
                 </div>
               </div>
-              <blockquote className="text-2xl font-medium text-gray-900 mb-6">
+              <blockquote className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900 mb-6">
                 "Smart Roll Cutting changed our entire operation. We saw an immediate 30% reduction in waste, and our team now works with unparalleled efficiency. The ROI was clear within months."
               </blockquote>
               <div className="flex items-center justify-center space-x-4">
@@ -380,28 +380,28 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           {/* Key Statistics */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-4xl font-bold text-green-600 mb-2">40%</div>
-              <div className="text-lg text-gray-600">Average Waste Reduction</div>
+              <div className="text-3xl sm:text-4xl font-bold text-green-600 mb-2">40%</div>
+              <div className="text-base sm:text-lg text-gray-600">Average Waste Reduction</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">95%</div>
-              <div className="text-lg text-gray-600">Customer Retention Rate</div>
+              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">95%</div>
+              <div className="text-base sm:text-lg text-gray-600">Customer Retention Rate</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-2">$2M+</div>
-              <div className="text-lg text-gray-600">Average Annual Savings</div>
+              <div className="text-3xl sm:text-4xl font-bold text-purple-600 mb-2">$2M+</div>
+              <div className="text-base sm:text-lg text-gray-600">Average Annual Savings</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Final Call to Action */}
-      <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900 py-20">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
+      <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
             Ready to Revolutionize Your Production?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+          <p className="text-base sm:text-lg lg:text-xl text-blue-100 mb-8 leading-relaxed">
             Stop letting inefficiency erode your margins. Join the hundreds of manufacturers who are transforming their operations with Smart Roll Cutting.
           </p>
           
