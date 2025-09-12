@@ -8,12 +8,12 @@ export default function ExamplePage() {
   const handleExportExample = () => {
     // Create example data for Excel export
     const exampleData = [
-      ["Item Name", "Size (mm)", "NOR", "UOM", "Diameter (mm)", "BF", "GSM", "Quality", "Quantity"],
-      ["Paper Roll A", "250", "2", "MM", "1200", "80", "120", "Premium", "150"],
-      ["Paper Roll B", "180", "5", "MM", "1200", "80", "120", "Standard", "270"],
-      ["Paper Roll C", "120", "1", "MM", "1200", "80", "120", "Premium", "72"],
-      ["Paper Roll D", "300", "1", "MM", "1200", "80", "120", "Standard", "180"],
-      ["Paper Roll E", "200", "4", "MM", "1200", "80", "120", "Premium", "480"],
+      ["Item Name", "Size", "NOR", "UOM", "Dia", "BF", "GSM", "Quality", "Quantity"],
+      ["Paper Roll A", "250", "2", "MM", "36", "80", "120", "Premium", "150"],
+      ["Paper Roll B", "180", "5", "MM", "36", "80", "120", "Standard", "270"],
+      ["Paper Roll C", "120", "1", "MM", "36", "80", "120", "Premium", "72"],
+      ["Paper Roll D", "300", "1", "MM", "36", "80", "120", "Standard", "180"],
+      ["Paper Roll E", "200", "4", "MM", "36", "80", "120", "Premium", "480"],
     ]
 
     // Convert to CSV and download

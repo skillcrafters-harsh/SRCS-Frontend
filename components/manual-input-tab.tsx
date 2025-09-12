@@ -1,41 +1,60 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline"
-import { Loader2 } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  PlusIcon,
+  TrashIcon,
+  DocumentDuplicateIcon,
+  XMarkIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
+import { Loader2 } from "lucide-react";
 
 interface RollSpec {
-  id: string
-  itemName: string
-  dia: string
-  bf: string
-  gsm: string
-  quality: string
-  size: string
-  uom: string
-  nor: string
-  quantity: number
+  id: string;
+  itemName: string;
+  dia: string;
+  bf: string;
+  gsm: string;
+  quality: string;
+  size: string;
+  uom: string;
+  nor: string;
+  quantity: number;
 }
 
 interface ManualInputTabProps {
-  onOptimize: (data: any, source: "manual" | "excel") => void
-  isOptimizing: boolean
-  optimizationResults?: any
+  onOptimize: (data: any, source: "manual" | "excel") => void;
+  isOptimizing: boolean;
+  optimizationResults?: any;
 }
 
-export default function ManualInputTab({ onOptimize, isOptimizing, optimizationResults }: ManualInputTabProps) {
+export default function ManualInputTab({
+  onOptimize,
+  isOptimizing,
+  optimizationResults,
+}: ManualInputTabProps) {
   const [formData, setFormData] = useState({
-    motherRollWidth: "",
-    maxCuts: "",
-    customerName: "",
-    soNo: "",
-  })
+    motherRollWidth: "4500",
+    maxCuts: "7",
+    customerName: "Himesh",
+    soNo: "Reshmia",
+  });
+
+  const [toast, setToast] = useState<{message: string; type: 'success' | 'error'} | null>(null);
 
   const [optionalFields, setOptionalFields] = useState({
     dia: false,
@@ -43,29 +62,27 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
     gsm: false,
     quality: false,
     quantity: false,
-  })
+  });
 
   const [rollSpecs, setRollSpecs] = useState<RollSpec[]>([
     {
       id: "1",
-      itemName: "",
+      itemName: "KRAFT PAPER SIZE (151 TO ABOVE)",
       dia: "",
       bf: "",
       gsm: "",
       quality: "",
-      size: "",
+      size: "32",
       uom: "IN - Inches",
-      nor: "",
+      nor: "5",
       quantity: 0,
     },
-  ])
-
-
+  ]);
 
   const itemOptions = {
     1: "KRAFT PAPER SIZE (151 TO ABOVE)",
     2: "KRAFT PAPER SIZE (1 TO 150)",
-  }
+  };
 
   const qualityOptions = {
     1: "GOLDEN",
@@ -73,83 +90,91 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
     3: "FLUTING",
     4: "GREY",
     5: "BROWN",
-  }
+  };
 
   const uomOptions = {
     1: "IN - Inches",
     2: "MM - Millimeters",
     3: "CM - Centimeters",
-  }
+  };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleOptionalFieldChange = (field: string, checked: boolean) => {
     setOptionalFields((prev) => {
-      const updated = { ...prev, [field]: checked }
+      const updated = { ...prev, [field]: checked };
 
       if (field === "quantity" && checked) {
-        updated.dia = true
+        updated.dia = true;
       }
 
       if (field === "dia" && !checked && prev.quantity) {
-        // Prevent deselecting dia when quantity is selected
-        return prev
+        return prev;
       }
 
-      return updated
-    })
+      return updated;
+    });
 
-    // Clear values for unchecked fields (except dia when quantity is selected)
     if (!checked && !(field === "dia" && optionalFields.quantity)) {
-      setRollSpecs((prev) => prev.map((spec) => ({ ...spec, [field]: field === "quantity" ? 0 : "" })))
+      setRollSpecs((prev) =>
+        prev.map((spec) => ({
+          ...spec,
+          [field]: field === "quantity" ? 0 : "",
+        }))
+      );
     }
-  }
+  };
 
   const handleRollSpecChange = (id: string, field: string, value: string) => {
     setRollSpecs((prev) =>
       prev.map((spec) => {
         if (spec.id === id) {
-          const updated = { ...spec, [field]: value }
-          if ((field === "dia" || field === "size" || field === "nor" || field === "uom") && optionalFields.quantity) {
-            updated.quantity = calculateQuantity(updated)
+          const updated = { ...spec, [field]: value };
+          if (
+            (field === "dia" ||
+              field === "size" ||
+              field === "nor" ||
+              field === "uom") &&
+            optionalFields.quantity
+          ) {
+            updated.quantity = calculateQuantity(updated);
           }
-          return updated
+          return updated;
         }
-        return spec
-      }),
-    )
-  }
+        return spec;
+      })
+    );
+  };
 
   const calculateQuantity = (spec: RollSpec): number => {
-    const dia = Number.parseFloat(spec.dia) || 0
-    const size = Number.parseFloat(spec.size) || 0
-    const nor = Number.parseFloat(spec.nor) || 0
+    const dia = Number.parseFloat(spec.dia) || 0;
+    const size = Number.parseFloat(spec.size) || 0;
+    const nor = Number.parseFloat(spec.nor) || 0;
 
-    if (dia === 0 || size === 0 || nor === 0) return 0
+    if (dia === 0 || size === 0 || nor === 0) return 0;
 
-    const baseValue = dia * size * nor
+    const baseValue = dia * size * nor;
 
-    // Apply UOM-specific formulas
     switch (spec.uom) {
       case "CM - Centimeters":
-        return Math.round(baseValue / 2.54)
+        return Math.round(baseValue / 2.54);
       case "MM - Millimeters":
-        return Math.round(baseValue / 25.4)
+        return Math.round(baseValue / 25.4);
       case "IN - Inches":
       default:
-        return Math.round(baseValue)
+        return Math.round(baseValue);
     }
-  }
+  };
 
   const addRollSpec = () => {
-    const newId = (rollSpecs.length + 1).toString()
+    const newId = (rollSpecs.length + 1).toString();
     setRollSpecs((prev) => [
       ...prev,
       {
         id: newId,
-        itemName: "",
+        itemName: "KRAFT PAPER SIZE (151 TO ABOVE)",
         dia: "",
         bf: "",
         gsm: "",
@@ -159,298 +184,332 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
         nor: "",
         quantity: 0,
       },
-    ])
-  }
+    ]);
+  };
 
   const removeRollSpec = (id: string) => {
     if (rollSpecs.length > 1) {
-      setRollSpecs((prev) => prev.filter((spec) => spec.id !== id))
+      setRollSpecs((prev) => prev.filter((spec) => spec.id !== id));
     }
-  }
+  };
+
+  const duplicateRollSpec = (id: string) => {
+    setRollSpecs((prev) => {
+      const index = prev.findIndex((s) => s.id === id);
+      if (index === -1) return prev;
+      const source = prev[index];
+      const newSpec: RollSpec = {
+        ...source,
+        id: (prev.length + 1).toString(),
+      };
+      const next = [...prev];
+      next.splice(index + 1, 0, newSpec);
+      return next;
+    });
+  };
 
   const isFormValid = () => {
-    const basicFieldsValid = formData.motherRollWidth && formData.maxCuts && formData.customerName && formData.soNo
+    const basicFieldsValid = formData.motherRollWidth && formData.maxCuts;
 
     const rollSpecsValid = rollSpecs.every((spec) => {
-      // Required fields: itemName, size, nor, uom
-      const requiredValid = spec.itemName && spec.size && spec.nor && spec.uom
-
-      // Optional fields (only validate if enabled)
+      const requiredValid = spec.itemName && spec.size && spec.nor && spec.uom;
       const optionalValid =
         (!optionalFields.dia || spec.dia) &&
         (!optionalFields.bf || spec.bf) &&
         (!optionalFields.gsm || spec.gsm) &&
-        (!optionalFields.quality || spec.quality)
+        (!optionalFields.quality || spec.quality);
 
-      return requiredValid && optionalValid
-    })
+      return requiredValid && optionalValid;
+    });
 
-    return basicFieldsValid && rollSpecsValid
-  }
+    return basicFieldsValid && rollSpecsValid;
+  };
+
+  // Persist and restore state to avoid losing inputs after results
+  useEffect(() => {
+    try {
+      const savedForm = localStorage.getItem("manual_formData");
+      const savedOptional = localStorage.getItem("manual_optionalFields");
+      const savedRolls = localStorage.getItem("manual_rollSpecs");
+      if (savedForm) setFormData(JSON.parse(savedForm));
+      if (savedOptional) setOptionalFields(JSON.parse(savedOptional));
+      if (savedRolls) setRollSpecs(JSON.parse(savedRolls));
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("manual_formData", JSON.stringify(formData));
+    } catch {}
+  }, [formData]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "manual_optionalFields",
+        JSON.stringify(optionalFields)
+      );
+    } catch {}
+  }, [optionalFields]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("manual_rollSpecs", JSON.stringify(rollSpecs));
+    } catch {}
+  }, [rollSpecs]);
 
   const handleOptimize = async () => {
     if (isFormValid()) {
       const payload = {
         decal_size: parseInt(formData.motherRollWidth),
         no_of_cut: parseInt(formData.maxCuts),
-        rolls: rollSpecs.map(spec => ({
+        rolls: rollSpecs.map((spec) => ({
           item_name: spec.itemName,
           size: parseInt(spec.size),
-          uom: spec.uom.split(' - ')[0],
-          nor: parseInt(spec.nor)
-        }))
-      }
+          uom: spec.uom.split(" - ")[0],
+          nor: parseInt(spec.nor),
+        })),
+      };
 
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://192.168.29.138:8000'}/optimize-cutting`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload)
-        })
+        const response = await fetch(
+          `${
+            process.env.NEXT_PUBLIC_API_BASE_URL || "http://192.168.29.138:8000"
+          }/optimize-cutting`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }
+        );
 
-        const result = await response.json()
-        // Add form data to the result for export purposes
-        result.formData = formData
-        onOptimize(result, "manual")
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ message: 'Unknown error occurred' }));
+          setToast({message: `Error: ${errorData.message || 'Failed to process request'}`, type: 'error'});
+          return;
+        }
+
+        const result = await response.json();
+        result.formData = formData;
+        setToast({message: 'Optimization completed successfully!', type: 'success'});
+        onOptimize(result, "manual");
       } catch (error) {
-        console.error('API Error:', error)
-        // Handle error appropriately
+        console.error("API Error:", error);
+        setToast({message: `Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`, type: 'error'});
       }
     }
-  }
+  };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Combined Card */}
+    <div className="space-y-2 animate-fade-in">
+      {toast && (
+        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg flex items-center space-x-2 ${toast.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
+          {toast.type === 'success' ? <CheckCircleIcon className="h-5 w-5" /> : <ExclamationTriangleIcon className="h-5 w-5" />}
+          <span>{toast.message}</span>
+          <button onClick={() => setToast(null)} className="ml-2">
+            <XMarkIcon className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+      {/* Basic Information */}
       <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
-        {/* Basic Information Section */}
-        <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3">
-          <CardTitle className="text-lg font-semibold text-gray-900">Basic Information</CardTitle>
+        <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 ">
+          <CardTitle className="text-lg font-semibold">
+            1. Enter Your Roll Details
+          </CardTitle>
+          <p className="text-sm mt-1">
+            Begin by providing the key inputs for your optimization run.
+          </p>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6 border-b border-blue-100">
           <div className="space-y-2">
-            <Label htmlFor="motherRollWidth" className="text-sm font-medium text-gray-900">
+            <Label
+              htmlFor="motherRollWidth"
+              className="text-sm font-semibold text-gray-900"
+            >
               Mother Roll Width (mm) <span className="text-red-500">*</span>
             </Label>
             <Input
               id="motherRollWidth"
               type="number"
-              placeholder="Enter mother roll width"
+              placeholder="e.g., 2000"
               value={formData.motherRollWidth}
-              onChange={(e) => handleInputChange("motherRollWidth", e.target.value)}
-              className="bg-white border-blue-200 focus:ring-blue-500 focus:border-blue-500 text-gray-900 hover:border-blue-300 transition-all duration-200 hover:shadow-sm"
-              required
+              onChange={(e) =>
+                handleInputChange("motherRollWidth", e.target.value)
+              }
+              className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="maxCuts" className="text-sm font-medium text-gray-900">
+            <Label
+              htmlFor="maxCuts"
+              className="text-sm font-semibold text-gray-900"
+            >
               Max Cuts per Roll <span className="text-red-500">*</span>
             </Label>
             <Input
               id="maxCuts"
               type="number"
-              placeholder="Enter max cuts per roll"
+              placeholder="e.g., 10"
               value={formData.maxCuts}
               onChange={(e) => handleInputChange("maxCuts", e.target.value)}
-              className="bg-white border-blue-200 focus:ring-blue-500 focus:border-blue-500 text-gray-900 hover:border-blue-300 transition-all duration-200 hover:shadow-sm"
-              required
+              className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="customerName" className="text-sm font-medium text-gray-900">
-              Customer Name <span className="text-red-500">*</span>
+            <Label
+              htmlFor="customerName"
+              className="text-sm font-semibold text-gray-900"
+            >
+              Customer Name
             </Label>
             <Input
               id="customerName"
               type="text"
-              placeholder="Enter customer name"
+              placeholder="Optional"
               value={formData.customerName}
-              onChange={(e) => handleInputChange("customerName", e.target.value)}
-              className="bg-white border-blue-200 focus:ring-blue-500 focus:border-blue-500 text-gray-900 hover:border-blue-300 transition-all duration-200 hover:shadow-sm"
-              required
+              onChange={(e) =>
+                handleInputChange("customerName", e.target.value)
+              }
+              className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="soNo" className="text-sm font-medium text-gray-900">
-              SO No <span className="text-red-500">*</span>
+            <Label
+              htmlFor="soNo"
+              className="text-sm font-semibold text-gray-900"
+            >
+              SO No (Sales Order)
             </Label>
             <Input
               id="soNo"
               type="text"
-              placeholder="Enter sales order number"
+              placeholder="Optional"
               value={formData.soNo}
               onChange={(e) => handleInputChange("soNo", e.target.value)}
-              className="bg-white border-blue-200 focus:ring-blue-500 focus:border-blue-500 text-gray-900 hover:border-blue-300 transition-all duration-200 hover:shadow-sm"
-              required
+              className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
             />
           </div>
         </CardContent>
 
-        {/* Optional Fields Configuration Section */}
+        {/* Optional Fields */}
         <div className="px-6 py-4 border-b border-blue-100">
-          <h3 className="text-md font-semibold text-gray-900 mb-4">Optional Fields Configuration</h3>
+          <h3 className="text-md font-semibold text-gray-900 mb-4">
+            Configure Optional Fields
+          </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-            <div className="flex items-center space-x-2 hover:bg-blue-50/50 p-2 rounded transition-colors duration-200">
-              <Checkbox
-                id="dia-checkbox"
-                checked={optionalFields.dia}
-                onCheckedChange={(checked) => handleOptionalFieldChange("dia", checked as boolean)}
-                className="border-blue-300 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 transition-all duration-200"
-                disabled={optionalFields.quantity}
-              />
-              <Label
-                htmlFor="dia-checkbox"
-                className={`text-xs font-medium cursor-pointer transition-colors duration-200 ${optionalFields.quantity ? "text-gray-500" : "text-gray-900 hover:text-blue-600"}`}
+            {["dia", "bf", "gsm", "quality", "quantity"].map((field) => (
+              <div
+                key={field}
+                className="flex items-center space-x-2 hover:bg-blue-50/50 p-2 rounded transition-colors"
               >
-                DIA
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2 hover:bg-blue-50/50 p-2 rounded transition-colors duration-200">
-              <Checkbox
-                id="bf-checkbox"
-                checked={optionalFields.bf}
-                onCheckedChange={(checked) => handleOptionalFieldChange("bf", checked as boolean)}
-                className="border-blue-300 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 transition-all duration-200"
-              />
-              <Label
-                htmlFor="bf-checkbox"
-                className="text-xs font-medium text-gray-900 cursor-pointer hover:text-blue-600 transition-colors duration-200"
-              >
-                BF
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2 hover:bg-blue-50/50 p-2 rounded transition-colors duration-200">
-              <Checkbox
-                id="gsm-checkbox"
-                checked={optionalFields.gsm}
-                onCheckedChange={(checked) => handleOptionalFieldChange("gsm", checked as boolean)}
-                className="border-blue-300 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 transition-all duration-200"
-              />
-              <Label
-                htmlFor="gsm-checkbox"
-                className="text-xs font-medium text-gray-900 cursor-pointer hover:text-blue-600 transition-colors duration-200"
-              >
-                GSM
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2 hover:bg-blue-50/50 p-2 rounded transition-colors duration-200">
-              <Checkbox
-                id="quality-checkbox"
-                checked={optionalFields.quality}
-                onCheckedChange={(checked) => handleOptionalFieldChange("quality", checked as boolean)}
-                className="border-blue-300 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 transition-all duration-200"
-              />
-              <Label
-                htmlFor="quality-checkbox"
-                className="text-xs font-medium text-gray-900 cursor-pointer hover:text-blue-600 transition-colors duration-200"
-              >
-                Quality
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2 hover:bg-blue-50/50 p-2 rounded transition-colors duration-200">
-              <Checkbox
-                id="quantity-checkbox"
-                checked={optionalFields.quantity}
-                onCheckedChange={(checked) => handleOptionalFieldChange("quantity", checked as boolean)}
-                className="border-blue-300 data-[state=checked]:bg-blue-500 data-[state=checked]:border-blue-500 transition-all duration-200"
-              />
-              <Label
-                htmlFor="quantity-checkbox"
-                className="text-xs font-medium text-gray-900 cursor-pointer hover:text-blue-600 transition-colors duration-200"
-              >
-                Quantity
-              </Label>
-            </div>
+                <Checkbox
+                  id={`${field}-checkbox`}
+                  checked={optionalFields[field as keyof typeof optionalFields]}
+                  onCheckedChange={(checked) =>
+                    handleOptionalFieldChange(field, checked as boolean)
+                  }
+                  disabled={field === "dia" && optionalFields.quantity}
+                  className="border-blue-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+                />
+                <Label
+                  htmlFor={`${field}-checkbox`}
+                  className="text-xs font-medium cursor-pointer text-gray-900"
+                >
+                  {field.toUpperCase()}
+                </Label>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Roll Specifications Section */}
+        {/* Roll Specifications */}
         <div className="flex flex-row items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 px-6">
-          <h3 className="text-lg font-semibold text-gray-900">Roll Specifications</h3>
+          <div>
+            <h3 className="text-lg font-semibold">2. Cutting Specifications</h3>
+            <p className="text-sm">
+              Add all the roll sizes and requirements you need to optimize.
+            </p>
+          </div>
           <Button
             onClick={addRollSpec}
             variant="outline"
             size="sm"
-            className="flex items-center gap-2 bg-white border-blue-500 text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all duration-200 hover:shadow-md"
+            className="flex items-center gap-2 bg-white text-blue-600 border-white hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-md"
           >
             <PlusIcon className="h-4 w-4" />
-            Add Row
+            Add Roll
           </Button>
         </div>
         <CardContent className="p-6">
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
-                <tr className="border-b border-blue-200">
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Item Name <span className="text-red-500">*</span>
-                    <div className="text-xs text-blue-600 font-normal">(Product type - Kraft Paper Roll)</div>
+                <tr className="border-b-2 border-blue-200 bg-blue-50">
+                  <th className="text-left p-3 font-semibold text-gray-900">
+                    Item Name *
                   </th>
                   {optionalFields.dia && (
-                    <th className="text-left p-3 font-medium text-gray-900">
-                      DIA (IN)
-                      <div className="text-xs text-blue-600 font-normal">(Roll Diameter in inches)</div>
+                    <th className="text-left p-3 font-semibold text-gray-900">
+                      DIA
                     </th>
                   )}
                   {optionalFields.bf && (
-                    <th className="text-left p-3 font-medium text-gray-900">
+                    <th className="text-left p-3 font-semibold text-gray-900">
                       BF
-                      <div className="text-xs text-blue-600 font-normal">(Bursting Factor - strength)</div>
                     </th>
                   )}
                   {optionalFields.gsm && (
-                    <th className="text-left p-3 font-medium text-gray-900">
+                    <th className="text-left p-3 font-semibold text-gray-900">
                       GSM
-                      <div className="text-xs text-blue-600 font-normal">(Grams per Square Meter)</div>
                     </th>
                   )}
                   {optionalFields.quality && (
-                    <th className="text-left p-3 font-medium text-gray-900">
+                    <th className="text-left p-3 font-semibold text-gray-900">
                       Quality
-                      <div className="text-xs text-blue-600 font-normal">(Paper Quality Grade)</div>
                     </th>
                   )}
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Size <span className="text-red-500">*</span>
-                    <div className="text-xs text-blue-600 font-normal">(Size required in inches)</div>
+                  <th className="text-left p-3 font-semibold text-gray-900">
+                    Size (mm) *
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    UOM <span className="text-red-500">*</span>
-                    <div className="text-xs text-blue-600 font-normal">(Unit of Measurement)</div>
+                  <th className="text-left p-3 font-semibold text-gray-900">
+                    UOM *
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    NOR <span className="text-red-500">*</span>
-                    <div className="text-xs text-blue-600 font-normal">(Number of Rolls Required)</div>
+                  <th className="text-left p-3 font-semibold text-gray-900">
+                    Rolls Required *
                   </th>
                   {optionalFields.quantity && (
-                    <th className="text-left p-3 font-medium text-gray-900">
-                      QTY (MM)
-                      <div className="text-xs text-blue-600 font-normal">(Auto-calculated from DIA×Size×NOR)</div>
+                    <th className="text-left p-3 font-semibold text-gray-900">
+                      Auto QTY
                     </th>
                   )}
-                  <th className="text-left p-3 font-medium text-gray-900">Actions</th>
+                  <th className="text-left p-3 font-semibold text-gray-900">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                {rollSpecs.map((spec, index) => (
+                {rollSpecs.map((spec) => (
                   <tr
                     key={spec.id}
-                    className="border-b border-blue-100 hover:bg-blue-50/50 transition-all duration-200 animate-slide-in"
-                    style={{ animationDelay: `${index * 100}ms` }}
+                    className="border-b border-blue-100 hover:bg-blue-50/30 transition-colors"
                   >
                     <td className="p-3">
                       <Select
                         value={spec.itemName}
-                        onValueChange={(value) => handleRollSpecChange(spec.id, "itemName", value)}
+                        onValueChange={(value) =>
+                          handleRollSpecChange(spec.id, "itemName", value)
+                        }
                       >
-                        <SelectTrigger className="min-w-[200px] bg-white border-blue-200 text-gray-900 hover:border-blue-300 transition-colors">
-                          <SelectValue placeholder="Select item type" />
+                        <SelectTrigger className="min-w-[200px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium">
+                          <SelectValue placeholder="Select item" />
                         </SelectTrigger>
                         <SelectContent>
                           {Object.entries(itemOptions).map(([key, value]) => (
-                            <SelectItem key={key} value={value} className="text-gray-900">
+                            <SelectItem key={key} value={value}>
                               {value}
                             </SelectItem>
                           ))}
@@ -461,10 +520,12 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
                       <td className="p-3">
                         <Input
                           type="number"
-                          placeholder="36"
                           value={spec.dia}
-                          onChange={(e) => handleRollSpecChange(spec.id, "dia", e.target.value)}
-                          className="min-w-[80px] bg-white border-blue-200 text-gray-900 hover:border-blue-300 transition-colors"
+                          placeholder="36"
+                          onChange={(e) =>
+                            handleRollSpecChange(spec.id, "dia", e.target.value)
+                          }
+                          className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
                         />
                       </td>
                     )}
@@ -472,10 +533,12 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
                       <td className="p-3">
                         <Input
                           type="number"
-                          placeholder="BF value"
                           value={spec.bf}
-                          onChange={(e) => handleRollSpecChange(spec.id, "bf", e.target.value)}
-                          className="min-w-[80px] bg-white border-blue-200 text-gray-900 hover:border-blue-300 transition-colors"
+                          placeholder="BF"
+                          onChange={(e) =>
+                            handleRollSpecChange(spec.id, "bf", e.target.value)
+                          }
+                          className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
                         />
                       </td>
                     )}
@@ -483,10 +546,12 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
                       <td className="p-3">
                         <Input
                           type="number"
-                          placeholder="GSM"
                           value={spec.gsm}
-                          onChange={(e) => handleRollSpecChange(spec.id, "gsm", e.target.value)}
-                          className="min-w-[80px] bg-white border-blue-200 text-gray-900 hover:border-blue-300 transition-colors"
+                          placeholder="GSM"
+                          onChange={(e) =>
+                            handleRollSpecChange(spec.id, "gsm", e.target.value)
+                          }
+                          className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
                         />
                       </td>
                     )}
@@ -494,17 +559,21 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
                       <td className="p-3">
                         <Select
                           value={spec.quality}
-                          onValueChange={(value) => handleRollSpecChange(spec.id, "quality", value)}
+                          onValueChange={(value) =>
+                            handleRollSpecChange(spec.id, "quality", value)
+                          }
                         >
-                          <SelectTrigger className="min-w-[120px] bg-white border-blue-200 text-gray-900 hover:border-blue-300 transition-colors">
-                            <SelectValue />
+                          <SelectTrigger className="min-w-[120px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium">
+                            <SelectValue placeholder="Select" />
                           </SelectTrigger>
                           <SelectContent>
-                            {Object.entries(qualityOptions).map(([key, value]) => (
-                              <SelectItem key={key} value={value} className="text-gray-900">
-                                {value}
-                              </SelectItem>
-                            ))}
+                            {Object.entries(qualityOptions).map(
+                              ([key, value]) => (
+                                <SelectItem key={key} value={value}>
+                                  {value}
+                                </SelectItem>
+                              )
+                            )}
                           </SelectContent>
                         </Select>
                       </td>
@@ -512,20 +581,27 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
                     <td className="p-3">
                       <Input
                         type="number"
-                        placeholder="Size in inches"
                         value={spec.size}
-                        onChange={(e) => handleRollSpecChange(spec.id, "size", e.target.value)}
-                        className="min-w-[100px] bg-white border-blue-200 text-gray-900 hover:border-blue-300 transition-colors"
+                        placeholder="Size in mm"
+                        onChange={(e) =>
+                          handleRollSpecChange(spec.id, "size", e.target.value)
+                        }
+                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
                       />
                     </td>
                     <td className="p-3">
-                      <Select value={spec.uom} onValueChange={(value) => handleRollSpecChange(spec.id, "uom", value)}>
-                        <SelectTrigger className="min-w-[120px] bg-white border-blue-200 text-gray-900 hover:border-blue-300 transition-colors">
-                          <SelectValue />
+                      <Select
+                        value={spec.uom}
+                        onValueChange={(value) =>
+                          handleRollSpecChange(spec.id, "uom", value)
+                        }
+                      >
+                        <SelectTrigger className="min-w-[120px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium">
+                          <SelectValue placeholder="Select UOM" />
                         </SelectTrigger>
                         <SelectContent>
                           {Object.entries(uomOptions).map(([key, value]) => (
-                            <SelectItem key={key} value={value} className="text-gray-900">
+                            <SelectItem key={key} value={value}>
                               {value}
                             </SelectItem>
                           ))}
@@ -535,10 +611,12 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
                     <td className="p-3">
                       <Input
                         type="number"
-                        placeholder="Number of rolls"
                         value={spec.nor}
-                        onChange={(e) => handleRollSpecChange(spec.id, "nor", e.target.value)}
-                        className="min-w-[100px] bg-white border-blue-200 text-gray-900 hover:border-blue-300 transition-colors"
+                        placeholder="Qty"
+                        onChange={(e) =>
+                          handleRollSpecChange(spec.id, "nor", e.target.value)
+                        }
+                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
                       />
                     </td>
                     {optionalFields.quantity && (
@@ -547,17 +625,25 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
                           type="number"
                           value={spec.quantity}
                           readOnly
-                          className="min-w-[80px] bg-blue-50 border-blue-200 text-gray-900"
+                          className="bg-gray-100 border-gray-300 text-gray-700"
                         />
                       </td>
                     )}
-                    <td className="p-3">
+                    <td className="p-3 flex gap-1">
+                      <Button
+                        onClick={() => duplicateRollSpec(spec.id)}
+                        variant="ghost"
+                        size="sm"
+                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                      >
+                        <DocumentDuplicateIcon className="h-4 w-4" />
+                      </Button>
                       <Button
                         onClick={() => removeRollSpec(spec.id)}
                         variant="ghost"
                         size="sm"
                         disabled={rollSpecs.length === 1}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50 hover:opacity-80 transition-all duration-200"
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
                       >
                         <TrashIcon className="h-4 w-4" />
                       </Button>
@@ -568,26 +654,26 @@ export default function ManualInputTab({ onOptimize, isOptimizing, optimizationR
             </table>
           </div>
         </CardContent>
+        <div className="flex justify-center pt-1">
+          <Button
+            onClick={handleOptimize}
+            disabled={!isFormValid() || isOptimizing}
+            size="lg"
+            className="px-8 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl"
+          >
+            {isOptimizing ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Optimizing...
+              </>
+            ) : (
+              "Generate My Optimization Plan"
+            )}
+          </Button>
+        </div>
       </Card>
 
-      {/* Optimize Button */}
-      <div className="flex justify-center">
-        <Button
-          onClick={handleOptimize}
-          disabled={!isFormValid() || isOptimizing}
-          size="lg"
-          className="px-8 py-3 text-lg font-semibold bg-blue-500 hover:bg-blue-600 hover:scale-105 text-white shadow-lg transition-all duration-200 hover:shadow-xl"
-        >
-          {isOptimizing ? (
-            <>
-              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-              Optimizing...
-            </>
-          ) : (
-            "Optimize Cutting Pattern"
-          )}
-        </Button>
-      </div>
+      {/* CTA */}
     </div>
-  )
+  );
 }
