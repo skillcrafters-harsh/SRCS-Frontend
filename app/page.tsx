@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { HomeIcon, DocumentTextIcon, PlayIcon, CodeBracketIcon, BookOpenIcon } from "@heroicons/react/24/outline"
+import { HomeIcon, DocumentTextIcon, PlayIcon, CodeBracketIcon, BookOpenIcon, InformationCircleIcon } from "@heroicons/react/24/outline"
 import HomePage from "@/components/home-page"
 import ExamplePage from "@/components/example-page"
 import RunPage from "@/components/run-page"
 import ApiDocsPage from "@/components/api-docs-page"
 import ApiReferencePage from "@/components/api-reference-page"
+import SEOContentPage from "@/components/seo-content-page"
 
 type OptimizationResults = {
   summary: {
@@ -114,6 +115,17 @@ export default function RollCuttingOptimization() {
                 <span>Home</span>
               </button>
               <button
+                onClick={() => setActiveMainTab("srcs-info")}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
+                  activeMainTab === "srcs-info"
+                    ? "bg-primary text-primary-foreground shadow-md"
+                    : "text-muted-foreground hover:text-primary hover:bg-muted/50"
+                }`}
+              >
+                <InformationCircleIcon className="h-4 w-4" />
+                <span>SRCS</span>
+              </button>
+              <button
                 onClick={() => setActiveMainTab("example")}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
                   activeMainTab === "example"
@@ -165,6 +177,7 @@ export default function RollCuttingOptimization() {
       <main className={`w-full ${activeMainTab === "home" ? "" : "px-6 lg:px-8 py-8"}`}>
         <div className="tab-content">
           {activeMainTab === "home" && <HomePage onNavigate={setActiveMainTab} />}
+          {activeMainTab === "srcs-info" && <SEOContentPage onNavigate={setActiveMainTab} />}
           {activeMainTab === "example" && <ExamplePage />}
           {activeMainTab === "run" && (
             <RunPage

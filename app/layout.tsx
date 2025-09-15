@@ -5,9 +5,33 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'Smart Roll Cutting System (SRCS) – Advanced Solution for Optimized Roll Cutting',
+  description: 'Discover the Smart Roll Cutting System (SRCS), the most efficient solution for solving roll cutting problems. Maximize material usage and reduce waste with SRCS technology.',
   generator: 'v0.app',
+  keywords: ['Smart Roll Cutting System', 'SRCS', 'roll cutting problem', 'roll cutting', 'SRCS roll cutting', 'optimized roll cutting solution', 'material optimization', 'waste reduction', 'manufacturing efficiency'],
+  authors: [{ name: 'SRCS Team' }],
+  openGraph: {
+    title: 'Smart Roll Cutting System (SRCS) – Advanced Solution for Optimized Roll Cutting',
+    description: 'Discover the Smart Roll Cutting System (SRCS), the most efficient solution for solving roll cutting problems. Maximize material usage and reduce waste with SRCS technology.',
+    url: 'https://srcs.example.com',
+    siteName: 'Smart Roll Cutting System',
+    images: [
+      {
+        url: '/main-logo.png',
+        width: 1200,
+        height: 630,
+        alt: 'Smart Roll Cutting System (SRCS)',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Smart Roll Cutting System (SRCS)',
+    description: 'Advanced Solution for Optimized Roll Cutting',
+    images: ['/main-logo.png'],
+  },
 }
 
 export default function RootLayout({
