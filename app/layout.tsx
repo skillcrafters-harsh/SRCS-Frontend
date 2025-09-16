@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     description: 'Advanced Solution for Optimized Roll Cutting',
     images: ['/main-logo.png'],
   },
+  icons: {
+    icon: '/final-logo.png',
+  },
 }
 
 
