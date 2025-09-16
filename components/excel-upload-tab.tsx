@@ -193,7 +193,7 @@ export default function ExcelUploadTab({
         const response = await fetch(
           `${
             process.env.NEXT_PUBLIC_API_BASE_URL || "http://192.168.29.138:8000"
-          }/optimize-cutting-from-excel`,
+          }/optimize-cutting-from-file`,
           {
             method: "POST",
             body: formDataToSend,
