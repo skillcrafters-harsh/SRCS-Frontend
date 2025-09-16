@@ -55,11 +55,19 @@ export default function RollCuttingOptimization() {
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
+  const handleTabChange = (tab: string) => {
+    setActiveMainTab(tab)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const handleOptimization = async (data: any, source: "manual" | "excel") => {
     setIsOptimizing(true)
 
     try {
       console.log("Optimizing with data:", data, "from source:", source)
+      
+      // Simulate optimization process
+      await new Promise(resolve => setTimeout(resolve, 3000))
       
       // Set the actual API response data
       setOptimizationResults(data)
@@ -90,6 +98,54 @@ export default function RollCuttingOptimization() {
         </div>
       )}
 
+      {/* Optimization Loading Overlay */}
+      {isOptimizing && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div className="text-center">
+              <div className="mb-6">
+                <div className="relative w-32 h-32 mx-auto">
+                  <div className="absolute inset-0 border-4 border-blue-200 rounded-full animate-spin">
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full animate-pulse">
+                      <div className="absolute top-2 left-1/2 w-0.5 h-20 bg-white animate-pulse transform -translate-x-1/2"></div>
+                      <div className="absolute top-1/2 left-2 w-20 h-0.5 bg-white animate-pulse transform -translate-y-1/2"></div>
+                      <div className="absolute top-1/2 right-2 w-4 h-0.5 bg-white animate-pulse transform -translate-y-1/2"></div>
+                    </div>
+                  </div>
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 animate-bounce">
+                    <div className="w-2 h-8 bg-gray-600 rounded-t-full"></div>
+                    <div className="w-4 h-2 bg-gray-800 rounded-b-sm -mt-1"></div>
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Optimizing Roll Cutting</h3>
+              <p className="text-gray-600 mb-4">Calculating the most efficient cutting patterns...</p>
+              <div className="space-y-2 text-sm text-left">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-gray-700">Analyzing material dimensions</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  <span className="text-gray-700">Computing optimization strategies</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                  <span className="text-gray-700">Minimizing waste patterns</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+                  <span className="text-gray-700">Generating cutting plan</span>
+                </div>
+              </div>
+              <div className="mt-6 w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full animate-pulse" style={{width: '75%'}}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-40">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -105,7 +161,7 @@ export default function RollCuttingOptimization() {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex space-x-1 animate-slide-in-right">
               <button
-                onClick={() => setActiveMainTab("home")}
+                onClick={() => handleTabChange("home")}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
                   activeMainTab === "home"
                     ? "bg-primary text-primary-foreground shadow-md"
@@ -117,7 +173,7 @@ export default function RollCuttingOptimization() {
               </button>
 
               <button
-                onClick={() => setActiveMainTab("example")}
+                onClick={() => handleTabChange("example")}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
                   activeMainTab === "example"
                     ? "bg-primary text-primary-foreground shadow-md"
@@ -128,7 +184,7 @@ export default function RollCuttingOptimization() {
                 <span>Example</span>
               </button>
               <button
-                onClick={() => setActiveMainTab("run")}
+                onClick={() => handleTabChange("run")}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
                   activeMainTab === "run"
                     ? "bg-primary text-primary-foreground shadow-md"
@@ -139,7 +195,7 @@ export default function RollCuttingOptimization() {
                 <span>Run</span>
               </button>
               <button
-                onClick={() => setActiveMainTab("api-docs")}
+                onClick={() => handleTabChange("api-docs")}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
                   activeMainTab === "api-docs"
                     ? "bg-primary text-primary-foreground shadow-md"
@@ -150,7 +206,7 @@ export default function RollCuttingOptimization() {
                 <span>API Docs</span>
               </button>
               <button
-                onClick={() => setActiveMainTab("api-reference")}
+                onClick={() => handleTabChange("api-reference")}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
                   activeMainTab === "api-reference"
                     ? "bg-primary text-primary-foreground shadow-md"
@@ -185,7 +241,7 @@ export default function RollCuttingOptimization() {
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 backdrop-blur-md border-t border-border">
                 <button
                   onClick={() => {
-                    setActiveMainTab("home")
+                    handleTabChange("home")
                     setIsMobileMenuOpen(false)
                   }}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
@@ -199,7 +255,7 @@ export default function RollCuttingOptimization() {
                 </button>
                 <button
                   onClick={() => {
-                    setActiveMainTab("example")
+                    handleTabChange("example")
                     setIsMobileMenuOpen(false)
                   }}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
@@ -213,7 +269,7 @@ export default function RollCuttingOptimization() {
                 </button>
                 <button
                   onClick={() => {
-                    setActiveMainTab("run")
+                    handleTabChange("run")
                     setIsMobileMenuOpen(false)
                   }}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
@@ -227,7 +283,7 @@ export default function RollCuttingOptimization() {
                 </button>
                 <button
                   onClick={() => {
-                    setActiveMainTab("api-docs")
+                    handleTabChange("api-docs")
                     setIsMobileMenuOpen(false)
                   }}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
@@ -241,7 +297,7 @@ export default function RollCuttingOptimization() {
                 </button>
                 <button
                   onClick={() => {
-                    setActiveMainTab("api-reference")
+                    handleTabChange("api-reference")
                     setIsMobileMenuOpen(false)
                   }}
                   className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
@@ -306,7 +362,7 @@ export default function RollCuttingOptimization() {
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>
                     <button
-                      onClick={() => setActiveMainTab("api-docs")}
+                      onClick={() => handleTabChange("api-docs")}
                       className="hover:text-primary transition-colors"
                     >
                       • API Documentation
@@ -314,7 +370,7 @@ export default function RollCuttingOptimization() {
                   </li>
                   <li>
                     <button
-                      onClick={() => setActiveMainTab("api-reference")}
+                      onClick={() => handleTabChange("api-reference")}
                       className="hover:text-primary transition-colors"
                     >
                       • API Reference
@@ -322,7 +378,7 @@ export default function RollCuttingOptimization() {
                   </li>
                   <li>
                     <button
-                      onClick={() => setActiveMainTab("example")}
+                      onClick={() => handleTabChange("example")}
                       className="hover:text-primary transition-colors"
                     >
                       • Examples

@@ -219,6 +219,53 @@ export default function ExcelUploadTab({
 
   return (
     <div className="space-y-6">
+      {/* Optimization Loading Overlay */}
+      {isOptimizing && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div className="text-center">
+              <div className="mb-6">
+                <div className="relative w-32 h-32 mx-auto">
+                  <div className="absolute inset-0 border-4 border-blue-200 rounded-full animate-spin">
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full animate-pulse">
+                      <div className="absolute top-2 left-1/2 w-0.5 h-20 bg-white animate-pulse transform -translate-x-1/2"></div>
+                      <div className="absolute top-1/2 left-2 w-20 h-0.5 bg-white animate-pulse transform -translate-y-1/2"></div>
+                      <div className="absolute top-1/2 right-2 w-4 h-0.5 bg-white animate-pulse transform -translate-y-1/2"></div>
+                    </div>
+                  </div>
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 animate-bounce">
+                    <div className="w-2 h-8 bg-gray-600 rounded-t-full"></div>
+                    <div className="w-4 h-2 bg-gray-800 rounded-b-sm -mt-1"></div>
+                  </div>
+                </div>
+              </div>
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">Optimizing Roll Cutting</h3>
+              <p className="text-gray-600 mb-4">Processing Excel data and calculating patterns...</p>
+              <div className="space-y-2 text-sm text-left">
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-gray-700">Processing Excel file</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+                  <span className="text-gray-700">Computing optimization strategies</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+                  <span className="text-gray-700">Minimizing waste patterns</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+                  <span className="text-gray-700">Generating cutting plan</span>
+                </div>
+              </div>
+              <div className="mt-6 w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full animate-pulse" style={{width: '75%'}}></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Basic Information */}
       <Card className="shadow-sm border-gray-200">
         <CardHeader className="bg-gray-50 py-3 flex items-center">
