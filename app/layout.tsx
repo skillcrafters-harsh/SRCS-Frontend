@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Smart Roll Cutting System (SRCS) – Advanced Solution for Optimized Roll Cutting',
     description: 'Discover the Smart Roll Cutting System (SRCS), the most efficient solution for solving roll cutting problems. Maximize material usage and reduce waste with SRCS technology.',
-    url: 'https://srcs.example.com',
+    url: 'https://srcs.vercel.app',
     siteName: 'Smart Roll Cutting System',
     images: [
       {
-        url: '/main-logo.png',
+        url: '/final-logo.png',
         width: 1200,
         height: 630,
         alt: 'Smart Roll Cutting System (SRCS)',
