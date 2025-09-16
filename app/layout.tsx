@@ -43,6 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+    <meta name="" content="xMhcXsBpLPfVWNXWG6hXQ8tFQ5DVfbtZreM05iAqvzc" />
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         {children}
         <Toaster richColors closeButton position="top-right" />
