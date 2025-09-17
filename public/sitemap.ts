@@ -96,6 +96,78 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.6,
     },
+    // Primary SEO Landing Pages
+    {
+      url: `${baseUrl}/srcs-vercel`,
+      lastModified: now,
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/roll-cutting-calculator`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/material-waste-reduction`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    
+    // Additional Industry Pages
+    {
+      url: `${baseUrl}/plastic-roll-cutting`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/fabric-cutting-optimization`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.65,
+    },
+    {
+      url: `${baseUrl}/metal-roll-cutting`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.65,
+    },
+    
+    // Solution & Tool Pages
+    {
+      url: `${baseUrl}/cutting-cost-reduction`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.65,
+    },
+    {
+      url: `${baseUrl}/production-optimization`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.65,
+    },
+    {
+      url: `${baseUrl}/cutting-efficiency-software`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/roll-optimization-system`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/cutting-plan-generator`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    
     // Feature pages
     {
       url: `${baseUrl}/excel-upload-optimization`,
@@ -108,6 +180,72 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly',
       priority: 0.6,
+    },
+    
+    // Technical & Algorithm Pages
+    {
+      url: `${baseUrl}/roll-cutting-algorithm`,
+      lastModified: lastWeek,
+      changeFrequency: 'monthly',
+      priority: 0.55,
+    },
+    {
+      url: `${baseUrl}/automated-cutting-solutions`,
+      lastModified: lastWeek,
+      changeFrequency: 'monthly',
+      priority: 0.55,
+    },
+    {
+      url: `${baseUrl}/industrial-cutting-software`,
+      lastModified: lastWeek,
+      changeFrequency: 'monthly',
+      priority: 0.55,
+    },
+    {
+      url: `${baseUrl}/smart-manufacturing-tools`,
+      lastModified: lastWeek,
+      changeFrequency: 'monthly',
+      priority: 0.55,
+    },
+    
+    // Problem-Solution Pages
+    {
+      url: `${baseUrl}/roll-cutting-problem-solver`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.6,
+    },
+    {
+      url: `${baseUrl}/waste-minimization-tool`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.55,
+    },
+    {
+      url: `${baseUrl}/manufacturing-cost-reduction`,
+      lastModified: lastWeek,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    
+    // Alternative & Comparison Pages
+    {
+      url: `${baseUrl}/free-roll-cutting-software`,
+      lastModified: lastWeek,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/online-cutting-calculator`,
+      lastModified: lastWeek,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/cutting-optimization-guide`,
+      lastModified: lastWeek,
+      changeFrequency: 'monthly',
+      priority: 0.45,
     },
   ]
 }

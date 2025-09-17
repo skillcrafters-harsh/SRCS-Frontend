@@ -43,15 +43,10 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   Stop Losing Money
                 </Badge>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  Stop Wasteful Roll Cutting.
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">
-                    Start Boosting Profits.
-                  </span>
+                  SRCS Vercel | Smart Roll Cutting System – Roll Cutting Optimization Software
                 </h1>
                 <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
-                  Smart Roll Cutting's AI-powered platform transforms manual,
-                  error-prone material planning into automated, optimized
-                  production.
+                  SRCS Vercel is the leading Smart Roll Cutting System for roll cutting optimization, cutting pattern generation, and material waste reduction. Our roll cutting calculator helps paper, textile, metal, and plastic industries reduce waste by 30% with advanced cutting algorithms and automated optimization solutions.
                 </p>
               </div>
 
@@ -97,7 +92,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              The Hidden Costs of Traditional Roll Cutting
+              Reduce Waste, Save Costs
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Every day you delay optimization, you're losing money. Here's
@@ -215,7 +210,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Transform Waste into Profit with Smart Roll Cutting
+              How SRCS Solves Roll Cutting Challenges
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Stop losing money to inefficiency. Here's how Smart Roll Cutting
@@ -320,7 +315,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Simple to Implement, Powerful to Perform
+              Real-Time Optimized Cutting Plans
             </h2>
             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
               Get started in minutes, see results immediately. Our 3-step
@@ -373,7 +368,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Trusted by Industry Leaders Worldwide
+              Industries We Serve (Paper, Textile, Metal, Plastic)
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-gray-600">
               Join hundreds of manufacturers who are transforming their
@@ -440,6 +435,40 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <div className="text-base sm:text-lg text-gray-600">
                 Average Annual Savings
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* SEO Content Section */}
+      <div className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="prose max-w-none">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">SRCS Vercel: Advanced Roll Cutting Optimization Software</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700">
+              <div>
+                <h3 className="text-xl font-semibold mb-4">Roll Cutting Problem Solver</h3>
+                <p className="mb-4">SRCS Vercel Smart Roll Cutting System solves complex roll cutting problems with advanced optimization algorithms. Our roll cutting calculator generates optimal cutting patterns for manufacturing industries, reducing material waste and improving production efficiency.</p>
+                <p className="mb-4">Key features include roll cutting optimization, cutting pattern generation, material waste reduction, and automated cutting solutions for paper roll cutting, textile cutting optimization, metal roll cutting, and plastic roll cutting applications.</p>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-4">Smart Manufacturing Solutions</h3>
+                <p className="mb-4">Our Smart Roll Cutting System (SRCS) provides cutting efficiency software, production optimization tools, and waste minimization solutions. The roll optimization system helps manufacturers achieve cutting cost reduction through intelligent cutting plan generation.</p>
+                <p className="mb-4">SRCS Vercel offers industrial cutting software with roll cutting algorithms designed for fabric cutting optimization, automated cutting solutions, and smart manufacturing tools that deliver measurable results.</p>
+              </div>
+            </div>
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">Why Choose SRCS Vercel for Roll Cutting Optimization?</h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700">
+                <li>Advanced roll cutting optimization algorithms for maximum efficiency</li>
+                <li>Free roll cutting calculator with instant results</li>
+                <li>Material waste reduction up to 30% guaranteed</li>
+                <li>Cutting pattern optimization for all industries</li>
+                <li>Smart Roll Cutting System with AI-powered solutions</li>
+                <li>Roll cutting problem solver with proven results</li>
+                <li>Industrial cutting software for manufacturing excellence</li>
+                <li>Automated cutting solutions for improved productivity</li>
+              </ul>
             </div>
           </div>
         </div>
