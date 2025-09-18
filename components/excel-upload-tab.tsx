@@ -183,9 +183,8 @@ export default function ExcelUploadTab({
 
   const handleOptimize = async () => {
     if (isFormValid() && uploadedFile) {
-      // Clear existing results and scroll to top
+      // Clear existing results and start optimization
       onOptimize(null, "excel");
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       
       const formDataToSend = new FormData();
       formDataToSend.append("file", uploadedFile);
@@ -414,6 +413,9 @@ export default function ExcelUploadTab({
                 <thead>
                   <tr className="bg-gray-100">
                     <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                      Sr. No.
+                    </th>
+                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
                       Item Name
                     </th>
                     <th className="border border-gray-300 p-3 text-left font-medium text-black">
@@ -445,6 +447,9 @@ export default function ExcelUploadTab({
                 <tbody>
                   {previewData.map((row, index) => (
                     <tr key={index} className="hover:bg-gray-50">
+                      <td className="border border-gray-300 p-3 text-black">
+                        {index+1}
+                      </td>
                       <td className="border border-gray-300 p-3 text-black">
                         {row.itemName}
                       </td>

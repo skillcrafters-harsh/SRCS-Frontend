@@ -64,7 +64,7 @@ export default function ManualInputTab({
   const [rollSpecs, setRollSpecs] = useState<RollSpec[]>([
     {
       id: "1",
-      itemName: "KRAFT PAPER SIZE (151 TO ABOVE)",
+      itemName: "Paper Roll 1",
       dia: "",
       bf: "",
       gsm: "",
@@ -258,9 +258,8 @@ export default function ManualInputTab({
 
   const handleOptimize = async () => {
     if (isFormValid()) {
-      // Clear existing results and scroll to top
+      // Clear existing results and start optimization
       onOptimize(null, "manual");
-      window.scrollTo({ top: 0, behavior: 'smooth' });
       
       const payload = {
         decal_size: parseInt(formData.motherRollWidth),
@@ -508,23 +507,15 @@ export default function ManualInputTab({
                     className="border-b border-blue-100 hover:bg-blue-50/30 transition-colors"
                   >
                     <td className="p-3">
-                      <Select
+                      <Input
+                        type="text"
                         value={spec.itemName}
-                        onValueChange={(value) =>
-                          handleRollSpecChange(spec.id, "itemName", value)
+                        placeholder="Enter item name"
+                        onChange={(e) =>
+                          handleRollSpecChange(spec.id, "itemName", e.target.value)
                         }
-                      >
-                        <SelectTrigger className="min-w-[200px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium">
-                          <SelectValue placeholder="Select item" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {Object.entries(itemOptions).map(([key, value]) => (
-                            <SelectItem key={key} value={value}>
-                              {value}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                        className="min-w-[200px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
+                      />
                     </td>
                     {optionalFields.dia && (
                       <td className="p-3">
@@ -567,25 +558,15 @@ export default function ManualInputTab({
                     )}
                     {optionalFields.quality && (
                       <td className="p-3">
-                        <Select
+                        <Input
+                          type="text"
                           value={spec.quality}
-                          onValueChange={(value) =>
-                            handleRollSpecChange(spec.id, "quality", value)
+                          placeholder="Enter quality"
+                          onChange={(e) =>
+                            handleRollSpecChange(spec.id, "quality", e.target.value)
                           }
-                        >
-                          <SelectTrigger className="min-w-[120px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium">
-                            <SelectValue placeholder="Select" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {Object.entries(qualityOptions).map(
-                              ([key, value]) => (
-                                <SelectItem key={key} value={value}>
-                                  {value}
-                                </SelectItem>
-                              )
-                            )}
-                          </SelectContent>
-                        </Select>
+                          className="min-w-[120px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
+                        />
                       </td>
                     )}
                     <td className="p-3">

@@ -70,6 +70,7 @@ export default function RollCuttingOptimization() {
   const handleOptimization = async (data: any, source: "manual" | "excel") => {
     if (data === null) {
       setOptimizationResults(null);
+      setIsOptimizing(true);
       return;
     }
     

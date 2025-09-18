@@ -61,7 +61,8 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             <table>
               <thead>
                 <tr>
-                  <th>Pattern</th>
+                  <th>Sr. No.</th>
+                  <th>Item Name</th>
                   <th>Sets</th>
                   ${Array.from(
                     { length: responseData.no_of_cut },
@@ -80,13 +81,14 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
               </thead>
               <tbody>
                 ${currentResult.cutting_plans
-                  .map((plan: any) => {
+                  .map((plan: any, i: any) => {
                     const activeSizes = plan.sizes.filter(
                       (s: any) => s.actual_size > 0
                     );
                     return `
                     <tr>
-                      <td>Pattern ${plan.plan_number}</td>
+                      <td>${i + 1}</td>
+                      <td>${plan.item_details.item_name}</td>
                       <td>${plan.sets}</td>
                       ${Array.from(
                         { length: responseData.no_of_cut },
@@ -130,6 +132,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
     );
 
     const headers = [
+      "Sr. No.",
       "Customer Name",
       "SO No",
       "Decal Size (mm)",
@@ -142,7 +145,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
       "Usage (%)",
     ];
 
-    const rows = currentResult.cutting_plans.map((plan: any) => {
+    const rows = currentResult.cutting_plans.map((plan: any, i: any) => {
       const activeSizes = plan.sizes.filter((s: any) => s.actual_size > 0);
       const sizeColumns = Array.from({ length: maxCuts }, (_, i) => {
         const size = activeSizes[i];
@@ -150,11 +153,12 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
       });
 
       return [
+        i + 1,
         formData?.customerName || "N/A",
         formData?.soNo || "N/A",
         responseData.decal_size,
         maxCuts,
-        `Plan ${plan.plan_number}`,
+        plan.item_details.item_name,
         plan.sets,
         plan.item_details.item_name,
         ...sizeColumns,
@@ -203,12 +207,12 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
   };
 
   return (
-    <div className="space-y-6 min-h-screen animate-fade-in max-w-full">
+    <div className="space-y-6 min-h-screen animate-fade-in max-w-full bg-gradient-to-br from-blue-50/20 via-white to-indigo-50/30 p-6 rounded-xl">
       {/* Main Dashboard Grid - 1/3 and 2/3 */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* 1/3: Pie Chart */}
-        <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-          <CardHeader className="bg-gray-50 border-b border-gray-200 p-4 py-3">
+        <Card className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 border-gray-200 shadow-sm hover:shadow-md p-0 transition-all duration-300">
+          <CardHeader className="bg-gradient-to-r from-gray-50 via-blue-50/50 to-indigo-50/30 border-b border-gray-200 p-4 py-3">
             <CardTitle className="flex items-center gap-2 text-gray-900">
               <ChartPieIcon className="h-5 w-5" />
               Roll Utilization
@@ -238,7 +242,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
         <div className="lg:col-span-2 space-y-6">
           {/* 1st Row: 4 Metric Boxes Horizontally */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
+            <Card className="bg-gradient-to-br from-white via-blue-50/20 to-indigo-50/10 border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
               <CardContent className="p-3">
                 <div className="text-center">
                   <p className="text-xl font-bold text-gray-900 mb-1">
@@ -448,7 +452,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             <Button
               onClick={handleExportExcel}
               size="sm"
-              className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
+              className="w-full sm:w-auto px-4 py-2 text-sm font-medium bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 hover:ring-2 hover:ring-green-300"
             >
               <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
               Export Excel
@@ -456,7 +460,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             <Button
               onClick={handleExportPDF}
               size="sm"
-              className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
+              className="w-full sm:w-auto px-4 py-2 text-sm font-medium bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 hover:ring-2 hover:ring-red-300"
             >
               <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
               Export PDF
@@ -487,7 +491,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                     {plan.sizes
                       .filter((size: any) => size.actual_size > 0)
                       .map((size: any, sizeIndex: number) => {
-                        const totalUsage = plan.total_usage_mm;
+                        const totalUsage = plan.usage_mm;
                         const sizeUsage = size.size_mm;
                         const percentage =
                           totalUsage > 0
@@ -576,45 +580,56 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200 bg-gray-50">
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Pattern
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[60px]">
+                    Sr. No.
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[200px]">
+                    Item Name
+                  </th>
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[80px]">
                     Sets
                   </th>
                   {Array.from({ length: responseData.no_of_cut }, (_, i) => (
                     <th
                       key={i}
-                      className="text-left p-3 font-medium text-gray-900"
+                      className="text-left p-3 font-medium text-gray-900 min-w-[100px]"
                     >
                       Size {i + 1}
                     </th>
                   ))}
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Waste/Set (mm)
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
+                    <div>Waste/Set</div>
+                    <div className="text-xs font-normal">(mm)</div>
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Total Waste (mm)
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
+                    <div>Total Waste</div>
+                    <div className="text-xs font-normal">(mm)</div>
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Waste Qty/Set
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
+                    <div>Waste</div>
+                    <div className="text-xs font-normal">Qty/Set</div>
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Total Waste Qty
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
+                    <div>Total Waste</div>
+                    <div className="text-xs font-normal">Qty</div>
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Usage/Set (mm)
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
+                    <div>Usage/Set</div>
+                    <div className="text-xs font-normal">(mm)</div>
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Total Usage (mm)
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
+                    <div>Total Usage</div>
+                    <div className="text-xs font-normal">(mm)</div>
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Usage Qty/Set
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
+                    <div>Usage</div>
+                    <div className="text-xs font-normal">Qty/Set</div>
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
-                    Total Usage Qty
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
+                    <div>Total Usage</div>
+                    <div className="text-xs font-normal">Qty</div>
                   </th>
-                  <th className="text-left p-3 font-medium text-gray-900">
+                  <th className="text-left p-3 font-medium text-gray-900 min-w-[100px]">
                     Usage %
                   </th>
                 </tr>
@@ -629,8 +644,11 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                       key={index}
                       className="border-b border-gray-100 hover:bg-gray-50"
                     >
+                      <td className="p-3 text-gray-900 font-medium">
+                        {index + 1}
+                      </td>
                       <td className="p-3 text-blue-600 font-medium">
-                        Pattern {plan.plan_number}
+                        {plan.item_details.item_name}
                       </td>
                       <td className="p-3 text-gray-900">{plan.sets}</td>
                       {Array.from(
