@@ -31,7 +31,11 @@ export default function RunPage({
   const resultsRef = useRef<HTMLDivElement | null>(null);
 
   const handleOptimize = async (data: any, source: "manual" | "excel") => {
-    setResultSource(source);
+    if (data === null) {
+      setResultSource(null);
+    } else {
+      setResultSource(source);
+    }
     await onOptimize(data, source);
   };
 
@@ -82,7 +86,7 @@ export default function RunPage({
               optimizationResults={optimizationResults}
             />
             {optimizationResults && resultSource === "manual" && (
-              <div ref={resultsRef} className="">
+              <div ref={resultsRef} className="" data-results-section>
                 <ResultsTab
                   results={optimizationResults}
                   formData={optimizationResults.formData}
@@ -97,7 +101,7 @@ export default function RunPage({
               isOptimizing={isOptimizing}
             />
             {optimizationResults && resultSource === "excel" && (
-              <div ref={resultsRef} className="pt-4">
+              <div ref={resultsRef} className="pt-4" data-results-section>
                 <ResultsTab
                   results={optimizationResults}
                   formData={optimizationResults.formData}

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 import { HomeIcon, DocumentTextIcon, PlayIcon, CodeBracketIcon, BookOpenIcon, InformationCircleIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"
 
@@ -8,7 +8,6 @@ import HomePage from "@/components/home-page"
 import ExamplePage from "@/components/example-page"
 import RunPage from "@/components/run-page"
 import ApiDocsPage from "@/components/api-docs-page"
-import ApiReferencePage from "@/components/api-reference-page"
 import SEOContentPage from "@/components/seo-content-page"
 
 type OptimizationResults = {
@@ -60,29 +59,44 @@ export default function RollCuttingOptimization() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const handleOptimization = async (data: any, source: "manual" | "excel") => {
-    setIsOptimizing(true)
-
-    try {
-      console.log("Optimizing with data:", data, "from source:", source)
-      
-      // Simulate optimization process
-      await new Promise(resolve => setTimeout(resolve, 3000))
-      
-      // Set the actual API response data
-      setOptimizationResults(data)
-      setActiveMainTab("run")
-      setShowSuccessPopup(true)
-      setTimeout(() => setShowSuccessPopup(false), 3000)
-    } catch (error) {
-      console.error("Optimization failed:", error)
-    } finally {
-      setIsOptimizing(false)
-    }
+  // Provide a navigation handler for child components that also scrolls to top
+  const handleNavigate = (tab: string) => {
+    setActiveMainTab(tab)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+
+
+  const handleOptimization = async (data: any, source: "manual" | "excel") => {
+    if (data === null) {
+      setOptimizationResults(null);
+      return;
+    }
+    
+    setIsOptimizing(true);
+    try {
+      console.log("Optimizing with data:", data, "from source:", source);
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      setOptimizationResults(data);
+      setActiveMainTab("run");
+      setShowSuccessPopup(true);
+      setTimeout(() => setShowSuccessPopup(false), 3000);
+      
+      setTimeout(() => {
+        const resultsElement = document.querySelector('[data-results-section]')
+        if (resultsElement) {
+          resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+    } catch (error) {
+      console.error("Optimization failed:", error);
+    } finally {
+      setIsOptimizing(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 animate-fade-in">
+  <div className="min-h-screen bg-white animate-fade-in">
       {showSuccessPopup && (
         <div className="fixed top-4 right-4 z-50 bg-primary text-primary-foreground px-6 py-3 rounded-lg shadow-lg animate-bounce-in">
           <div className="flex items-center space-x-2">
@@ -98,63 +112,27 @@ export default function RollCuttingOptimization() {
         </div>
       )}
 
-      {/* Optimization Loading Overlay */}
-      {isOptimizing && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
-            <div className="text-center">
-              <div className="mb-6">
-                <div className="relative w-32 h-32 mx-auto">
-                  <div className="absolute inset-0 border-4 border-blue-200 rounded-full animate-spin">
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full animate-pulse">
-                      <div className="absolute top-2 left-1/2 w-0.5 h-20 bg-white animate-pulse transform -translate-x-1/2"></div>
-                      <div className="absolute top-1/2 left-2 w-20 h-0.5 bg-white animate-pulse transform -translate-y-1/2"></div>
-                      <div className="absolute top-1/2 right-2 w-4 h-0.5 bg-white animate-pulse transform -translate-y-1/2"></div>
-                    </div>
-                  </div>
-                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 animate-bounce">
-                    <div className="w-2 h-8 bg-gray-600 rounded-t-full"></div>
-                    <div className="w-4 h-2 bg-gray-800 rounded-b-sm -mt-1"></div>
-                  </div>
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Optimizing Roll Cutting</h3>
-              <p className="text-gray-600 mb-4">Calculating the most efficient cutting patterns...</p>
-              <div className="space-y-2 text-sm text-left">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-gray-700">Analyzing material dimensions</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                  <span className="text-gray-700">Computing optimization strategies</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                  <span className="text-gray-700">Minimizing waste patterns</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
-                  <span className="text-gray-700">Generating cutting plan</span>
-                </div>
-              </div>
-              <div className="mt-6 w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full animate-pulse" style={{width: '75%'}}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+
+<style jsx global>{`
+  @keyframes spin-slow {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .animate-spin-slow {
+    animation: spin-slow 2.5s linear infinite;
+  }
+`}</style>
 
       <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-40">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3 animate-slide-in-left">
+            <div className="flex items-center  animate-slide-in-left">
               <div className="flex-shrink-0">
-                <img src="/main-logo.png" alt="Smart Roll Cutting Solution" className="w-10 h-10 sm:w-12 sm:h-12" />
+                <img src="/main-logo.png" alt="Smart Roll Cutting Solution" className="w-12 h-12 sm:w-14 sm:h-14" />
               </div>
-              <div>
-                <h1 className="text-lg sm:text-xl font-bold text-foreground">Smart Roll Cutting Solutions</h1>
+              <div className="w-[100%]">
+                <div className="text-lg sm:text-xl font-bold text-foreground uppercase" style={{fontFamily: 'Helvetica', color: '#08429d'}}>Smart Roll</div>
+                <div className="text-sm sm:text-[11px] uppercase w-[85%] mx-auto">Cutting Solution</div>
               </div>
             </div>
 
@@ -204,17 +182,6 @@ export default function RollCuttingOptimization() {
               >
                 <BookOpenIcon className="h-4 w-4" />
                 <span>API Docs</span>
-              </button>
-              <button
-                onClick={() => handleTabChange("api-reference")}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
-                  activeMainTab === "api-reference"
-                    ? "bg-primary text-primary-foreground shadow-md"
-                    : "text-muted-foreground hover:text-primary hover:bg-muted/50"
-                }`}
-              >
-                <CodeBracketIcon className="h-4 w-4" />
-                <span>API Reference</span>
               </button>
             </nav>
 
@@ -295,20 +262,6 @@ export default function RollCuttingOptimization() {
                   <BookOpenIcon className="h-5 w-5" />
                   <span>API Docs</span>
                 </button>
-                <button
-                  onClick={() => {
-                    handleTabChange("api-reference")
-                    setIsMobileMenuOpen(false)
-                  }}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-md text-base font-medium w-full text-left transition-all duration-200 ${
-                    activeMainTab === "api-reference"
-                      ? "bg-primary text-primary-foreground shadow-md"
-                      : "text-muted-foreground hover:text-primary hover:bg-muted/50"
-                  }`}
-                >
-                  <CodeBracketIcon className="h-5 w-5" />
-                  <span>API Reference</span>
-                </button>
               </div>
             </div>
           )}
@@ -317,7 +270,7 @@ export default function RollCuttingOptimization() {
 
       <main className={`w-full ${activeMainTab === "home" ? "" : "px-6 lg:px-8 py-8"}`}>
         <div className="tab-content">
-          {activeMainTab === "home" && <HomePage onNavigate={setActiveMainTab} />}
+          {activeMainTab === "home" && <HomePage onNavigate={handleNavigate} />}
 
           {activeMainTab === "example" && <ExamplePage />}
           {activeMainTab === "run" && (
@@ -328,7 +281,6 @@ export default function RollCuttingOptimization() {
             />
           )}
           {activeMainTab === "api-docs" && <ApiDocsPage />}
-          {activeMainTab === "api-reference" && <ApiReferencePage />}
         </div>
       </main>
 
@@ -339,7 +291,7 @@ export default function RollCuttingOptimization() {
               <div>
                 <div className="flex items-center space-x-2 mb-4">
                   <img src="/logo.png" alt="Smart Roll Cutting Solution" className="w-8 h-8" />
-                  <h3 className="text-lg font-semibold text-foreground">Smart Roll Cutting Solutions</h3>
+                  <h3 className="text-lg font-semibold text-foreground">Smart Roll Cutting Solution</h3>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   Advanced manufacturing optimization with intelligent cutting pattern generation. Reduce waste, save
@@ -370,14 +322,6 @@ export default function RollCuttingOptimization() {
                   </li>
                   <li>
                     <button
-                      onClick={() => handleTabChange("api-reference")}
-                      className="hover:text-primary transition-colors"
-                    >
-                      • API Reference
-                    </button>
-                  </li>
-                  <li>
-                    <button
                       onClick={() => handleTabChange("example")}
                       className="hover:text-primary transition-colors"
                     >
@@ -389,7 +333,7 @@ export default function RollCuttingOptimization() {
               </div>
             </div>
             <div className="border-t border-border mt-8 pt-6 text-center">
-              <p className="text-sm text-muted-foreground">© 2024 Smart Roll Cutting Solutions. All rights reserved.</p>
+              <p className="text-sm text-muted-foreground">© 2024 Smart Roll Cutting Solution. All rights reserved.</p>
             </div>
           </div>
         </div>

@@ -448,7 +448,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             <Button
               onClick={handleExportExcel}
               size="sm"
-              className="bg-green-600 text-white hover:bg-green-700 transition-all duration-200 w-full sm:w-auto"
+              className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
             >
               <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
               Export Excel
@@ -456,7 +456,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             <Button
               onClick={handleExportPDF}
               size="sm"
-              className="bg-red-600 text-white hover:bg-red-700 transition-all duration-200 w-full sm:w-auto"
+              className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
             >
               <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
               Export PDF

@@ -19,7 +19,7 @@ export default function ApiDocsPage() {
   const id = "opt_67890abcdef" // Declare the id variable
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in w-full max-w-7xl mx-auto px-2 sm:px-4 md:px-6">
       <div className="text-center py-16 bg-gradient-to-br from-primary/5 via-background to-accent/5 rounded-2xl border border-border">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex items-center justify-center mb-4">

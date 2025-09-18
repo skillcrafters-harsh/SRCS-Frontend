@@ -40,15 +40,16 @@ export default function SEOContentPage({ onNavigate }: SEOContentPageProps) {
         <div className="flex flex-wrap justify-center gap-4">
           <Button 
             onClick={() => onNavigate("run")} 
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2"
+            size="sm"
+            className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
           >
             <Cog6ToothIcon className="h-5 w-5 mr-2" />
             Try SRCS Now
           </Button>
           <Button 
-            variant="outline" 
             onClick={() => onNavigate("api-docs")}
-            className="border-blue-600 text-blue-600 hover:bg-blue-50 px-6 py-2"
+            size="sm"
+            className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
           >
             <DocumentTextIcon className="h-5 w-5 mr-2" />
             View Documentation
@@ -426,15 +427,16 @@ export default function SEOContentPage({ onNavigate }: SEOContentPageProps) {
         <div className="flex flex-wrap justify-center gap-4">
           <Button 
             onClick={() => onNavigate("run")} 
-            className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 text-lg"
+            size="sm"
+            className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
           >
             <Cog6ToothIcon className="h-5 w-5 mr-2" />
             Start Optimization
           </Button>
           <Button 
-            variant="outline" 
             onClick={() => onNavigate("api-docs")}
-            className="border-white text-white hover:bg-blue-700 px-8 py-3 text-lg"
+            size="sm"
+            className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
           >
             <DocumentTextIcon className="h-5 w-5 mr-2" />
             Explore Documentation

@@ -28,7 +28,7 @@ export default function ExamplePage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 w-full max-w-7xl mx-auto ">
       {/* Header */}
       <div className="text-center">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">Example Input & Output</h1>
@@ -36,7 +36,7 @@ export default function ExamplePage() {
       </div>
 
       {/* Example Input Section */}
-      <Card className="shadow-lg">
+  <Card className="shadow-lg w-full">
         <CardHeader className="bg-blue-50 py-3 flex items-center">
           <CardTitle className="text-xl text-gray-900">Example Input Data</CardTitle>
           <CardDescription className="text-gray-600">
@@ -115,8 +115,8 @@ export default function ExamplePage() {
           <div className="mt-6 flex justify-center">
             <Button
               onClick={handleExportExample}
-              variant="outline"
-              className="border-blue-500 text-blue-600 hover:bg-blue-50 bg-transparent"
+              size="sm"
+              className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
             >
               <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
               Download Example Input (Excel)
@@ -135,7 +135,7 @@ export default function ExamplePage() {
       </div>
 
       {/* Example Output Section */}
-      <Card className="shadow-lg">
+  <Card className="shadow-lg w-full">
         <CardHeader className="bg-green-50 py-3 flex items-center">
           <CardTitle className="text-xl text-gray-900">Optimization Results</CardTitle>
           <CardDescription className="text-gray-600">Generated cutting plan and performance metrics</CardDescription>

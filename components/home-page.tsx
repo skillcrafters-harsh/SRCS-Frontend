@@ -22,7 +22,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className="space-y-0">
       {/* Hero Section - Problem-Solution Hook */}
-      <div className="relative min-h-[80vh] sm:min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-900 via-blue-900 to-gray-800">
+  <div className="relative min-h-[80vh] sm:min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900">
         {/* Background Video/Image Option */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
@@ -33,16 +33,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="relative z-10 max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Text Content */}
             <div className="text-white space-y-6 lg:space-y-8">
               <div className="space-y-4">
-                <Badge className="bg-red-500/20 text-red-300 border-red-500/30 px-4 py-2 text-sm">
+                {/* <Badge className="bg-red-500/20 text-red-300 border-red-500/30 px-4 py-2 text-sm">
                   <ExclamationTriangleIcon className="h-4 w-4 mr-2" />
                   Stop Losing Money
-                </Badge>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                </Badge> */}
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold leading-tight">
                   SRCS Vercel | Smart Roll Cutting System – Roll Cutting Optimization Software
                 </h1>
                 <p className="text-lg sm:text-xl text-gray-300 leading-relaxed">
@@ -489,17 +488,16 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Button
               onClick={() => onNavigate("run")}
-              size="lg"
-              className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white px-8 py-4 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
+              size="sm"
+              className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
             >
               Start Your Free Trial
               <ArrowRightIcon className="h-5 w-5 ml-2" />
             </Button>
             <Button
               onClick={() => onNavigate("api-docs")}
-              variant="outline"
-              size="lg"
-              className="border-white/30 text-white px-8 py-4 text-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300"
+              size="sm"
+              className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center"
             >
               Request a Personalized Demo
             </Button>

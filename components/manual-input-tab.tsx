@@ -20,6 +20,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import Loader from "@/components/loader";
 
 interface RollSpec {
   id: string;
@@ -257,6 +258,10 @@ export default function ManualInputTab({
 
   const handleOptimize = async () => {
     if (isFormValid()) {
+      // Clear existing results and scroll to top
+      onOptimize(null, "manual");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
       const payload = {
         decal_size: parseInt(formData.motherRollWidth),
         no_of_cut: parseInt(formData.maxCuts),
@@ -301,53 +306,8 @@ export default function ManualInputTab({
 
   return (
     <div className="space-y-2 animate-fade-in">
-      {/* Optimization Loading Overlay */}
-      {isOptimizing && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
-            <div className="text-center">
-              <div className="mb-6">
-                <div className="relative w-32 h-32 mx-auto">
-                  <div className="absolute inset-0 border-4 border-blue-200 rounded-full animate-spin">
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full animate-pulse">
-                      <div className="absolute top-2 left-1/2 w-0.5 h-20 bg-white animate-pulse transform -translate-x-1/2"></div>
-                      <div className="absolute top-1/2 left-2 w-20 h-0.5 bg-white animate-pulse transform -translate-y-1/2"></div>
-                      <div className="absolute top-1/2 right-2 w-4 h-0.5 bg-white animate-pulse transform -translate-y-1/2"></div>
-                    </div>
-                  </div>
-                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 animate-bounce">
-                    <div className="w-2 h-8 bg-gray-600 rounded-t-full"></div>
-                    <div className="w-4 h-2 bg-gray-800 rounded-b-sm -mt-1"></div>
-                  </div>
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">Optimizing Roll Cutting</h3>
-              <p className="text-gray-600 mb-4">Calculating the most efficient cutting patterns...</p>
-              <div className="space-y-2 text-sm text-left">
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-gray-700">Analyzing material dimensions</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
-                  <span className="text-gray-700">Computing optimization strategies</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
-                  <span className="text-gray-700">Minimizing waste patterns</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
-                  <span className="text-gray-700">Generating cutting plan</span>
-                </div>
-              </div>
-              <div className="mt-6 w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full animate-pulse" style={{width: '75%'}}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <Loader isVisible={isOptimizing} />
+
       {/* Basic Information */}
       <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
         <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 ">
@@ -454,6 +414,13 @@ export default function ManualInputTab({
                   className="text-xs font-medium cursor-pointer text-gray-900"
                 >
                   {field.toUpperCase()}
+                  <div className="text-xs font-normal text-gray-600">
+                    {field === 'dia' && 'Roll Diameter in inches'}
+                    {field === 'bf' && 'Bursting Factor (strength)'}
+                    {field === 'gsm' && 'Grams per Square Meter'}
+                    {field === 'quality' && 'Paper Quality type'}
+                    {field === 'quantity' && 'Auto calculated quantity'}
+                  </div>
                 </Label>
               </div>
             ))}
@@ -472,7 +439,7 @@ export default function ManualInputTab({
             onClick={addRollSpec}
             variant="outline"
             size="sm"
-            className="flex items-center gap-2 bg-white text-blue-600 border-white hover:bg-blue-50 hover:scale-105 transition-all duration-300 shadow-md"
+            className="flex items-center gap-2 bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
           >
             <PlusIcon className="h-4 w-4" />
             Add Roll
@@ -484,40 +451,49 @@ export default function ManualInputTab({
               <thead>
                 <tr className="border-b-2 border-blue-200 bg-blue-50">
                   <th className="text-left p-3 font-semibold text-gray-900">
-                    Item Name *
+                    Item Name <span style={{color:"red"}}>*</span>
+                    <div className="text-xs font-normal text-gray-600">Product type (Kraft Paper Roll)</div>
                   </th>
                   {optionalFields.dia && (
                     <th className="text-left p-3 font-semibold text-gray-900">
-                      DIA
+                      DIA (IN)
+                      <div className="text-xs font-normal text-gray-600">Roll Diameter in inches</div>
                     </th>
                   )}
                   {optionalFields.bf && (
                     <th className="text-left p-3 font-semibold text-gray-900">
                       BF
+                      <div className="text-xs font-normal text-gray-600">Bursting Factor (strength)</div>
                     </th>
                   )}
                   {optionalFields.gsm && (
                     <th className="text-left p-3 font-semibold text-gray-900">
                       GSM
+                      <div className="text-xs font-normal text-gray-600">Grams per Square Meter</div>
                     </th>
                   )}
                   {optionalFields.quality && (
                     <th className="text-left p-3 font-semibold text-gray-900">
                       Quality
+                      <div className="text-xs font-normal text-gray-600">Paper Quality type</div>
                     </th>
                   )}
                   <th className="text-left p-3 font-semibold text-gray-900">
-                    Size (mm) *
+                    Size <span style={{color:"red"}}>*</span>
+                    <div className="text-xs font-normal text-gray-600">Width of the cut roll</div>
                   </th>
                   <th className="text-left p-3 font-semibold text-gray-900">
-                    UOM *
+                    UOM <span style={{color:"red"}}>*</span>
+                    <div className="text-xs font-normal text-gray-600">Unit of Measurement</div>
                   </th>
                   <th className="text-left p-3 font-semibold text-gray-900">
-                    Rolls Required *
+                    NOR <span style={{color:"red"}}>*</span>
+                    <div className="text-xs font-normal text-gray-600">Number of Rolls Required</div>
                   </th>
                   {optionalFields.quantity && (
                     <th className="text-left p-3 font-semibold text-gray-900">
-                      Auto QTY
+                      QTY (MM)
+                      <div className="text-xs font-normal text-gray-600">Auto calculated quantity</div>
                     </th>
                   )}
                   <th className="text-left p-3 font-semibold text-gray-900">
@@ -693,7 +669,7 @@ export default function ManualInputTab({
             onClick={handleOptimize}
             disabled={!isFormValid() || isOptimizing}
             size="sm"
-            className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl"
+            className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
           >
             {isOptimizing ? (
               <>
@@ -707,7 +683,6 @@ export default function ManualInputTab({
         </div>
       </Card>
 
-      {/* CTA */}
     </div>
   );
 }
