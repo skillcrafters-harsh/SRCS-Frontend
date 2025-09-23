@@ -5,11 +5,7 @@ import Footer from "@/components/footer";
 export default function Home() {
   return (
     <>
-      <Navigation />
-      <main className="w-full">
-        <HomePage />
-      </main>
-      <Footer />
+    
     </>
   );
 }

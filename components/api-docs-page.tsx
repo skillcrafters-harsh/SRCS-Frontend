@@ -130,7 +130,7 @@ export default function ApiDocsPage() {
   "no_of_cut": 7,
   "rolls": [
     {
-      "item_name": "KRAFT PAPER SIZE (151 TO ABOVE)",
+      "item_name": "Plan Pattern 1",
       "dia": 36,
       "bf": 16,
       "gsm": 180,
@@ -141,7 +141,7 @@ export default function ApiDocsPage() {
       "quantity": 1620
     },
     {
-      "item_name": "KRAFT PAPER SIZE (151 TO ABOVE)",
+      "item_name": "Plan Pattern 2",
       "dia": 36,
       "bf": 16,
       "gsm": 180,

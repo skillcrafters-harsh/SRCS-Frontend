@@ -12,7 +12,7 @@ export default function Navigation() {
   const isActive = (path: string) => pathname === path;
 
   const navItems = [
-    { path: "/home", label: "Home", icon: HomeIcon },
+    { path: "/", label: "Home", icon: HomeIcon },
     { path: "/example", label: "Example", icon: DocumentTextIcon },
     { path: "/run", label: "Run", icon: PlayIcon },
     { path: "/api-docs", label: "API Docs", icon: BookOpenIcon },
@@ -22,7 +22,7 @@ export default function Navigation() {
     <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-40">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/home" className="flex items-center animate-slide-in-left">
+          <Link href="/" className="flex items-center animate-slide-in-left">
             <div className="flex-shrink-0">
               <img src="/main-logo.png" alt="Smart Roll Cutting Solution" className="w-12 h-12 sm:w-14 sm:h-14" />
             </div>

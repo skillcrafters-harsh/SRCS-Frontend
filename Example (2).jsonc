@@ -1,0 +1,377 @@
+// INPUT Data :
+
+{
+  "decal_size": 0,
+  "no_of_cut": 0,
+  "rolls": [
+    {
+      "item_name": "KRAFT PAPER SIZE (151 TO ABOVE)",
+      "dia": 0,
+      "alt_dia": 0,
+      "bf": 0,
+      "alt_bf": 0,
+      "gsm": 0,
+      "alt_gsm": 0,
+      "quality": "GOLDEN",
+      "size": 0,
+      "uom": "IN",
+      "nor": 0,
+      "quantity": 0,
+      "so_no": "string",
+      "roll_id": "string"
+    }
+  ]
+}
+
+
+
+{
+  "decal_size": 4500,
+  "no_of_cut": 7,
+  "rolls": [
+    {
+      "item_name": "KRAFT PAPER SIZE (151 TO ABOVE)",
+      "size": 50,
+      "uom": "IN",
+      "nor": 5
+    }
+  ]
+}
+
+// OUTPUT Data:
+
+{
+  "status": true,
+  "message": "Cutting optimization completed with two strategies",
+  "data": {
+    "decal_size": 4500,
+    "no_of_cut": 7,
+    "strategies": {
+      "min_cutter_changes": {
+        "total_rolls_used": 2,
+        "total_wastage_mm": 2650,
+        "total_wastage_qty": 1251.97,
+        "total_cutter_changes": 2,
+        "results": [
+          {
+            "size_bucket": "DIA:0 | ALT_DIA:0 | BF:0 | ALT_BF:0 | GSM:0 | ALT_GSM:0 | QUALITY:DEFAULT",
+            "cutting_plans": [
+              {
+                "plan_number": 1,
+                "sets": 1,
+                "item_details": {
+                  "item_name": "KRAFT PAPER SIZE (151 TO ABOVE)",
+                  "dia": 0,
+                  "alt_dia": 0,
+                  "bf": 0,
+                  "alt_bf": 0,
+                  "gsm": 0,
+                  "alt_gsm": 0,
+                  "quality": "DEFAULT"
+                },
+                "sizes": [
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  }
+                ],
+                "wastage_mm": 690,
+                "total_wastage_mm": 690,
+                "wastage_qty": 325.984,
+                "total_wastage_qty": 325.984,
+                "usage_mm": 3810,
+                "total_usage_mm": 3810,
+                "usage_qty": 1800,
+                "total_usage_qty": 1800,
+                "usage_percent": 84.67
+              },
+              {
+                "plan_number": 2,
+                "sets": 1,
+                "item_details": {
+                  "item_name": "KRAFT PAPER SIZE (151 TO ABOVE)",
+                  "dia": 0,
+                  "alt_dia": 0,
+                  "bf": 0,
+                  "alt_bf": 0,
+                  "gsm": 0,
+                  "alt_gsm": 0,
+                  "quality": "DEFAULT"
+                },
+                "sizes": [
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  }
+                ],
+                "wastage_mm": 1960,
+                "total_wastage_mm": 1960,
+                "wastage_qty": 925.984,
+                "total_wastage_qty": 925.984,
+                "usage_mm": 2540,
+                "total_usage_mm": 2540,
+                "usage_qty": 1200,
+                "total_usage_qty": 1200,
+                "usage_percent": 56.44
+              }
+            ],
+            "summary": {
+              "total_stock_rolls": 2,
+              "total_cutter_changes": 2,
+              "total_wastage_mm": 2650,
+              "total_wastage_qty": 1251.97
+            },
+            "verification": [
+              {
+                "size_mm": "50 IN",
+                "required": 5,
+                "produced": 5
+              }
+            ]
+          }
+        ]
+      },
+      "min_wastage": {
+        "total_rolls_used": 2,
+        "total_wastage_mm": 2650,
+        "total_wastage_qty": 1251.97,
+        "total_cutter_changes": 2,
+        "results": [
+          {
+            "size_bucket": "DIA:0 | ALT_DIA:0 | BF:0 | ALT_BF:0 | GSM:0 | ALT_GSM:0 | QUALITY:DEFAULT",
+            "cutting_plans": [
+              {
+                "plan_number": 1,
+                "sets": 1,
+                "item_details": {
+                  "item_name": "KRAFT PAPER SIZE (151 TO ABOVE)",
+                  "dia": 0,
+                  "alt_dia": 0,
+                  "bf": 0,
+                  "alt_bf": 0,
+                  "gsm": 0,
+                  "alt_gsm": 0,
+                  "quality": "DEFAULT"
+                },
+                "sizes": [
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  }
+                ],
+                "wastage_mm": 690,
+                "total_wastage_mm": 690,
+                "wastage_qty": 325.984,
+                "total_wastage_qty": 325.984,
+                "usage_mm": 3810,
+                "total_usage_mm": 3810,
+                "usage_qty": 1800,
+                "total_usage_qty": 1800,
+                "usage_percent": 84.67
+              },
+              {
+                "plan_number": 2,
+                "sets": 1,
+                "item_details": {
+                  "item_name": "KRAFT PAPER SIZE (151 TO ABOVE)",
+                  "dia": 0,
+                  "alt_dia": 0,
+                  "bf": 0,
+                  "alt_bf": 0,
+                  "gsm": 0,
+                  "alt_gsm": 0,
+                  "quality": "DEFAULT"
+                },
+                "sizes": [
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": "d67059f1",
+                    "size_mm": 1270,
+                    "actual_size": 50,
+                    "uom": "IN"
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  },
+                  {
+                    "id": null,
+                    "actual_size": 0,
+                    "uom": null,
+                    "size_mm": 0
+                  }
+                ],
+                "wastage_mm": 1960,
+                "total_wastage_mm": 1960,
+                "wastage_qty": 925.984,
+                "total_wastage_qty": 925.984,
+                "usage_mm": 2540,
+                "total_usage_mm": 2540,
+                "usage_qty": 1200,
+                "total_usage_qty": 1200,
+                "usage_percent": 56.44
+              }
+            ],
+            "summary": {
+              "total_stock_rolls": 2,
+              "total_cutter_changes": 2,
+              "total_wastage_mm": 2650,
+              "total_wastage_qty": 1251.97
+            },
+            "verification": [
+              {
+                "size_mm": "50 IN",
+                "required": 5,
+                "produced": 5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "system_stats": {
+      "response_time": "91.02 ms",
+      "cpu_usage": "19.4%",
+      "memory_usage": "48.7%"
+    }
+  }
+}
