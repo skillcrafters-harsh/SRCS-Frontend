@@ -36,13 +36,15 @@ interface RollSpec {
 }
 
 interface ManualInputTabProps {
-  onOptimize: (data: any, source: "manual" | "excel") => void;
+  onOptimizationStart: () => void;
+  onOptimizationComplete: (data: any) => void;
   isOptimizing: boolean;
   optimizationResults?: any;
 }
 
 export default function ManualInputTab({
-  onOptimize,
+  onOptimizationStart,
+  onOptimizationComplete,
   isOptimizing,
   optimizationResults,
 }: ManualInputTabProps) {
@@ -53,6 +55,7 @@ export default function ManualInputTab({
     soNo: "Reshmia",
   });
 
+  console.log(isOptimizing)
   const [optionalFields, setOptionalFields] = useState({
     dia: false,
     bf: false,
@@ -64,7 +67,7 @@ export default function ManualInputTab({
   const [rollSpecs, setRollSpecs] = useState<RollSpec[]>([
     {
       id: "1",
-      itemName: "Paper Roll 1",
+      itemName: "KRAFT PAPER SIZE (151 TO ABOVE)",
       dia: "",
       bf: "",
       gsm: "",
@@ -258,48 +261,74 @@ export default function ManualInputTab({
 
   const handleOptimize = async () => {
     if (isFormValid()) {
-      // Clear existing results and start optimization
-      onOptimize(null, "manual");
+      // Start optimization
+      onOptimizationStart();
       
-      const payload = {
-        decal_size: parseInt(formData.motherRollWidth),
-        no_of_cut: parseInt(formData.maxCuts),
-        rolls: rollSpecs.map((spec) => ({
-          item_name: spec.itemName,
-          size: parseInt(spec.size),
-          uom: spec.uom.split(" - ")[0],
-          nor: parseInt(spec.nor),
-        })),
+      // Use WebSocket for optimization
+      const wsUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || 'ws://192.168.29.138:8000';
+      console.log('Connecting to WebSocket:', `${wsUrl}/ws/optimize-cutting`);
+      const ws = new WebSocket(`${wsUrl}/ws/optimize-cutting`);
+      
+      console.log('WebSocket created, readyState:', ws.readyState);
+      
+      ws.onopen = () => {
+        console.log('WebSocket connected successfully!');
+        const payload = {
+          decal_size: parseInt(formData.motherRollWidth),
+          no_of_cut: parseInt(formData.maxCuts),
+          rolls: rollSpecs.map((spec, index) => ({
+            item_name: spec.itemName,
+            size: parseInt(spec.size),
+            uom: spec.uom.split(" - ")[0],
+            nor: parseInt(spec.nor),
+            roll_id: `R${index + 1}`,
+            ...(spec.dia && { dia: parseFloat(spec.dia) }),
+            ...(spec.bf && { bf: parseFloat(spec.bf) }),
+            ...(spec.gsm && { gsm: parseFloat(spec.gsm) }),
+            ...(spec.quality && { quality: spec.quality }),
+            ...(spec.quantity && { quantity: spec.quantity }),
+          })),
+        };
+        
+        ws.send(JSON.stringify(payload));
       };
-
-      try {
-        const response = await fetch(
-          `${
-            process.env.NEXT_PUBLIC_API_BASE_URL || "http://192.168.29.138:8000"
-          }/optimize-cutting`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
+      
+      ws.onmessage = (event) => {
+        try {
+          const result = JSON.parse(event.data);
+          console.log('WebSocket response:', result);
+          
+          if (result.status) {
+            const resultWithFormData = {
+              data: result.data,
+              formData: formData
+            };
+            toast.success('Optimization completed successfully!');
+            onOptimizationComplete(resultWithFormData);
+          } else {
+            toast.error(`Error: ${result.message || 'Optimization failed'}`);
+            onOptimizationComplete(null);
           }
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ message: 'Unknown error occurred' }));
-          toast.error(`Error: ${errorData.message || 'Failed to process request'}`);
-          return;
+          
+          ws.close();
+        } catch (error) {
+          console.error("WebSocket message error:", error);
+          toast.error('Error processing server response');
+          onOptimizationComplete(null);
+          ws.close();
         }
-
-        const result = await response.json();
-        result.formData = formData;
-        toast.success('Optimization completed successfully!');
-        onOptimize(result, "manual");
-      } catch (error) {
-        console.error("API Error:", error);
-        toast.error(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
-      }
+      };
+      
+      ws.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        console.log('WebSocket readyState on error:', ws.readyState);
+        toast.error('Failed to connect to optimization server');
+        onOptimizationComplete(null);
+      };
+      
+      ws.onclose = (event) => {
+        console.log('WebSocket connection closed:', event.code, event.reason);
+      };
     }
   };
 

@@ -11,7 +11,6 @@ import {
   ChartPieIcon,
 } from "@heroicons/react/24/outline";
 import PieChart from "@/components/pie-chart";
-import CuttingPlanVisualization from "@/components/cutting-plan-visualization";
 
 interface ResultsTabProps {
   results: any;
