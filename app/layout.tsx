@@ -76,7 +76,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
-        {children}
+        <div className="min-h-screen bg-white animate-fade-in">
+          {children}
+        </div>
         <Toaster richColors closeButton position="top-right" />
         <Analytics />
       </body>

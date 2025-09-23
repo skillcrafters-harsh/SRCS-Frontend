@@ -14,12 +14,14 @@ import * as XLSX from "xlsx";
 import { toast } from "sonner";
 
 interface ExcelUploadTabProps {
-  onOptimize: (data: any, source: "manual" | "excel") => void;
+  onOptimizationStart: () => void;
+  onOptimizationComplete: (data: any) => void;
   isOptimizing: boolean;
 }
 
 export default function ExcelUploadTab({
-  onOptimize,
+  onOptimizationStart,
+  onOptimizationComplete,
   isOptimizing,
 }: ExcelUploadTabProps) {
   const [formData, setFormData] = useState({
@@ -183,40 +185,89 @@ export default function ExcelUploadTab({
 
   const handleOptimize = async () => {
     if (isFormValid() && uploadedFile) {
-      // Clear existing results and start optimization
-      onOptimize(null, "excel");
+      // Start optimization
+      onOptimizationStart();
       
-      const formDataToSend = new FormData();
-      formDataToSend.append("file", uploadedFile);
-      formDataToSend.append("decal_size", formData.motherRollWidth);
-      formDataToSend.append("no_of_cut", formData.maxCuts);
-      formDataToSend.append("customer_name", formData.customerName);
-      formDataToSend.append("so_no", formData.soNo);
-
       try {
-        const response = await fetch(
-          `${
-            process.env.NEXT_PUBLIC_API_BASE_URL || "http://192.168.29.138:8000"
-          }/optimize-cutting-from-file`,
-          {
-            method: "POST",
-            body: formDataToSend,
+        // Convert file to base64
+        const fileBase64 = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            if (reader.result) {
+              const arrayBuffer = reader.result as ArrayBuffer;
+              const bytes = new Uint8Array(arrayBuffer);
+              const base64 = btoa(String.fromCharCode(...bytes));
+              resolve(base64);
+            } else {
+              reject(new Error('Failed to read file'));
+            }
+          };
+          reader.onerror = () => reject(new Error('Error reading file'));
+          reader.readAsArrayBuffer(uploadedFile);
+        });
+        
+        // Use WebSocket for file optimization
+        const wsUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || 'ws://192.168.29.138:8000';
+        console.log('Connecting to File WebSocket:', `${wsUrl}/ws/optimize-cutting-from-file`);
+        const ws = new WebSocket(`${wsUrl}/ws/optimize-cutting-from-file`);
+        
+        console.log('File WebSocket created, readyState:', ws.readyState);
+        
+        ws.onopen = () => {
+          console.log('File WebSocket connected successfully!');
+          const payload = {
+            decal_size: parseFloat(formData.motherRollWidth),
+            no_of_cut: parseInt(formData.maxCuts),
+            file_content: fileBase64,
+            filename: uploadedFile.name,
+            customer_name: formData.customerName,
+            so_no: formData.soNo,
+          };
+          
+          ws.send(JSON.stringify(payload));
+        };
+        
+        ws.onmessage = (event) => {
+          try {
+            const result = JSON.parse(event.data);
+            console.log('File WebSocket response:', result);
+            
+            if (result.status) {
+              const resultWithFormData = {
+                data: result.data,
+                formData: formData
+              };
+              toast.success('Optimization completed successfully!');
+              onOptimizationComplete(resultWithFormData);
+            } else {
+              toast.error(`Error: ${result.message || 'Optimization failed'}`);
+              onOptimizationComplete(null);
+            }
+            
+            ws.close();
+          } catch (error) {
+            console.error("WebSocket message error:", error);
+            toast.error('Error processing server response');
+            onOptimizationComplete(null);
+            ws.close();
           }
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ message: 'Unknown error occurred' }));
-          toast.error(`Error: ${errorData.message || 'Failed to process request'}`);
-          return;
-        }
-
-        const result = await response.json();
-        result.formData = formData;
-        toast.success('Optimization completed successfully!');
-        onOptimize(result, "excel");
+        };
+        
+        ws.onerror = (error) => {
+          console.error("File WebSocket error:", error);
+          console.log('File WebSocket readyState on error:', ws.readyState);
+          toast.error('Failed to connect to optimization server');
+          onOptimizationComplete(null);
+        };
+        
+        ws.onclose = (event) => {
+          console.log('File WebSocket connection closed:', event.code, event.reason);
+        };
+        
       } catch (error) {
-        console.error("API Error:", error);
-        toast.error(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
+        console.error("File processing error:", error);
+        toast.error('Error processing file');
+        onOptimizationComplete(null);
       }
     }
   };

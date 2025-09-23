@@ -17,6 +17,7 @@ import {
   PlusIcon,
   TrashIcon,
   DocumentDuplicateIcon,
+  ClipboardDocumentIcon,
 } from "@heroicons/react/24/outline";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -36,13 +37,15 @@ interface RollSpec {
 }
 
 interface ManualInputTabProps {
-  onOptimize: (data: any, source: "manual" | "excel") => void;
+  onOptimizationStart: () => void;
+  onOptimizationComplete: (data: any) => void;
   isOptimizing: boolean;
   optimizationResults?: any;
 }
 
 export default function ManualInputTab({
-  onOptimize,
+  onOptimizationStart,
+  onOptimizationComplete,
   isOptimizing,
   optimizationResults,
 }: ManualInputTabProps) {
@@ -53,6 +56,7 @@ export default function ManualInputTab({
     soNo: "Reshmia",
   });
 
+  console.log(isOptimizing)
   const [optionalFields, setOptionalFields] = useState({
     dia: false,
     bf: false,
@@ -64,7 +68,7 @@ export default function ManualInputTab({
   const [rollSpecs, setRollSpecs] = useState<RollSpec[]>([
     {
       id: "1",
-      itemName: "Paper Roll 1",
+      itemName: "Plan Pattern 1",
       dia: "",
       bf: "",
       gsm: "",
@@ -77,7 +81,7 @@ export default function ManualInputTab({
   ]);
 
   const itemOptions = {
-    1: "KRAFT PAPER SIZE (151 TO ABOVE)",
+    1: "Plan Pattern 1",
     2: "KRAFT PAPER SIZE (1 TO 150)",
   };
 
@@ -171,7 +175,7 @@ export default function ManualInputTab({
       ...prev,
       {
         id: newId,
-        itemName: "KRAFT PAPER SIZE (151 TO ABOVE)",
+        itemName: "Plan Pattern 1",
         dia: "",
         bf: "",
         gsm: "",
@@ -222,6 +226,69 @@ export default function ManualInputTab({
     return basicFieldsValid && rollSpecsValid;
   };
 
+  const copyJsonData = () => {
+    const jsonData = {
+      decal_size: parseInt(formData.motherRollWidth),
+      no_of_cut: parseInt(formData.maxCuts),
+      rolls: rollSpecs.map((spec, index) => {
+        const roll: any = {
+          item_name: spec.itemName,
+          size: parseInt(spec.size),
+          uom: spec.uom.split(" - ")[0],
+          nor: parseInt(spec.nor),
+          roll_id: `R${index + 1}`,
+        };
+        
+        if (optionalFields.dia && spec.dia) roll.dia = parseFloat(spec.dia);
+        if (optionalFields.bf && spec.bf) roll.bf = parseFloat(spec.bf);
+        if (optionalFields.gsm && spec.gsm) roll.gsm = parseFloat(spec.gsm);
+        if (optionalFields.quality && spec.quality) roll.quality = spec.quality;
+        if (optionalFields.quantity && spec.quantity) roll.quantity = spec.quantity;
+        
+        return roll;
+      })
+    };
+
+    const jsonString = JSON.stringify(jsonData, null, 2);
+    
+    // Fallback for older browsers
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(jsonString)
+        .then(() => {
+          toast.success('JSON data copied to clipboard!');
+        })
+        .catch(() => {
+          fallbackCopyTextToClipboard(jsonString);
+        });
+    } else {
+      fallbackCopyTextToClipboard(jsonString);
+    }
+  };
+
+  const fallbackCopyTextToClipboard = (text: string) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.position = 'fixed';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        toast.success('JSON data copied to clipboard!');
+      } else {
+        toast.error('Failed to copy JSON data');
+      }
+    } catch (err) {
+      toast.error('Failed to copy JSON data');
+    }
+    
+    document.body.removeChild(textArea);
+  };
+
   // Persist and restore state to avoid losing inputs after results
   useEffect(() => {
     try {
@@ -258,48 +325,74 @@ export default function ManualInputTab({
 
   const handleOptimize = async () => {
     if (isFormValid()) {
-      // Clear existing results and start optimization
-      onOptimize(null, "manual");
+      // Start optimization
+      onOptimizationStart();
       
-      const payload = {
-        decal_size: parseInt(formData.motherRollWidth),
-        no_of_cut: parseInt(formData.maxCuts),
-        rolls: rollSpecs.map((spec) => ({
-          item_name: spec.itemName,
-          size: parseInt(spec.size),
-          uom: spec.uom.split(" - ")[0],
-          nor: parseInt(spec.nor),
-        })),
+      // Use WebSocket for optimization
+      const wsUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || 'ws://192.168.29.138:8000';
+      console.log('Connecting to WebSocket:', `${wsUrl}/ws/optimize-cutting`);
+      const ws = new WebSocket(`${wsUrl}/ws/optimize-cutting`);
+      
+      console.log('WebSocket created, readyState:', ws.readyState);
+      
+      ws.onopen = () => {
+        console.log('WebSocket connected successfully!');
+        const payload = {
+          decal_size: parseInt(formData.motherRollWidth),
+          no_of_cut: parseInt(formData.maxCuts),
+          rolls: rollSpecs.map((spec, index) => ({
+            item_name: spec.itemName,
+            size: parseInt(spec.size),
+            uom: spec.uom.split(" - ")[0],
+            nor: parseInt(spec.nor),
+            roll_id: `R${index + 1}`,
+            ...(spec.dia && { dia: parseFloat(spec.dia) }),
+            ...(spec.bf && { bf: parseFloat(spec.bf) }),
+            ...(spec.gsm && { gsm: parseFloat(spec.gsm) }),
+            ...(spec.quality && { quality: spec.quality }),
+            ...(spec.quantity && { quantity: spec.quantity }),
+          })),
+        };
+        
+        ws.send(JSON.stringify(payload));
       };
-
-      try {
-        const response = await fetch(
-          `${
-            process.env.NEXT_PUBLIC_API_BASE_URL || "http://192.168.29.138:8000"
-          }/optimize-cutting`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
+      
+      ws.onmessage = (event) => {
+        try {
+          const result = JSON.parse(event.data);
+          console.log('WebSocket response:', result);
+          
+          if (result.status) {
+            const resultWithFormData = {
+              data: result.data,
+              formData: formData
+            };
+            toast.success('Optimization completed successfully!');
+            onOptimizationComplete(resultWithFormData);
+          } else {
+            toast.error(`Error: ${result.message || 'Optimization failed'}`);
+            onOptimizationComplete(null);
           }
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ message: 'Unknown error occurred' }));
-          toast.error(`Error: ${errorData.message || 'Failed to process request'}`);
-          return;
+          
+          ws.close();
+        } catch (error) {
+          console.error("WebSocket message error:", error);
+          toast.error('Error processing server response');
+          onOptimizationComplete(null);
+          ws.close();
         }
-
-        const result = await response.json();
-        result.formData = formData;
-        toast.success('Optimization completed successfully!');
-        onOptimize(result, "manual");
-      } catch (error) {
-        console.error("API Error:", error);
-        toast.error(`Network Error: ${error instanceof Error ? error.message : 'Failed to connect to server'}`);
-      }
+      };
+      
+      ws.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        console.log('WebSocket readyState on error:', ws.readyState);
+        toast.error('Failed to connect to optimization server');
+        onOptimizationComplete(null);
+      };
+      
+      ws.onclose = (event) => {
+        console.log('WebSocket connection closed:', event.code, event.reason);
+      };
     }
   };
 
@@ -434,15 +527,26 @@ export default function ManualInputTab({
               Add all the roll sizes and requirements you need to optimize.
             </p>
           </div>
-          <Button
-            onClick={addRollSpec}
-            variant="outline"
-            size="sm"
-            className="flex items-center gap-2 bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
-          >
-            <PlusIcon className="h-4 w-4" />
-            Add Roll
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={copyJsonData}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2 bg-gradient-to-r from-green-400 to-green-400 hover:from-green-700 hover:to-green-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+            >
+              <ClipboardDocumentIcon className="h-4 w-4" />
+              Copy JSON
+            </Button>
+            <Button
+              onClick={addRollSpec}
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-2 bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+            >
+              <PlusIcon className="h-4 w-4" />
+              Add Roll
+            </Button>
+          </div>
         </div>
         <CardContent className="p-6">
           <div className="overflow-x-auto">

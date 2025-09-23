@@ -12,31 +12,48 @@ import {
 import ManualInputTab from "@/components/manual-input-tab";
 import ExcelUploadTab from "@/components/excel-upload-tab";
 import ResultsTab from "@/components/results-tab";
+import WebSocketStatus from "@/components/websocket-status";
+import OptimizationProgress from "@/components/optimization-progress";
 
 interface RunPageProps {
-  onOptimize: (data: any, source: "manual" | "excel") => Promise<void>;
+  onOptimizationSuccess: (data: any) => void;
   isOptimizing: boolean;
+  setIsOptimizing: (value: boolean) => void;
   optimizationResults: any;
+  setOptimizationResults: (data: any) => void;
 }
 
 export default function RunPage({
-  onOptimize,
+  onOptimizationSuccess,
   isOptimizing,
+  setIsOptimizing,
   optimizationResults,
+  setOptimizationResults,
 }: RunPageProps) {
   const [activeTab, setActiveTab] = useState("manual");
   const [resultSource, setResultSource] = useState<"manual" | "excel" | null>(
     null
   );
+  const [wsConnected, setWsConnected] = useState(false);
+  const [wsMessage, setWsMessage] = useState<string>("");
   const resultsRef = useRef<HTMLDivElement | null>(null);
 
-  const handleOptimize = async (data: any, source: "manual" | "excel") => {
-    if (data === null) {
-      setResultSource(null);
-    } else {
+  const handleOptimizationStart = (source: "manual" | "excel") => {
+    setResultSource(null);
+    setOptimizationResults(null);
+    setIsOptimizing(true);
+  };
+
+  const handleOptimizationComplete = (data: any, source: "manual" | "excel") => {
+    setIsOptimizing(false);
+    if (data) {
       setResultSource(source);
+      setOptimizationResults(data);
+      onOptimizationSuccess(data);
+    } else {
+      setResultSource(null);
+      setOptimizationResults(null);
     }
-    await onOptimize(data, source);
   };
 
   // When results arrive, scroll into view within the active tab
@@ -63,6 +80,26 @@ export default function RunPage({
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6">
+        {/* WebSocket Status */}
+        {/* <div className="mb-4">
+          <WebSocketStatus 
+            isConnected={wsConnected}
+            isOptimizing={isOptimizing}
+            lastMessage={wsMessage}
+          />
+        </div>
+         */}
+        {/* Optimization Progress */}
+        {isOptimizing && (
+          <div className="mb-6">
+            <OptimizationProgress 
+              isOptimizing={isOptimizing}
+              message={wsMessage || "Processing your optimization request..."}
+              estimatedTime="1-3 minutes"
+            />
+          </div>
+        )}
+        
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-8 bg-blue-100/50 backdrop-blur-sm">
             <TabsTrigger
@@ -81,7 +118,12 @@ export default function RunPage({
 
           <TabsContent value="manual" className="space-y-6 animate-fade-in">
             <ManualInputTab
-              onOptimize={handleOptimize}
+              onOptimizationStart={() => {
+                setWsConnected(true);
+                setWsMessage("Connecting to optimization server...");
+                handleOptimizationStart("manual");
+              }}
+              onOptimizationComplete={(data) => handleOptimizationComplete(data, "manual")}
               isOptimizing={isOptimizing}
               optimizationResults={optimizationResults}
             />
@@ -97,7 +139,12 @@ export default function RunPage({
 
           <TabsContent value="excel" className="space-y-6 animate-fade-in">
             <ExcelUploadTab
-              onOptimize={handleOptimize}
+              onOptimizationStart={() => {
+                setWsConnected(true);
+                setWsMessage("Connecting to file optimization server...");
+                handleOptimizationStart("excel");
+              }}
+              onOptimizationComplete={(data) => handleOptimizationComplete(data, "excel")}
               isOptimizing={isOptimizing}
             />
             {optimizationResults && resultSource === "excel" && (
