@@ -9,17 +9,29 @@ interface LoaderProps {
 
 export default function Loader({ isVisible }: LoaderProps) {
   const [progress, setProgress] = useState(0);
+  const [stage, setStage] = useState(0);
+
+  const stages = [
+    "Analyzing requirements...",
+    "Reducing waste...", 
+    "Generating patterns...",
+    "Optimizing cuts...",
+    "Finalizing layout..."
+  ];
 
   useEffect(() => {
     if (!isVisible) {
       setProgress(0);
+      setStage(0);
       return;
     }
 
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 95) return prev;
-        return prev + Math.random() * 3;
+        const newProgress = prev + Math.random() * 3;
+        setStage(Math.floor(newProgress / 20));
+        return newProgress;
       });
     }, 200);
 
@@ -50,36 +62,71 @@ export default function Loader({ isVisible }: LoaderProps) {
           <p className="text-sm text-gray-600">Processing your requirements...</p>
         </div>
 
-        {/* Roll Cutter Animation */}
-        <div className="relative h-24 mb-6 overflow-hidden">
+        {/* Roll Unrolling Animation */}
+        <div className="relative h-32 mb-6 overflow-hidden bg-gray-50 rounded-lg">
           {/* Roll */}
           <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-400 to-blue-600 animate-spin-slow relative shadow-lg">
-              <div className="absolute inset-2 rounded-full bg-gradient-to-r from-blue-300 to-blue-500"></div>
-              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-blue-200 to-blue-400"></div>
+            <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-blue-700 relative shadow-xl" 
+                 style={{ animation: 'spin 3s linear infinite' }}>
+              <div className="absolute inset-2 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+              <div className="absolute inset-4 rounded-full bg-gradient-to-r from-blue-300 to-blue-500"></div>
+              <div className="absolute inset-6 rounded-full bg-white opacity-30"></div>
             </div>
           </div>
 
-          {/* Cutter Line */}
-          <div 
-            className="absolute top-1/2 h-0.5 bg-gradient-to-r from-red-500 to-orange-500 shadow-lg transition-all duration-300"
-            style={{
-              left: '5rem',
-              width: `${Math.min(progress * 2, 100)}%`,
-              transform: 'translateY(-50%)',
-              boxShadow: '0 0 10px rgba(239, 68, 68, 0.6)'
-            }}
-          ></div>
-
           {/* Unrolling Sheet */}
           <div 
-            className="absolute top-1/2 h-8 bg-gradient-to-r from-gray-100 to-white border border-gray-200 transition-all duration-300"
+            className="absolute top-1/2 h-12 bg-gradient-to-b from-white to-gray-100 border-t border-b border-gray-300 transition-all duration-500 shadow-md"
             style={{
-              left: '5rem',
-              width: `${progress * 2}%`,
+              left: '6rem',
+              width: `${Math.min(progress * 3, 280)}px`,
               transform: 'translateY(-50%)'
             }}
-          ></div>
+          >
+            {/* Cut Patterns */}
+            {progress > 20 && (
+              <div className="absolute inset-0 opacity-30">
+                {Array.from({ length: Math.floor(progress / 15) }).map((_, i) => (
+                  <div key={i} 
+                       className="absolute border-l border-dashed border-gray-400" 
+                       style={{ left: `${20 + i * 25}px`, height: '100%' }} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Laser Cutter */}
+          <div 
+            className="absolute top-1/2 w-1 bg-gradient-to-b from-red-400 to-red-600 transition-all duration-300"
+            style={{
+              left: `${96 + Math.min(progress * 2.8, 260)}px`,
+              height: '60px',
+              transform: 'translateY(-50%)',
+              boxShadow: '0 0 15px rgba(239, 68, 68, 0.8), 0 0 30px rgba(239, 68, 68, 0.4)',
+              opacity: progress > 10 ? 1 : 0
+            }}
+          >
+            <div className="absolute -top-2 -left-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+            <div className="absolute -bottom-2 -left-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+          </div>
+
+          {/* Grid Pattern (Final State) */}
+          {progress > 90 && (
+            <div className="absolute top-1/2 transition-all duration-1000" 
+                 style={{
+                   left: '6rem',
+                   width: `${Math.min(progress * 3, 280)}px`,
+                   height: '48px',
+                   transform: 'translateY(-50%)'
+                 }}>
+              <div className="grid grid-cols-6 grid-rows-3 gap-0.5 h-full opacity-60">
+                {Array.from({ length: 18 }).map((_, i) => (
+                  <div key={i} className="bg-blue-200 border border-blue-300 animate-pulse" 
+                       style={{ animationDelay: `${i * 50}ms` }} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Progress Bar */}
@@ -96,10 +143,17 @@ export default function Loader({ isVisible }: LoaderProps) {
           </div>
         </div>
 
-        {/* Status Text */}
-        <div className="text-center text-sm text-gray-500">
-          Analyzing cutting patterns and optimizing waste reduction...
+        {/* Dynamic Status Text */}
+        <div className="text-center text-sm text-gray-500 h-5">
+          <span className="animate-pulse">{stages[Math.min(stage, stages.length - 1)]}</span>
         </div>
+        
+        <style jsx>{`
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     </div>,
     document.body

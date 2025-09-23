@@ -23,10 +23,10 @@ interface ResultsTabProps {
 }
 
 export default function ResultsTab({ results, formData }: ResultsTabProps) {
-  const [showDetailedView, setShowDetailedView] = useState(true);
   const [selectedStrategy, setSelectedStrategy] = useState<
     "min_cutter_changes" | "min_wastage"
   >("min_wastage");
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
   // console.log(results)
   if (!results || !results.data) {
     return (
@@ -38,81 +38,143 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
   const responseData = results.data || results;
 
   const currentStrategy = responseData.strategies[selectedStrategy];
-  const currentResult = currentStrategy.results[0];
+  
+  // Get bucket performance metrics
+  const getBucketMetrics = (bucket: any) => {
+    const avgEfficiency = bucket.cutting_plans.reduce((acc: number, plan: any) => acc + plan.usage_percent, 0) / bucket.cutting_plans.length;
+    return {
+      avgEfficiency,
+      totalWastage: bucket.summary.total_wastage_mm,
+      cutterChanges: bucket.summary.total_cutter_changes,
+      rollsUsed: bucket.summary.total_stock_rolls
+    };
+  };
 
   const handleExportPDF = () => {
     const printWindow = window.open("", "_blank");
     if (printWindow) {
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>Pattern Details Table</title>
-            <style>
-              body { font-family: Arial, sans-serif; margin: 20px; }
-              table { width: 100%; border-collapse: collapse; }
-              th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-              th { background-color: #f5f5f5; font-weight: bold; }
-              tr:nth-child(even) { background-color: #f9f9f9; }
-            </style>
-          </head>
-          <body>
-            <h2>Pattern Details Table</h2>
-            <table>
+      const allTablesHTML = currentStrategy.results.map((bucket: any, bucketIndex: number) => {
+        const bucketLabel = bucket.size_bucket || `Bucket ${bucketIndex + 1}`;
+        const metrics = getBucketMetrics(bucket);
+        
+        return `
+          <div style="margin-bottom: 40px; page-break-inside: avoid;">
+            <h3 style="color: #1f2937; margin-bottom: 10px; padding: 10px; background-color: #f3f4f6; border-left: 4px solid #3b82f6;">
+              ${bucketLabel} - Efficiency: ${metrics.avgEfficiency.toFixed(1)}% | Wastage: ${metrics.totalWastage}mm
+            </h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
               <thead>
-                <tr>
-                  <th>Sr. No.</th>
-                  <th>Item Name</th>
-                  <th>Sets</th>
+                <tr style="background-color: #f5f5f5;">
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Sr. No.</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Item Name</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Sets</th>
                   ${Array.from(
                     { length: responseData.no_of_cut },
-                    (_, i) => `<th>Size ${i + 1}</th>`
+                    (_, i) => `<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Size ${i + 1}</th>`
                   ).join("")}
-                  <th>Waste/Set (mm)</th>
-                  <th>Total Waste (mm)</th>
-                  <th>Waste Qty/Set</th>
-                  <th>Total Waste Qty</th>
-                  <th>Usage/Set (mm)</th>
-                  <th>Total Usage (mm)</th>
-                  <th>Usage Qty/Set</th>
-                  <th>Total Usage Qty</th>
-                  <th>Usage %</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Waste/Set (mm)</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Total Waste (mm)</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Waste Qty/Set</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Total Waste Qty</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Usage/Set (mm)</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Total Usage (mm)</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Usage Qty/Set</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Total Usage Qty</th>
+                  <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Usage %</th>
                 </tr>
               </thead>
               <tbody>
-                ${currentResult.cutting_plans
+                ${bucket.cutting_plans
                   .map((plan: any, i: any) => {
                     const activeSizes = plan.sizes.filter(
                       (s: any) => s.actual_size > 0
                     );
                     return `
-                    <tr>
-                      <td>${i + 1}</td>
-                      <td>${plan.item_details.item_name}</td>
-                      <td>${plan.sets}</td>
+                    <tr style="${i % 2 === 0 ? 'background-color: #f9f9f9;' : ''}">
+                      <td style="border: 1px solid #ddd; padding: 8px;">${i + 1}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px; color: #2563eb; font-weight: 500;">${plan.item_details.item_name}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.sets}</td>
                       ${Array.from(
                         { length: responseData.no_of_cut },
                         (_, i) => {
                           const size = activeSizes[i];
-                          return `<td>${
+                          return `<td style="border: 1px solid #ddd; padding: 8px;">${
                             size ? `${size.actual_size}${size.uom}` : "-"
                           }</td>`;
                         }
                       ).join("")}
-                      <td>${plan.wastage_mm}</td>
-                      <td>${plan.total_wastage_mm}</td>
-                      <td>${plan.wastage_qty}</td>
-                      <td>${plan.total_wastage_qty}</td>
-                      <td>${plan.usage_mm}</td>
-                      <td>${plan.total_usage_mm}</td>
-                      <td>${plan.usage_qty}</td>
-                      <td>${plan.total_usage_qty}</td>
-                      <td>${plan.usage_percent.toFixed(2)}%</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.wastage_mm}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.total_wastage_mm}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.wastage_qty || 0}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.total_wastage_qty || 0}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.usage_mm}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.total_usage_mm}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.usage_qty || 0}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.total_usage_qty || 0}</td>
+                      <td style="border: 1px solid #ddd; padding: 8px; color: #059669; font-weight: 500;">${plan.usage_percent.toFixed(2)}%</td>
                     </tr>
                   `;
                   })
                   .join("")}
               </tbody>
             </table>
+          </div>
+        `;
+      }).join("");
+      
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Cutting Optimization Results - ${selectedStrategy.replace('_', ' ').toUpperCase()}</title>
+            <style>
+              body { 
+                font-family: Arial, sans-serif; 
+                margin: 20px; 
+                line-height: 1.4;
+              }
+              h1 {
+                color: #1f2937;
+                border-bottom: 2px solid #3b82f6;
+                padding-bottom: 10px;
+                margin-bottom: 30px;
+              }
+              h3 {
+                margin-top: 30px;
+                margin-bottom: 15px;
+              }
+              table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                margin-bottom: 30px;
+                font-size: 12px;
+              }
+              th, td { 
+                border: 1px solid #ddd; 
+                padding: 6px; 
+                text-align: left; 
+              }
+              th { 
+                background-color: #f5f5f5; 
+                font-weight: bold; 
+                font-size: 11px;
+              }
+              @media print {
+                body { margin: 10px; }
+                .page-break { page-break-before: always; }
+              }
+            </style>
+          </head>
+          <body>
+            <h1>Cutting Optimization Results</h1>
+            <div style="margin-bottom: 20px; padding: 15px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;">
+              <strong>Strategy:</strong> ${selectedStrategy.replace('_', ' ').toUpperCase()}<br>
+              <strong>Total Rolls Used:</strong> ${currentStrategy.total_rolls_used}<br>
+              <strong>Total Wastage:</strong> ${currentStrategy.total_wastage_mm}mm<br>
+              <strong>Total Cutter Changes:</strong> ${currentStrategy.total_cutter_changes}<br>
+              <strong>Decal Size:</strong> ${responseData.decal_size}mm<br>
+              <strong>Max Cuts:</strong> ${responseData.no_of_cut}
+            </div>
+            ${allTablesHTML}
           </body>
         </html>
       `);
@@ -123,52 +185,60 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
 
   const handleExportExcel = () => {
     const maxCuts = responseData.no_of_cut;
-
-    // Create size column headers
-    const sizeHeaders = Array.from(
-      { length: maxCuts },
-      (_, i) => `Size ${i + 1}`
-    );
+    const sizeHeaders = Array.from({ length: maxCuts }, (_, i) => `Size ${i + 1}`);
 
     const headers = [
       "Sr. No.",
-      "Customer Name",
-      "SO No",
-      "Decal Size (mm)",
-      "Max Cuts",
-      "Plan Number",
-      "Sets",
       "Item Name",
+      "Sets",
       ...sizeHeaders,
-      "Wastage (mm)",
-      "Usage (%)",
+      "Waste/Set (mm)",
+      "Total Waste (mm)",
+      "Waste Qty/Set",
+      "Total Waste Qty",
+      "Usage/Set (mm)",
+      "Total Usage (mm)",
+      "Usage Qty/Set",
+      "Total Usage Qty",
+      "Usage %",
     ];
 
-    const rows = currentResult.cutting_plans.map((plan: any, i: any) => {
-      const activeSizes = plan.sizes.filter((s: any) => s.actual_size > 0);
-      const sizeColumns = Array.from({ length: maxCuts }, (_, i) => {
-        const size = activeSizes[i];
-        return size ? `${size.actual_size}${size.uom}` : "-";
+    let csvContent = "";
+    
+    currentStrategy.results.forEach((bucket: any, bucketIndex: number) => {
+      const bucketLabel = bucket.size_bucket || `Bucket ${bucketIndex + 1}`;
+      
+      // Add bucket header
+      csvContent += `\n${bucketLabel}\n`;
+      csvContent += headers.join(",") + "\n";
+      
+      // Add bucket data
+      bucket.cutting_plans.forEach((plan: any, planIndex: number) => {
+        const activeSizes = plan.sizes.filter((s: any) => s.actual_size > 0);
+        const sizeColumns = Array.from({ length: maxCuts }, (_, i) => {
+          const size = activeSizes[i];
+          return size ? `${size.actual_size}${size.uom}` : "-";
+        });
+
+        const row = [
+          planIndex + 1,
+          plan.item_details.item_name,
+          plan.sets,
+          ...sizeColumns,
+          plan.wastage_mm,
+          plan.total_wastage_mm,
+          plan.wastage_qty || 0,
+          plan.total_wastage_qty || 0,
+          plan.usage_mm,
+          plan.total_usage_mm,
+          plan.usage_qty || 0,
+          plan.total_usage_qty || 0,
+          plan.usage_percent.toFixed(2) + "%",
+        ];
+        
+        csvContent += row.join(",") + "\n";
       });
-
-      return [
-        i + 1,
-        formData?.customerName || "N/A",
-        formData?.soNo || "N/A",
-        responseData.decal_size,
-        maxCuts,
-        plan.item_details.item_name,
-        plan.sets,
-        plan.item_details.item_name,
-        ...sizeColumns,
-        plan.wastage_mm,
-        plan.usage_percent.toFixed(2) + "%",
-      ];
     });
-
-    const csvContent = [headers, ...rows]
-      .map((row) => row.join(","))
-      .join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
@@ -180,14 +250,14 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
   };
 
   const colors = [
-    "#3B82F6", // blue-500
-    "#10B981", // emerald-500
-    "#8B5CF6", // violet-500
-    "#F59E0B", // amber-500
-    "#EF4444", // red-500
-    "#06B6D4", // cyan-500
-    "#84CC16", // lime-500
-    "#F97316", // orange-500
+    "#2563eb", // blue-600 (primary)
+    "#dc2626", // red-600 (secondary)
+    "#059669", // emerald-600
+    "#7c3aed", // violet-600
+    "#ea580c", // orange-600
+    "#0891b2", // cyan-600
+    "#65a30d", // lime-600
+    "#c2410c", // orange-700
   ];
 
   // Map IDs to consistent colors
@@ -221,17 +291,21 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             <PieChart
               data={{
                 utilized:
-                  currentResult.cutting_plans.reduce(
-                    (acc: number, plan: any) => acc + plan.usage_percent,
-                    0
-                  ) / currentResult.cutting_plans.length,
+                  currentStrategy.results.reduce(
+                    (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
+                      (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
+                    ), 0
+                  ) / currentStrategy.results.reduce(
+                    (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
+                  ),
                 wastage:
-                  100 -
-                  currentResult.cutting_plans.reduce(
-                    (acc: number, plan: any) => acc + plan.usage_percent,
-                    0
-                  ) /
-                    currentResult.cutting_plans.length,
+                  100 - currentStrategy.results.reduce(
+                    (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
+                      (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
+                    ), 0
+                  ) / currentStrategy.results.reduce(
+                    (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
+                  ),
               }}
             />
           </CardContent>
@@ -262,10 +336,13 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                 <div className="text-center">
                   <p className="text-xl font-bold text-green-600 mb-1">
                     {(
-                      currentResult.cutting_plans.reduce(
-                        (acc: number, plan: any) => acc + plan.usage_percent,
-                        0
-                      ) / currentResult.cutting_plans.length
+                      currentStrategy.results.reduce(
+                        (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
+                          (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
+                        ), 0
+                      ) / currentStrategy.results.reduce(
+                        (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
+                      )
                     ).toFixed(2)}
                     %
                   </p>
@@ -443,15 +520,15 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
         </div>
       </div>
 
-      {/* Cutting Plan with Bar Representation */}
-      <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-        <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gray-50 border-b border-gray-200 p-4 sm:p-6 py-3 space-y-2 sm:space-y-0">
-          <CardTitle className="text-gray-900">Cutting Plan</CardTitle>
-          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+      {/* Grouped Accordion for Size Buckets */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h2 className="text-xl font-bold text-gray-900">Size Bucket Results</h2>
+          <div className="flex gap-2">
             <Button
               onClick={handleExportExcel}
               size="sm"
-              className="w-full sm:w-auto px-4 py-2 text-sm font-medium bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 hover:ring-2 hover:ring-green-300"
+              className="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center border-0"
             >
               <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
               Export Excel
@@ -459,16 +536,248 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             <Button
               onClick={handleExportPDF}
               size="sm"
-              className="w-full sm:w-auto px-4 py-2 text-sm font-medium bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 hover:ring-2 hover:ring-red-300"
+              className="px-4 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center border-0"
             >
               <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
               Export PDF
             </Button>
           </div>
-        </CardHeader>
-        <CardContent className="p-4 sm:p-6">
-          <div className="space-y-6">
-            {currentResult.cutting_plans.map((plan: any, index: number) => (
+        </div>
+        
+        {/* Check if single bucket - show direct, otherwise show accordion */}
+        {currentStrategy.results.length === 1 ? (
+          // Single bucket - show directly without accordion
+          <Card className="border border-gray-200 bg-white">
+            <CardHeader className="hover:bg-gray-50 p-3">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-sm">
+                  1
+                </div>
+                <div>
+                  <CardTitle className="text-base">
+                    {currentStrategy.results[0].size_bucket}
+                  </CardTitle>
+                  <div className="flex gap-4 text-xs text-gray-600">
+                    <span>Wastage: <strong>{getBucketMetrics(currentStrategy.results[0]).totalWastage}mm</strong></span>
+                    <span>Cutter Changes: <strong>{getBucketMetrics(currentStrategy.results[0]).cutterChanges}</strong></span>
+                    <span>Rolls Used: <strong>{getBucketMetrics(currentStrategy.results[0]).rollsUsed}</strong></span>
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            
+            <CardContent className="p-3">
+              <div className="space-y-6">
+                {/* Cutting Plans */}
+                <div className="space-y-4">
+                  {currentStrategy.results[0].cutting_plans.map((plan: any, index: number) => (
+                    <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                      <div className="flex justify-between items-center mb-3">
+                        <h4 className="font-semibold text-gray-900">
+                          Plan {plan.plan_number} - {plan.item_details.item_name}
+                        </h4>
+                        <div className="flex gap-2 text-sm text-gray-600">
+                          <span>Sets: {plan.sets}</span>
+                          <span>Usage: {plan.usage_percent.toFixed(2)}%</span>
+                        </div>
+                      </div>
+                      
+                      {/* Visual Bar */}
+                      <div className="mb-3">
+                        <div className="flex rounded-lg overflow-hidden h-8 bg-gray-200">
+                          {plan.sizes
+                            .filter((size: any) => size.actual_size > 0)
+                            .map((size: any, sizeIndex: number) => {
+                              const percentage = (size.size_mm / (plan.usage_mm + plan.wastage_mm)) * 100;
+                              return (
+                                <div
+                                  key={sizeIndex}
+                                  className="flex items-center justify-center text-white text-xs font-medium"
+                                  style={{
+                                    width: `${percentage}%`,
+                                    backgroundColor: getColorForId(size.id),
+                                  }}
+                                  title={`${size.actual_size}${size.uom}`}
+                                >
+                                  {percentage > 8 && `${size.actual_size}${size.uom}`}
+                                </div>
+                              );
+                            })}
+                          {plan.wastage_mm > 0 && (
+                            <div
+                              className="flex items-center justify-center text-gray-600 text-xs"
+                              style={{
+                                width: `${(plan.wastage_mm / (plan.usage_mm + plan.wastage_mm)) * 100}%`,
+                                backgroundColor: "#E5E7EB",
+                              }}
+                            >
+                              Waste
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-1">
+                          Usage: {plan.usage_mm}mm | Wastage: {plan.wastage_mm}mm | Qty: {plan.usage_qty}
+                        </div>
+                      </div>
+                      
+                      {/* Size Details */}
+                      <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
+                        {plan.sizes
+                          .filter((size: any) => size.actual_size > 0)
+                          .map((size: any, sizeIndex: number) => (
+                            <div key={sizeIndex} className="bg-white rounded p-2 border text-center">
+                              <div className="w-2 h-2 rounded-full mx-auto mb-1" style={{ backgroundColor: getColorForId(size.id) }}></div>
+                              <p className="text-xs font-medium">{size.actual_size}{size.uom}</p>
+                              <p className="text-xs text-gray-500">{size.size_mm}mm</p>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Pattern Details Table */}
+                <div className="mt-6">
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Pattern Details</h4>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm border border-gray-200 rounded-lg">
+                      <thead>
+                        <tr className="border-b border-gray-200 bg-gray-50">
+                          <th className="text-left p-3 font-medium text-gray-900">Sr. No.</th>
+                          <th className="text-left p-3 font-medium text-gray-900">Item Name</th>
+                          <th className="text-left p-3 font-medium text-gray-900">Sets</th>
+                          {Array.from({ length: responseData.no_of_cut }, (_, i) => (
+                            <th key={i} className="text-left p-3 font-medium text-gray-900">
+                              Size {i + 1}
+                            </th>
+                          ))}
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            <div>Waste/Set</div>
+                            <div className="text-xs font-normal">(mm)</div>
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            <div>Total Waste</div>
+                            <div className="text-xs font-normal">(mm)</div>
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            <div>Waste</div>
+                            <div className="text-xs font-normal">Qty/Set</div>
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            <div>Total Waste</div>
+                            <div className="text-xs font-normal">Qty</div>
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            <div>Usage/Set</div>
+                            <div className="text-xs font-normal">(mm)</div>
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            <div>Total Usage</div>
+                            <div className="text-xs font-normal">(mm)</div>
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            <div>Usage</div>
+                            <div className="text-xs font-normal">Qty/Set</div>
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            <div>Total Usage</div>
+                            <div className="text-xs font-normal">Qty</div>
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">Usage %</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentStrategy.results[0].cutting_plans.map((plan: any, planIndex: number) => {
+                          const activeSizes = plan.sizes.filter((s: any) => s.actual_size > 0);
+                          return (
+                            <tr key={planIndex} className="border-b border-gray-100 hover:bg-gray-50">
+                              <td className="p-3 text-gray-900 font-medium">{planIndex + 1}</td>
+                              <td className="p-3 text-blue-600 font-medium">{plan.item_details.item_name}</td>
+                              <td className="p-3 text-gray-900">{plan.sets}</td>
+                              {Array.from({ length: responseData.no_of_cut }, (_, i) => {
+                                const size = activeSizes[i];
+                                return (
+                                  <td key={i} className="p-3 text-gray-900">
+                                    {size ? `${size.actual_size}${size.uom}` : "-"}
+                                  </td>
+                                );
+                              })}
+                              <td className="p-3 text-gray-900">{plan.wastage_mm}</td>
+                              <td className="p-3 text-gray-900">{plan.total_wastage_mm}</td>
+                              <td className="p-3 text-gray-900">{plan.wastage_qty || 0}</td>
+                              <td className="p-3 text-gray-900">{plan.total_wastage_qty || 0}</td>
+                              <td className="p-3 text-gray-900">{plan.usage_mm}</td>
+                              <td className="p-3 text-gray-900">{plan.total_usage_mm}</td>
+                              <td className="p-3 text-gray-900">{plan.usage_qty || 0}</td>
+                              <td className="p-3 text-gray-900">{plan.total_usage_qty || 0}</td>
+                              <td className="p-3 text-green-600 font-medium">{plan.usage_percent.toFixed(2)}%</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          // Multiple buckets - show accordion
+          currentStrategy.results.map((bucket: any, bucketIndex: number) => {
+            const bucketLabel = bucket.size_bucket || `Bucket ${bucketIndex + 1}`;
+            const metrics = getBucketMetrics(bucket);
+            const isHighPerforming = metrics.avgEfficiency > 85;
+            const isExpanded = expandedSections.has(bucket.size_bucket);
+            const rollSizes = bucket.verification?.map((v: any) => v.size_mm).join(' + ') || 'N/A';
+            
+            const toggleSection = () => {
+              const newExpanded = new Set(expandedSections);
+              if (isExpanded) {
+                newExpanded.delete(bucket.size_bucket);
+              } else {
+                newExpanded.add(bucket.size_bucket);
+              }
+              setExpandedSections(newExpanded);
+            };
+          
+            return (
+              <Card key={bucketIndex} className="border border-gray-200 bg-white">
+                <CardHeader 
+                  className="cursor-pointer hover:bg-gray-50 p-3"
+                  onClick={toggleSection}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-sm">
+                        {bucketIndex + 1}
+                      </div>
+                      <div>
+                        <CardTitle className="text-base">
+                          {bucketLabel} - Rolls: {rollSizes}
+                        </CardTitle>
+                        <div className="flex gap-4 text-xs text-gray-600">
+                          <span>Wastage: <strong>{metrics.totalWastage}mm</strong></span>
+                          <span>Cutter Changes: <strong>{metrics.cutterChanges}</strong></span>
+                          <span>Rolls Used: <strong>{metrics.rollsUsed}</strong></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      {isExpanded ? (
+                        <ChevronUpIcon className="h-4 w-4 text-gray-500" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4 text-gray-500" />
+                      )}
+                    </div>
+                  </div>
+                </CardHeader>
+              
+              {isExpanded && (
+                <CardContent className="p-3 border-t border-gray-200">
+                  <div className="space-y-6">
+                    {/* Cutting Plans */}
+                    <div className="space-y-4">
+                      {bucket.cutting_plans.map((plan: any, index: number) => (
               <div
                 key={index}
                 className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-sm transition-all duration-300 animate-slide-in"
@@ -564,130 +873,81 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                     ))}
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+                      ))}
+                    </div>
+                    
+                    {/* Pattern Details Table for this bucket */}
+                    <div className="mt-6">
+                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Pattern Details - {bucketLabel}</h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm border border-gray-200 rounded-lg">
+                          <thead>
+                            <tr className="border-b border-gray-200 bg-gray-50">
+                              <th className="text-left p-3 font-medium text-gray-900">Sr. No.</th>
+                              <th className="text-left p-3 font-medium text-gray-900">Item Name</th>
+                              <th className="text-left p-3 font-medium text-gray-900">Sets</th>
+                              {Array.from({ length: responseData.no_of_cut }, (_, i) => (
+                                <th key={i} className="text-left p-3 font-medium text-gray-900">
+                                  Size {i + 1}
+                                </th>
+                              ))}
+                              <th className="text-left p-3 font-medium text-gray-900">
+                                <div>Waste/Set</div>
+                                <div className="text-xs font-normal">(mm)</div>
+                              </th>
+                              <th className="text-left p-3 font-medium text-gray-900">
+                                <div>Total Waste</div>
+                                <div className="text-xs font-normal">(mm)</div>
+                              </th>
+                              <th className="text-left p-3 font-medium text-gray-900">
+                                <div>Usage/Set</div>
+                                <div className="text-xs font-normal">(mm)</div>
+                              </th>
+                              <th className="text-left p-3 font-medium text-gray-900">
+                                <div>Total Usage</div>
+                                <div className="text-xs font-normal">(mm)</div>
+                              </th>
+                              <th className="text-left p-3 font-medium text-gray-900">Usage %</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {bucket.cutting_plans.map((plan: any, planIndex: number) => {
+                              const activeSizes = plan.sizes.filter((s: any) => s.actual_size > 0);
+                              return (
+                                <tr key={planIndex} className="border-b border-gray-100 hover:bg-gray-50">
+                                  <td className="p-3 text-gray-900 font-medium">{planIndex + 1}</td>
+                                  <td className="p-3 text-blue-600 font-medium">{plan.item_details.item_name}</td>
+                                  <td className="p-3 text-gray-900">{plan.sets}</td>
+                                  {Array.from({ length: responseData.no_of_cut }, (_, i) => {
+                                    const size = activeSizes[i];
+                                    return (
+                                      <td key={i} className="p-3 text-gray-900">
+                                        {size ? `${size.actual_size}${size.uom}` : "-"}
+                                      </td>
+                                    );
+                                  })}
+                                  <td className="p-3 text-gray-900">{plan.wastage_mm}</td>
+                                  <td className="p-3 text-gray-900">{plan.total_wastage_mm}</td>
+                                  <td className="p-3 text-gray-900">{plan.usage_mm}</td>
+                                  <td className="p-3 text-gray-900">{plan.total_usage_mm}</td>
+                                  <td className="p-3 text-green-600 font-medium">{plan.usage_percent.toFixed(2)}%</td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              )}
+            </Card>
+            );
+          })
+        )}
+      </div>
 
-      {/* Pattern Details Table - Separate Component */}
-      <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 mt-6">
-        <CardHeader className="bg-gray-50 border-b border-gray-200 p-4 py-3">
-          <CardTitle className="text-gray-900">Pattern Details Table</CardTitle>
-        </CardHeader>
-        <CardContent className="p-6">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-gray-200 bg-gray-50">
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[60px]">
-                    Sr. No.
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[200px]">
-                    Item Name
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[80px]">
-                    Sets
-                  </th>
-                  {Array.from({ length: responseData.no_of_cut }, (_, i) => (
-                    <th
-                      key={i}
-                      className="text-left p-3 font-medium text-gray-900 min-w-[100px]"
-                    >
-                      Size {i + 1}
-                    </th>
-                  ))}
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
-                    <div>Waste/Set</div>
-                    <div className="text-xs font-normal">(mm)</div>
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
-                    <div>Total Waste</div>
-                    <div className="text-xs font-normal">(mm)</div>
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
-                    <div>Waste</div>
-                    <div className="text-xs font-normal">Qty/Set</div>
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
-                    <div>Total Waste</div>
-                    <div className="text-xs font-normal">Qty</div>
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
-                    <div>Usage/Set</div>
-                    <div className="text-xs font-normal">(mm)</div>
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
-                    <div>Total Usage</div>
-                    <div className="text-xs font-normal">(mm)</div>
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
-                    <div>Usage</div>
-                    <div className="text-xs font-normal">Qty/Set</div>
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[120px]">
-                    <div>Total Usage</div>
-                    <div className="text-xs font-normal">Qty</div>
-                  </th>
-                  <th className="text-left p-3 font-medium text-gray-900 min-w-[100px]">
-                    Usage %
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentResult.cutting_plans.map((plan: any, index: number) => {
-                  const activeSizes = plan.sizes.filter(
-                    (s: any) => s.actual_size > 0
-                  );
-                  return (
-                    <tr
-                      key={index}
-                      className="border-b border-gray-100 hover:bg-gray-50"
-                    >
-                      <td className="p-3 text-gray-900 font-medium">
-                        {index + 1}
-                      </td>
-                      <td className="p-3 text-blue-600 font-medium">
-                        {plan.item_details.item_name}
-                      </td>
-                      <td className="p-3 text-gray-900">{plan.sets}</td>
-                      {Array.from(
-                        { length: responseData.no_of_cut },
-                        (_, i) => {
-                          const size = activeSizes[i];
-                          return (
-                            <td key={i} className="p-3 text-gray-900">
-                              {size ? `${size.actual_size}${size.uom}` : "-"}
-                            </td>
-                          );
-                        }
-                      )}
-                      <td className="p-3 text-gray-900">{plan.wastage_mm}</td>
-                      <td className="p-3 text-gray-900">
-                        {plan.total_wastage_mm}
-                      </td>
-                      <td className="p-3 text-gray-900">{plan.wastage_qty}</td>
-                      <td className="p-3 text-gray-900">
-                        {plan.total_wastage_qty}
-                      </td>
-                      <td className="p-3 text-gray-900">{plan.usage_mm}</td>
-                      <td className="p-3 text-gray-900">
-                        {plan.total_usage_mm}
-                      </td>
-                      <td className="p-3 text-gray-900">{plan.usage_qty}</td>
-                      <td className="p-3 text-gray-900">
-                        {plan.total_usage_qty}
-                      </td>
-                      <td className="p-3 text-green-600 font-medium">
-                        {plan.usage_percent.toFixed(2)}%
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+
     </div>
   );
 }
