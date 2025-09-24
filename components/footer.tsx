@@ -36,11 +36,15 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/example" className="hover:text-primary transition-colors">
-                    • Examples
-                  </Link>
+                  <Link href="/example">
+                  • Examples
+                </Link>
                 </li>
-                <li>• Contact Support</li>
+                <li>
+                  <a href="https://forms.gle/M5k5Yrgc6j1u3wag7" target="_blank" className="hover:text-primary transition-colors">
+                    • Contact Support
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
