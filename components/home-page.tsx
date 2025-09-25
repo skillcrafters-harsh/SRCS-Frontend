@@ -362,6 +362,175 @@ export default function HomePage({ onNavigate }: HomePageProps) {
         </div>
       </div>
 
+      {/* Future Enhancements Section - Strategic Investment Focus */}
+      <div className="bg-gradient-to-br from-green-50 via-white to-blue-50 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Strategic Investment Hook */}
+          <div className="text-center mb-16">
+            <Badge className="bg-green-100 text-green-700 border-green-300 px-4 py-2 text-sm mb-4">
+              <CheckCircleIcon className="h-4 w-4 mr-2" />
+              Strategic Investment
+            </Badge>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+              Your Investment Today Powers Tomorrow's Growth
+            </h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Smart Roll Cutting isn't just solving today's paper cutting challenges—it's your gateway to industry-wide optimization. Our universal AI engine adapts to any roll-based material, ensuring your investment scales with your business expansion.
+            </p>
+          </div>
+
+          {/* ROI Promise */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-green-200">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="text-3xl font-bold text-green-600 mb-2">Future-Proof</div>
+                <p className="text-gray-600">One platform, multiple industries</p>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-blue-600 mb-2">Scalable ROI</div>
+                <p className="text-gray-600">Investment grows with expansion</p>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-purple-600 mb-2">Zero Risk</div>
+                <p className="text-gray-600">Proven technology foundation</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Industry Expansion Roadmap */}
+          <div className="mb-12">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-8 text-center">
+              Expanding Beyond Paper: Your Competitive Advantage
+            </h3>
+            <p className="text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+              While competitors focus on single-industry solutions, Smart Roll Cutting is building the universal optimization platform. Get ahead of the curve with technology that grows with your business.
+            </p>
+          </div>
+
+          {/* Visual Industry Cards with Business Impact */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            {/* Plastics & Film */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white">Plastics & Film</h4>
+                    <p className="text-blue-100 text-sm">Coming Q2 2024</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Expand into the $350B flexible packaging market. Same waste reduction principles, specialized for industrial wraps and packaging films.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold">
+                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  Projected 35% waste reduction
+                </div>
+              </div>
+            </div>
+
+            {/* Textiles & Fabrics */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white">Textiles & Fabrics</h4>
+                    <p className="text-green-100 text-sm">Coming Q3 2024</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Enter the $1.3T textile industry with pattern-aware optimization. Handle complex fabric layouts from apparel to automotive upholstery.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold">
+                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  Projected 25% material savings
+                </div>
+              </div>
+            </div>
+
+            {/* Metal & Coil */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gradient-to-r from-gray-500 to-gray-600 p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white">Metal & Coil Processing</h4>
+                    <p className="text-gray-100 text-sm">Coming Q4 2024</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Optimize high-value metal coil cutting for steel, aluminum, and specialty alloys. Maximize yield from expensive raw materials.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold">
+                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  Projected $500K+ annual savings
+                </div>
+              </div>
+            </div>
+
+            {/* Adhesives & Labels */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white">Precision Labels</h4>
+                    <p className="text-purple-100 text-sm">Coming 2025</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  High-precision optimization for adhesive materials and intricate label cutting with perfect alignment and zero waste tolerance.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold">
+                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  Projected 99.5% precision rate
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Investment CTA */}
+          <div className="text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">Secure Your Multi-Industry Advantage Today</h3>
+            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+              Start with paper optimization now. Automatically unlock new industries as we expand—no additional setup, no extra costs for existing customers.
+            </p>
+            <Button 
+              onClick={() => onNavigate("run")}
+              className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3"
+            >
+              Lock In Your Future Advantage
+              <ArrowRightIcon className="h-5 w-5 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
       {/* Social Proof and Credibility Section */}
       <div className="bg-white py-12 sm:py-16 lg:py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">

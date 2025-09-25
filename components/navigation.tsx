@@ -28,7 +28,7 @@ export default function Navigation() {
             </div>
             <div className="w-[100%]">
               <div className="text-lg sm:text-xl font-bold text-foreground uppercase" style={{fontFamily: 'Helvetica', color: '#08429d'}}>Smart Roll</div>
-              <div className="text-sm sm:text-[11px] uppercase w-[85%] mx-auto">Cutting Solution</div>
+              <div className="md:text-[10px] text-[9px] uppercase w-[85%] mx-auto">Cutting Solution</div>
             </div>
           </Link>
 
