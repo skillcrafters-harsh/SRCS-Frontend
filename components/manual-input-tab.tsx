@@ -400,24 +400,24 @@ export default function ManualInputTab({
   };
 
   return (
-    <div className="space-y-2 animate-fade-in">
+    <div className="space-y-3 sm:space-y-4 lg:space-y-6 animate-fade-in">
       <Loader isVisible={isOptimizing} />
 
       {/* Basic Information */}
       <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
-        <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 ">
-          <CardTitle className="text-vw-lg font-semibold">
+        <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 p-4 sm:p-6">
+          <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold">
             1. Enter Your Roll Details
           </CardTitle>
-          <p className="text-vw-sm mt-1">
+          <p className="text-xs sm:text-sm md:text-base mt-1 sm:mt-2">
             Begin by providing the key inputs for your optimization run.
           </p>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-3 sm:p-4 md:p-6 border-b border-blue-100">
-          <div className="space-y-2">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 p-3 sm:p-4 md:p-6 border-b border-blue-100">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label
               htmlFor="motherRollWidth"
-              className="text-sm font-semibold text-gray-900"
+              className="text-xs sm:text-sm font-semibold text-gray-900"
             >
               Mother Roll Width (mm) <span className="text-red-500">*</span>
             </Label>
@@ -432,10 +432,10 @@ export default function ManualInputTab({
               className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label
               htmlFor="maxCuts"
-              className="text-sm font-semibold text-gray-900"
+              className="text-xs sm:text-sm font-semibold text-gray-900"
             >
               Max Cuts per Roll <span className="text-red-500">*</span>
             </Label>
@@ -448,10 +448,10 @@ export default function ManualInputTab({
               className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label
               htmlFor="customerName"
-              className="text-sm font-semibold text-gray-900"
+              className="text-xs sm:text-sm font-semibold text-gray-900"
             >
               Customer Name
             </Label>
@@ -466,10 +466,10 @@ export default function ManualInputTab({
               className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
             />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-1.5 sm:space-y-2">
             <Label
               htmlFor="soNo"
-              className="text-sm font-semibold text-gray-900"
+              className="text-xs sm:text-sm font-semibold text-gray-900"
             >
               SO No (Sales Order)
             </Label>
@@ -486,10 +486,10 @@ export default function ManualInputTab({
 
         {/* Optional Fields */}
         <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-blue-100">
-          <h3 className="text-vw-base font-semibold text-gray-900 mb-4">
+          <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
             Configure Optional Fields
           </h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
             {["dia", "bf", "gsm", "quality", "quantity"].map((field) => (
               <div
                 key={field}
@@ -506,10 +506,10 @@ export default function ManualInputTab({
                 />
                 <Label
                   htmlFor={`${field}-checkbox`}
-                  className="text-vw-xs font-medium cursor-pointer text-gray-900"
+                  className="text-xs sm:text-sm font-medium cursor-pointer text-gray-900"
                 >
                   {field.toUpperCase()}
-                  <div className="text-xs font-normal text-gray-600">
+                  <div className="text-[10px] sm:text-xs font-normal text-gray-600">
                     {field === "dia" && "Roll Diameter in inches"}
                     {field === "bf" && "Bursting Factor (strength)"}
                     {field === "gsm" && "Grams per Square Meter"}
@@ -523,25 +523,26 @@ export default function ManualInputTab({
         </div>
 
         {/* Roll Specifications */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 px-3 sm:px-4 md:px-6 gap-3 md:gap-0">
-          <div className="flex flex-col items-start">
-            <h3 className="text-vw-base font-semibold">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 px-3 sm:px-4 md:px-6 gap-3 sm:gap-2 md:gap-0">
+          <div className="flex flex-col items-start flex-1">
+            <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold">
               2. Cutting Specifications
             </h3>
-            <p className="text-vw-xs">
+            <p className="text-xs sm:text-sm md:text-base text-gray-600">
               Add all the roll sizes and requirements you need to optimize.
             </p>
           </div>
-          <div className="flex flex-row sm:flex-row gap-2 w-full md:w-auto justify-end">
+          <div className="flex flex-row gap-2 w-full sm:w-auto justify-end sm:justify-start">
             <div>
               <Button
                 onClick={copyJsonData}
                 variant="outline"
                 size="sm"
-                className="flex cursor-pointer items-center gap-2 bg-gradient-to-r from-green-400 to-green-400 hover:from-green-700 hover:to-green-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+                className="flex cursor-pointer items-center gap-1 sm:gap-2 bg-gradient-to-r from-green-400 to-green-400 hover:from-green-700 hover:to-green-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0 text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
               >
-                <ClipboardDocumentIcon className="h-4 w-4" />
-                Copy JSON
+                <ClipboardDocumentIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline">Copy JSON</span>
+                <span className="xs:hidden">Copy</span>
               </Button>
             </div>
             <div>
@@ -549,10 +550,11 @@ export default function ManualInputTab({
                 onClick={addRollSpec}
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-2 cursor-pointer bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+                className="flex items-center gap-1 sm:gap-2 cursor-pointer bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0 text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
               >
-                <PlusIcon className="h-4 w-4" />
-                Add Roll
+                <PlusIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline">Add Roll</span>
+                <span className="xs:hidden">Add</span>
               </Button>
             </div>
           </div>
