@@ -25,7 +25,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
   return (
     <div className="space-y-0">
       {/* Hero Section - Problem-Solution Hook */}
-      <div className="relative h-[100vh] md:min-h-[100vh] flex items-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900">
+      <div className="relative min-h-screen sm:min-h-[80vh] lg:min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900">
         {/* Background Video/Image Option */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
@@ -36,59 +36,54 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           />
         </div>
 
-        <div className="relative z-10 max-w-[100rem] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-          {" "}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
             {/* Text Content */}
-            <div className="text-white space-y-4 lg:space-y-6 text-center lg:text-left">
-              <div className="space-y-3 lg:space-y-4">
-                {/* <Badge className="bg-red-500/20 text-red-300 border-red-500/30 px-3 py-1 text-xs sm:text-sm inline-flex items-center">
-                  <ExclamationTriangleIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-                  Stop Losing Money
-                </Badge> */}
-                <h1 className="text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight">
+            <div className="text-white space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left">
+              <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+                <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight">
                   Stop Wasteful Roll Cutting.
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 block mt-1">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 block mt-1 sm:mt-2">
                     Start Boosting Profits.
                   </span>
                 </h1>
-                <p className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed">
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                   Smart Roll Cutting's AI-powered platform transforms manual,
                   error-prone material planning into automated, optimized
                   production.
                 </p>
               </div>
 
-              <div className="flex flex-row gap-2 sm:gap-3 justify-center lg:justify-start">
+              <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                 <Button
                   onClick={() => router.push("/run")}
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-3 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 text-xs sm:text-base lg:text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl flex-1 sm:flex-none cursor-pointer"
+                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 xs:px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 text-sm xs:text-base sm:text-lg lg:text-xl font-semibold transition-all duration-300 hover:scale-105 shadow-xl cursor-pointer"
                 >
-                  <span className="sm:hidden">Start Trial</span>
-                  <span className="hidden sm:inline">
+                  <span className="xs:hidden">Start Trial</span>
+                  <span className="hidden xs:inline">
                     Start Your Free Trial
                   </span>
-                  <ArrowRightIcon className="h-3 w-3 sm:h-5 sm:w-5 ml-1 sm:ml-2" />
+                  <ArrowRightIcon className="h-4 w-4 sm:h-5 sm:w-5 ml-2" />
                 </Button>
                 <Button
                   onClick={() => onNavigate("api-docs")}
                   variant="outline"
-                  className="border-white/30 text-white px-3 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4 text-xs sm:text-base lg:text-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 flex-1 sm:flex-none cursor-pointer"
+                  className="border-white/30 text-white px-4 xs:px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 text-sm xs:text-base sm:text-lg lg:text-xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 cursor-pointer"
                 >
-                  <span className="sm:hidden">Demo</span>
-                  <span className="hidden sm:inline">Request a Demo</span>
+                  <span className="xs:hidden">Demo</span>
+                  <span className="hidden xs:inline">Request a Demo</span>
                 </Button>
               </div>
             </div>
 
             {/* Video/Image Placeholder */}
-            <div className="relative mt-6 lg:mt-0">
-              <div className="aspect-video bg-gray-800/50 rounded-xl lg:rounded-2xl border border-white/20 backdrop-blur-sm flex items-center justify-center">
-                <div className="text-center space-y-2 sm:space-y-3">
+            <div className="relative mt-6 lg:mt-0 order-first lg:order-last">
+              <div className="aspect-video bg-gray-800/50 rounded-lg sm:rounded-xl lg:rounded-2xl border border-white/20 backdrop-blur-sm flex items-center justify-center">
+                <div className="text-center space-y-2 sm:space-y-3 lg:space-y-4">
                   <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto">
                     <PlayIcon className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-white" />
                   </div>
-                  <p className="text-white/80 text-xs sm:text-sm">
+                  <p className="text-white/80 text-xs sm:text-sm lg:text-base">
                     Watch Our Solution in Action
                   </p>
                 </div>
@@ -99,80 +94,80 @@ export default function HomePage({ onNavigate }: HomePageProps) {
       </div>
 
       {/* Problem Agitation Section */}
-      <div className="bg-gray-50 py-12 sm:py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+      <div className="bg-gray-50 py-8 sm:py-12 md:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 lg:mb-6">
               Reduce Waste, Save Costs
             </h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
               Every day you delay optimization, you're losing money. Here's
               what's really costing you:
             </p>
           </div>
 
           {/* Problem 1: Material Wastage & Rising Costs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
-            <div className="space-y-6">
-              <div className="inline-flex items-center px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-semibold">
-                <ExclamationTriangleIcon className="h-4 w-4 mr-2" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center mb-12 sm:mb-16 lg:mb-20">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-red-100 text-red-700 rounded-full text-xs sm:text-sm font-semibold">
+                <ExclamationTriangleIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
                 Problem #1
               </div>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+              <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
                 Are You Throwing Profits Away?
               </h3>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
                 Manual calculations and inefficient cutting patterns lead to
                 massive material scrap. Every inch of wasted paper is money lost
                 directly from your bottom line, causing your operational costs
                 to spiral upwards.
               </p>
-              <div className="bg-red-50 border-l-4 border-red-400 p-4">
-                <p className="text-red-800 font-semibold">
+              <div className="bg-red-50 border-l-4 border-red-400 p-3 sm:p-4">
+                <p className="text-red-800 font-semibold text-sm sm:text-base lg:text-lg">
                   "The average manufacturer loses 15-25% of material to poor
                   cutting patterns. That's thousands of dollars every month."
                 </p>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative order-first lg:order-last">
               <img
                 src="/hcsuhcishcs.png"
                 alt="High Material Wastage - Frustrated worker with waste pile"
-                className="rounded-2xl shadow-2xl w-full h-auto"
+                className="rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl lg:shadow-2xl w-full h-auto"
               />
-              <div className="absolute -top-4 -right-4 bg-red-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
+              <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-red-500 text-white px-2 py-1 sm:px-3 sm:py-1.5 lg:px-4 lg:py-2 rounded-full font-bold text-xs sm:text-sm lg:text-base">
                 Costs Rising
               </div>
             </div>
           </div>
 
           {/* Problem 2: Downtime & Lost Productivity */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center mb-12 sm:mb-16 lg:mb-20">
             <div className="order-2 lg:order-1 relative">
               <img
                 src="/_wasteNdowntime.png"
                 alt="Downtime and Lost Productivity - Worker with hands up"
-                className="rounded-2xl shadow-2xl w-full h-auto"
+                className="rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl lg:shadow-2xl w-full h-auto"
               />
-              <div className="absolute -bottom-4 -left-4 bg-orange-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-lg">
+              <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-orange-500 text-white px-2 py-1 sm:px-3 sm:py-1.5 lg:px-4 lg:py-2 rounded-full font-bold text-xs sm:text-sm lg:text-base">
                 Profit Loss
               </div>
             </div>
-            <div className="order-1 lg:order-2 space-y-6">
-              <div className="inline-flex items-center px-4 py-2 bg-orange-100 text-orange-700 rounded-full text-sm font-semibold">
-                <ClockIcon className="h-4 w-4 mr-2" />
+            <div className="order-1 lg:order-2 space-y-4 sm:space-y-6">
+              <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-orange-100 text-orange-700 rounded-full text-xs sm:text-sm font-semibold">
+                <ClockIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
                 Problem #2
               </div>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+              <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
                 Downtime is Your Biggest Enemy.
               </h3>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
                 Miscalculations don't just waste material; they halt production.
                 Machine downtime, re-runs, and rework kill productivity, delay
                 orders, and erode your competitive edge.
               </p>
-              <div className="bg-orange-50 border-l-4 border-orange-400 p-4">
-                <p className="text-orange-800 font-semibold">
+              <div className="bg-orange-50 border-l-4 border-orange-400 p-3 sm:p-4">
+                <p className="text-orange-800 font-semibold text-sm sm:text-base lg:text-lg">
                   "Every hour of unplanned downtime costs manufacturers an
                   average of $260,000 per year."
                 </p>
@@ -181,34 +176,34 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
 
           {/* Problem 3: Maintenance & Frequent Changes */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
-            <div className="space-y-6">
-              <div className="inline-flex items-center px-4 py-2 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">
-                <WrenchScrewdriverIcon className="h-4 w-4 mr-2" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-purple-100 text-purple-700 rounded-full text-xs sm:text-sm font-semibold">
+                <WrenchScrewdriverIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
                 Problem #3
               </div>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+              <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
                 Frequent Cutter Changes Draining Your Resources?
               </h3>
-              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
                 Sub-optimal cutting plans can lead to excessive wear and tear on
                 your machinery, necessitating frequent, costly cutter changes
                 and increasing your overall maintenance expenditure.
               </p>
-              <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
-                <p className="text-purple-800 font-semibold">
+              <div className="bg-purple-50 border-l-4 border-purple-400 p-3 sm:p-4">
+                <p className="text-purple-800 font-semibold text-sm sm:text-base lg:text-lg">
                   "Poor cutting patterns can increase maintenance costs by up to
                   40% due to excessive equipment wear."
                 </p>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative order-first lg:order-last">
               <img
                 src="/cutterChangeProblem.png"
                 alt="Higher Maintenance Costs - Worker fixing cutter"
-                className="rounded-2xl shadow-2xl w-full h-auto"
+                className="rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl lg:shadow-2xl w-full h-auto"
               />
-              <div className="absolute -top-4 -right-4 bg-purple-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
+              <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-purple-500 text-white px-2 py-1 sm:px-3 sm:py-1.5 lg:px-4 lg:py-2 rounded-full font-bold text-xs sm:text-sm lg:text-base">
                 Higher Costs
               </div>
             </div>
