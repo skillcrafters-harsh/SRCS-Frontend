@@ -427,7 +427,7 @@ export default function ExcelUploadTab({
                     variant="outline"
                     asChild
                     size="sm"
-                    className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+                    className="sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
                   >
                     <span>Browse Files</span>
                   </Button>
@@ -552,7 +552,7 @@ export default function ExcelUploadTab({
           onClick={handleOptimize}
           disabled={!isFormValid() || isOptimizing}
           size="sm"
-          className="w-full sm:w-auto px-3 cursor-pointer sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+          className="sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
         >
           {isOptimizing ? (
             <>
