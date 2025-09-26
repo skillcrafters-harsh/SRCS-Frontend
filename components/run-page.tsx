@@ -44,7 +44,10 @@ export default function RunPage({
     setIsOptimizing(true);
   };
 
-  const handleOptimizationComplete = (data: any, source: "manual" | "excel") => {
+  const handleOptimizationComplete = (
+    data: any,
+    source: "manual" | "excel"
+  ) => {
     setIsOptimizing(false);
     if (data) {
       setResultSource(source);
@@ -79,9 +82,9 @@ export default function RunPage({
           Submit your cutting requirements and get optimized cutting patterns
         </CardDescription>
       </CardHeader>
-      <CardContent className="p-6">
-        {/* WebSocket Status */}
-        {/* <div className="mb-4">
+      {/* <CardContent className="p-6"> */}
+      {/* WebSocket Status */}
+      {/* <div className="mb-4">
           <WebSocketStatus 
             isConnected={wsConnected}
             isOptimizing={isOptimizing}
@@ -89,75 +92,79 @@ export default function RunPage({
           />
         </div>
          */}
-        {/* Optimization Progress */}
-        {isOptimizing && (
-          <div className="mb-6">
-            <OptimizationProgress 
-              isOptimizing={isOptimizing}
-              message={wsMessage || "Processing your optimization request..."}
-              estimatedTime="1-3 minutes"
-            />
-          </div>
-        )}
-        
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-8 bg-blue-100/50 backdrop-blur-sm">
-            <TabsTrigger
-              value="manual"
-              className="text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all duration-200 hover:bg-blue-50"
-            >
-              Manual Input
-            </TabsTrigger>
-            <TabsTrigger
-              value="excel"
-              className="text-sm font-medium data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all duration-200 hover:bg-blue-50"
-            >
-              Excel Upload
-            </TabsTrigger>
-          </TabsList>
+      {/* Optimization Progress */}
+      {isOptimizing && (
+        <div className="mb-6">
+          <OptimizationProgress
+            isOptimizing={isOptimizing}
+            message={wsMessage || "Processing your optimization request..."}
+            estimatedTime="1-3 minutes"
+          />
+        </div>
+      )}
 
-          <TabsContent value="manual" className="space-y-6 animate-fade-in">
-            <ManualInputTab
-              onOptimizationStart={() => {
-                setWsConnected(true);
-                setWsMessage("Connecting to optimization server...");
-                handleOptimizationStart("manual");
-              }}
-              onOptimizationComplete={(data) => handleOptimizationComplete(data, "manual")}
-              isOptimizing={isOptimizing}
-              optimizationResults={optimizationResults}
-            />
-            {optimizationResults && resultSource === "manual" && (
-              <div ref={resultsRef} className="" data-results-section>
-                <ResultsTab
-                  results={optimizationResults}
-                  formData={optimizationResults.formData}
-                />
-              </div>
-            )}
-          </TabsContent>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-8 bg-blue-100/50 backdrop-blur-sm">
+          <TabsTrigger
+            value="manual"
+            className="text-sm font-medium cursor-pointer data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all duration-200 hover:bg-blue-50"
+          >
+            Manual Input
+          </TabsTrigger>
+          <TabsTrigger
+            value="excel"
+            className="text-sm font-medium cursor-pointer data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all duration-200 hover:bg-blue-50"
+          >
+            Excel Upload
+          </TabsTrigger>
+        </TabsList>
 
-          <TabsContent value="excel" className="space-y-6 animate-fade-in">
-            <ExcelUploadTab
-              onOptimizationStart={() => {
-                setWsConnected(true);
-                setWsMessage("Connecting to file optimization server...");
-                handleOptimizationStart("excel");
-              }}
-              onOptimizationComplete={(data) => handleOptimizationComplete(data, "excel")}
-              isOptimizing={isOptimizing}
-            />
-            {optimizationResults && resultSource === "excel" && (
-              <div ref={resultsRef} className="pt-4" data-results-section>
-                <ResultsTab
-                  results={optimizationResults}
-                  formData={optimizationResults.formData}
-                />
-              </div>
-            )}
-          </TabsContent>
-        </Tabs>
-      </CardContent>
+        <TabsContent value="manual" className="space-y-6 animate-fade-in">
+          <ManualInputTab
+            onOptimizationStart={() => {
+              setWsConnected(true);
+              setWsMessage("Connecting to optimization server...");
+              handleOptimizationStart("manual");
+            }}
+            onOptimizationComplete={(data) =>
+              handleOptimizationComplete(data, "manual")
+            }
+            isOptimizing={isOptimizing}
+            optimizationResults={optimizationResults}
+          />
+          {optimizationResults && resultSource === "manual" && (
+            <div ref={resultsRef} className="" data-results-section>
+              <ResultsTab
+                results={optimizationResults}
+                formData={optimizationResults.formData}
+              />
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="excel" className="space-y-6 animate-fade-in">
+          <ExcelUploadTab
+            onOptimizationStart={() => {
+              setWsConnected(true);
+              setWsMessage("Connecting to file optimization server...");
+              handleOptimizationStart("excel");
+            }}
+            onOptimizationComplete={(data) =>
+              handleOptimizationComplete(data, "excel")
+            }
+            isOptimizing={isOptimizing}
+          />
+          {optimizationResults && resultSource === "excel" && (
+            <div ref={resultsRef} className="pt-4" data-results-section>
+              <ResultsTab
+                results={optimizationResults}
+                formData={optimizationResults.formData}
+              />
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
+      {/* </CardContent> */}
     </Card>
   );
 }

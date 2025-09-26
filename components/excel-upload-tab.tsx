@@ -106,57 +106,59 @@ export default function ExcelUploadTab({
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-      
+
       if (jsonData.length > 1) {
         const headers = jsonData[0] as string[];
         const rows = jsonData.slice(1) as any[][];
-        
-        const parsedData = rows.map((row, index) => {
-          const rowData: any = {};
-          headers.forEach((header, colIndex) => {
-            const normalizedHeader = header.toString().toLowerCase().trim();
-            const value = row[colIndex] || '';
-            
-            switch (normalizedHeader) {
-              case 'item_name':
-                rowData.itemName = value;
-                break;
-              case 'itemname':
-                rowData.itemName = value;
-                break;
-              case 'item name':
-                rowData.itemName = value;
-                break;
-              case 'dia':
-                rowData.dia = value;
-                break;
-              case 'bf':
-                rowData.bf = value;
-                break;
-              case 'gsm':
-                rowData.gsm = value;
-                break;
-              case 'quality':
-                rowData.quality = value;
-                break;
-              case 'size':
-                rowData.size = value;
-                break;
-              case 'uom':
-                rowData.uom = value;
-                break;
-              case 'nor':
-                rowData.nor = value;
-                break;
-              case 'quantity':
-                rowData.quantity = value;
-                break;
-              default:
-                rowData[normalizedHeader] = value;
-            }
-          });
-          return rowData;
-        }).filter(row => row.itemName || row.size || row.uom || row.nor);
+
+        const parsedData = rows
+          .map((row, index) => {
+            const rowData: any = {};
+            headers.forEach((header, colIndex) => {
+              const normalizedHeader = header.toString().toLowerCase().trim();
+              const value = row[colIndex] || "";
+
+              switch (normalizedHeader) {
+                case "item_name":
+                  rowData.itemName = value;
+                  break;
+                case "itemname":
+                  rowData.itemName = value;
+                  break;
+                case "item name":
+                  rowData.itemName = value;
+                  break;
+                case "dia":
+                  rowData.dia = value;
+                  break;
+                case "bf":
+                  rowData.bf = value;
+                  break;
+                case "gsm":
+                  rowData.gsm = value;
+                  break;
+                case "quality":
+                  rowData.quality = value;
+                  break;
+                case "size":
+                  rowData.size = value;
+                  break;
+                case "uom":
+                  rowData.uom = value;
+                  break;
+                case "nor":
+                  rowData.nor = value;
+                  break;
+                case "quantity":
+                  rowData.quantity = value;
+                  break;
+                default:
+                  rowData[normalizedHeader] = value;
+              }
+            });
+            return rowData;
+          })
+          .filter((row) => row.itemName || row.size || row.uom || row.nor);
         console.log(parsedData);
         setPreviewData(parsedData);
       } else {
@@ -187,7 +189,7 @@ export default function ExcelUploadTab({
     if (isFormValid() && uploadedFile) {
       // Start optimization
       onOptimizationStart();
-      
+
       try {
         // Convert file to base64
         const fileBase64 = await new Promise<string>((resolve, reject) => {
@@ -199,22 +201,26 @@ export default function ExcelUploadTab({
               const base64 = btoa(String.fromCharCode(...bytes));
               resolve(base64);
             } else {
-              reject(new Error('Failed to read file'));
+              reject(new Error("Failed to read file"));
             }
           };
-          reader.onerror = () => reject(new Error('Error reading file'));
+          reader.onerror = () => reject(new Error("Error reading file"));
           reader.readAsArrayBuffer(uploadedFile);
         });
-        
+
         // Use WebSocket for file optimization
-        const wsUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || 'ws://192.168.29.138:8000';
-        console.log('Connecting to File WebSocket:', `${wsUrl}/ws/optimize-cutting-from-file`);
+        const wsUrl =
+          process.env.NEXT_PUBLIC_WS_BASE_URL || "ws://192.168.29.138:8000";
+        console.log(
+          "Connecting to File WebSocket:",
+          `${wsUrl}/ws/optimize-cutting-from-file`
+        );
         const ws = new WebSocket(`${wsUrl}/ws/optimize-cutting-from-file`);
-        
-        console.log('File WebSocket created, readyState:', ws.readyState);
-        
+
+        console.log("File WebSocket created, readyState:", ws.readyState);
+
         ws.onopen = () => {
-          console.log('File WebSocket connected successfully!');
+          console.log("File WebSocket connected successfully!");
           const payload = {
             decal_size: parseFloat(formData.motherRollWidth),
             no_of_cut: parseInt(formData.maxCuts),
@@ -223,50 +229,53 @@ export default function ExcelUploadTab({
             customer_name: formData.customerName,
             so_no: formData.soNo,
           };
-          
+
           ws.send(JSON.stringify(payload));
         };
-        
+
         ws.onmessage = (event) => {
           try {
             const result = JSON.parse(event.data);
-            console.log('File WebSocket response:', result);
-            
+            console.log("File WebSocket response:", result);
+
             if (result.status) {
               const resultWithFormData = {
                 data: result.data,
-                formData: formData
+                formData: formData,
               };
-              toast.success('Optimization completed successfully!');
+              toast.success("Optimization completed successfully!");
               onOptimizationComplete(resultWithFormData);
             } else {
-              toast.error(`Error: ${result.message || 'Optimization failed'}`);
+              toast.error(`Error: ${result.message || "Optimization failed"}`);
               onOptimizationComplete(null);
             }
-            
+
             ws.close();
           } catch (error) {
             console.error("WebSocket message error:", error);
-            toast.error('Error processing server response');
+            toast.error("Error processing server response");
             onOptimizationComplete(null);
             ws.close();
           }
         };
-        
+
         ws.onerror = (error) => {
           console.error("File WebSocket error:", error);
-          console.log('File WebSocket readyState on error:', ws.readyState);
-          toast.error('Failed to connect to optimization server');
+          console.log("File WebSocket readyState on error:", ws.readyState);
+          toast.error("Failed to connect to optimization server");
           onOptimizationComplete(null);
         };
-        
+
         ws.onclose = (event) => {
-          console.log('File WebSocket connection closed:', event.code, event.reason);
+          console.log(
+            "File WebSocket connection closed:",
+            event.code,
+            event.reason
+          );
         };
-        
       } catch (error) {
         console.error("File processing error:", error);
-        toast.error('Error processing file');
+        toast.error("Error processing file");
         onOptimizationComplete(null);
       }
     }
@@ -499,7 +508,7 @@ export default function ExcelUploadTab({
                   {previewData.map((row, index) => (
                     <tr key={index} className="hover:bg-gray-50">
                       <td className="border border-gray-300 p-3 text-black">
-                        {index+1}
+                        {index + 1}
                       </td>
                       <td className="border border-gray-300 p-3 text-black">
                         {row.itemName}
@@ -543,7 +552,7 @@ export default function ExcelUploadTab({
           onClick={handleOptimize}
           disabled={!isFormValid() || isOptimizing}
           size="sm"
-          className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+          className="w-full sm:w-auto px-3 cursor-pointer sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
         >
           {isOptimizing ? (
             <>
