@@ -559,7 +559,7 @@ export default function ManualInputTab({
             </div>
           </div>
         </div>
-        <CardContent className="p-6">
+        <CardContent className="p-2 sm:p-4 md:p-6">
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full border-collapse">
@@ -889,54 +889,64 @@ export default function ManualInputTab({
                       </SelectContent>
                     </Select>
                   </div>
-                  {optionalFields.dia && (
-                    <div>
-                      <Label className="text-xs font-medium text-gray-700">
-                        DIA
-                      </Label>
-                      <Input
-                        type="number"
-                        value={spec.dia}
-                        placeholder="36"
-                        onChange={(e) =>
-                          handleRollSpecChange(spec.id, "dia", e.target.value)
-                        }
-                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
-                      />
-                    </div>
-                  )}
-                  {optionalFields.bf && (
-                    <div>
-                      <Label className="text-xs font-medium text-gray-700">
-                        BF
-                      </Label>
-                      <Input
-                        type="number"
-                        value={spec.bf}
-                        placeholder="BF"
-                        onChange={(e) =>
-                          handleRollSpecChange(spec.id, "bf", e.target.value)
-                        }
-                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
-                      />
-                    </div>
-                  )}
-                  {optionalFields.gsm && (
-                    <div>
-                      <Label className="text-xs font-medium text-gray-700">
-                        GSM
-                      </Label>
-                      <Input
-                        type="number"
-                        value={spec.gsm}
-                        placeholder="GSM"
-                        onChange={(e) =>
-                          handleRollSpecChange(spec.id, "gsm", e.target.value)
-                        }
-                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
-                      />
-                    </div>
-                  )}
+                  <div className="grid grid-cols-2 gap-3">
+                    {optionalFields.dia && (
+                      <div>
+                        <Label className="text-xs font-medium text-gray-700">
+                          DIA
+                        </Label>
+                        <Input
+                          type="number"
+                          value={spec.dia}
+                          placeholder="36"
+                          onChange={(e) =>
+                            handleRollSpecChange(
+                              spec.id,
+                              "dia",
+                              e.target.value
+                            )
+                          }
+                          className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                        />
+                      </div>
+                    )}
+                    {optionalFields.bf && (
+                      <div>
+                        <Label className="text-xs font-medium text-gray-700">
+                          BF
+                        </Label>
+                        <Input
+                          type="number"
+                          value={spec.bf}
+                          placeholder="BF"
+                          onChange={(e) =>
+                            handleRollSpecChange(spec.id, "bf", e.target.value)
+                          }
+                          className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                        />
+                      </div>
+                    )}
+                    {optionalFields.gsm && (
+                      <div>
+                        <Label className="text-xs font-medium text-gray-700">
+                          GSM
+                        </Label>
+                        <Input
+                          type="number"
+                          value={spec.gsm}
+                          placeholder="GSM"
+                          onChange={(e) =>
+                            handleRollSpecChange(
+                              spec.id,
+                              "gsm",
+                              e.target.value
+                            )
+                          }
+                          className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                        />
+                      </div>
+                    )}
+                  </div>
                   {optionalFields.quality && (
                     <div>
                       <Label className="text-xs font-medium text-gray-700">

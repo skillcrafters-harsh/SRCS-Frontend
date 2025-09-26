@@ -282,26 +282,26 @@ export default function ExcelUploadTab({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 animate-fade-in">
       <Loader isVisible={isOptimizing} />
 
       {/* Basic Information */}
       <Card className="shadow-sm border-gray-200">
-        <CardHeader className="bg-gray-50 py-3 flex items-center">
-          <CardTitle className="text-lg font-semibold text-black">
-            Basic Information
+        <CardHeader className="bg-gray-50 py-3 px-4 sm:px-6">
+          <CardTitle className="text-base sm:text-lg font-semibold text-black">
+            1. Basic Information
           </CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-4 p-6">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 md:p-6">
           <div className="space-y-2">
             <Label
-              htmlFor="motherRollWidth"
-              className="text-sm font-medium text-black"
+              htmlFor="motherRollWidthExcel"
+              className="text-xs sm:text-sm font-medium text-black"
             >
               Mother Roll Width (mm) <span className="text-red-600">*</span>
             </Label>
             <Input
-              id="motherRollWidth"
+              id="motherRollWidthExcel"
               type="number"
               placeholder="Enter width"
               value={formData.motherRollWidth}
@@ -313,11 +313,14 @@ export default function ExcelUploadTab({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="maxCuts" className="text-sm font-medium text-black">
+            <Label
+              htmlFor="maxCutsExcel"
+              className="text-xs sm:text-sm font-medium text-black"
+            >
               Max Cuts per Roll <span className="text-red-600">*</span>
             </Label>
             <Input
-              id="maxCuts"
+              id="maxCutsExcel"
               type="number"
               placeholder="Enter max cuts"
               value={formData.maxCuts}
@@ -328,13 +331,13 @@ export default function ExcelUploadTab({
           </div>
           <div className="space-y-2">
             <Label
-              htmlFor="customerName"
-              className="text-sm font-medium text-black"
+              htmlFor="customerNameExcel"
+              className="text-xs sm:text-sm font-medium text-black"
             >
               Customer Name <span className="text-red-600">*</span>
             </Label>
             <Input
-              id="customerName"
+              id="customerNameExcel"
               type="text"
               placeholder="Enter customer"
               value={formData.customerName}
@@ -346,11 +349,14 @@ export default function ExcelUploadTab({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="soNo" className="text-sm font-medium text-black">
+            <Label
+              htmlFor="soNoExcel"
+              className="text-xs sm:text-sm font-medium text-black"
+            >
               SO No <span className="text-red-600">*</span>
             </Label>
             <Input
-              id="soNo"
+              id="soNoExcel"
               type="text"
               placeholder="Enter SO number"
               value={formData.soNo}
@@ -364,31 +370,33 @@ export default function ExcelUploadTab({
 
       {/* Excel Format Requirements */}
       <Card className="shadow-sm border-gray-200">
-        <CardHeader className="bg-gray-50 py-3 flex items-center">
-          <CardTitle className="text-lg font-semibold text-black">
-            Excel Format Requirements
+        <CardHeader className="bg-gray-50 py-3 px-4 sm:px-6">
+          <CardTitle className="text-base sm:text-lg font-semibold text-black">
+            2. Excel Format Requirements
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-4 md:p-6">
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <h4 className="font-medium text-black mb-2">
+                <h4 className="font-medium text-black mb-2 text-sm sm:text-base">
                   Required Fields:
                 </h4>
-                <p className="text-sm text-black">ItemName, Size, UOM, NOR</p>
+                <p className="text-xs sm:text-sm text-black">
+                  ItemName, Size, UOM, NOR
+                </p>
               </div>
               <div>
-                <h4 className="font-medium text-black mb-2">
+                <h4 className="font-medium text-black mb-2 text-sm sm:text-base">
                   Optional Fields:
                 </h4>
-                <p className="text-sm text-gray-700">
+                <p className="text-xs sm:text-sm text-gray-700">
                   DIA, BF, GSM, Quality, Quantity
                 </p>
               </div>
             </div>
             <div className="bg-yellow-50 border border-yellow-200 rounded p-3 mt-4">
-              <p className="text-sm text-black font-medium">
+              <p className="text-xs sm:text-sm text-black font-medium">
                 📝 Note: ItemName, Size, UOM and NOR are required. Other fields
                 are flexible.
               </p>
@@ -399,14 +407,14 @@ export default function ExcelUploadTab({
 
       {/* File Upload Zone */}
       <Card className="shadow-sm border-gray-200">
-        <CardHeader className="bg-gray-50 py-3 flex items-center">
-          <CardTitle className="text-lg font-semibold text-black">
-            Upload Excel File
+        <CardHeader className="bg-gray-50 py-3 px-4 sm:px-6">
+          <CardTitle className="text-base sm:text-lg font-semibold text-black">
+            3. Upload Excel File
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-4 md:p-6">
           <div
-            className={`border-2 border-dashed rounded-lg p-4 sm:p-6 md:p-8 text-center transition-colors ${
+            className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
               isDragOver
                 ? "border-black bg-gray-50"
                 : "border-gray-300 hover:border-gray-400"
@@ -415,19 +423,21 @@ export default function ExcelUploadTab({
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
           >
-            <CloudArrowUpIcon className="mx-auto h-12 w-12 text-gray-500 mb-4" />
+            <CloudArrowUpIcon className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-500 mb-4" />
             <div className="space-y-2">
-              <p className="text-lg font-medium text-black">
+              <p className="text-base sm:text-lg font-medium text-black">
                 Drop your Excel file here
               </p>
-              <p className="text-sm text-gray-600">or click to browse files</p>
+              <p className="text-xs sm:text-sm text-gray-600">
+                or click to browse files
+              </p>
               <div className="pt-4">
                 <label htmlFor="file-upload" className="cursor-pointer">
                   <Button
                     variant="outline"
                     asChild
                     size="sm"
-                    className="sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+                    className="sm:w-auto px-4 py-2 text-sm font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
                   >
                     <span>Browse Files</span>
                   </Button>
@@ -444,12 +454,14 @@ export default function ExcelUploadTab({
           </div>
 
           {uploadedFile && (
-            <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="mt-4 p-3 sm:p-4 bg-green-50 border border-green-200 rounded-lg">
               <div className="flex items-center space-x-3">
-                <DocumentIcon className="h-8 w-8 text-green-600" />
-                <div>
-                  <p className="font-medium text-black">{uploadedFile.name}</p>
-                  <p className="text-sm text-gray-600">
+                <DocumentIcon className="h-6 w-6 sm:h-8 sm:w-8 text-green-600 flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="font-medium text-black text-sm sm:text-base truncate">
+                    {uploadedFile.name}
+                  </p>
+                  <p className="text-xs sm:text-sm text-gray-600">
                     {(uploadedFile.size / 1024).toFixed(1)} KB
                   </p>
                 </div>
@@ -462,44 +474,45 @@ export default function ExcelUploadTab({
       {/* Data Preview */}
       {previewData.length > 0 && (
         <Card className="shadow-sm border-gray-200">
-          <CardHeader className="bg-gray-50 py-3 flex items-center">
-            <CardTitle className="text-lg font-semibold text-black">
-              Data Preview
+          <CardHeader className="bg-gray-50 py-3 px-4 sm:px-6">
+            <CardTitle className="text-base sm:text-lg font-semibold text-black">
+              4. Data Preview
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-6">
-            <div className="overflow-x-auto">
+          <CardContent className="p-0 sm:p-4 md:p-6">
+            {/* Desktop Table View */}
+            <div className="overflow-x-auto hidden md:block">
               <table className="w-full border-collapse border border-gray-300">
                 <thead>
                   <tr className="bg-gray-100">
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       Sr. No.
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       Item Name
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       DIA (IN)
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       BF
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       GSM
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       Quality
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       Size
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       UOM
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       NOR
                     </th>
-                    <th className="border border-gray-300 p-3 text-left font-medium text-black">
+                    <th className="border border-gray-300 p-3 text-left text-xs sm:text-sm font-medium text-black">
                       QTY (MM)
                     </th>
                   </tr>
@@ -507,34 +520,34 @@ export default function ExcelUploadTab({
                 <tbody>
                   {previewData.map((row, index) => (
                     <tr key={index} className="hover:bg-gray-50">
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {index + 1}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.itemName}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.dia}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.bf}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.gsm}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.quality}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.size}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.uom}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.nor}
                       </td>
-                      <td className="border border-gray-300 p-3 text-black">
+                      <td className="border border-gray-300 p-2 sm:p-3 text-xs sm:text-sm text-black">
                         {row.quantity}
                       </td>
                     </tr>
@@ -542,17 +555,80 @@ export default function ExcelUploadTab({
                 </tbody>
               </table>
             </div>
+            {/* Mobile Card View */}
+            <div className="md:hidden space-y-3 p-4">
+              {previewData.map((row, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-50 rounded-lg p-4 border border-gray-200"
+                >
+                  <h4 className="font-semibold text-gray-900 mb-3 text-sm">
+                    Row #{index + 1}
+                  </h4>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                    <div className="font-medium text-gray-600">Item Name:</div>
+                    <div className="text-gray-900 truncate">{row.itemName}</div>
+
+                    <div className="font-medium text-gray-600">Size:</div>
+                    <div className="text-gray-900">{row.size}</div>
+
+                    <div className="font-medium text-gray-600">UOM:</div>
+                    <div className="text-gray-900">{row.uom}</div>
+
+                    <div className="font-medium text-gray-600">NOR:</div>
+                    <div className="text-gray-900">{row.nor}</div>
+
+                    {row.dia && (
+                      <>
+                        <div className="font-medium text-gray-600">DIA:</div>
+                        <div className="text-gray-900">{row.dia}</div>
+                      </>
+                    )}
+                    {row.bf && (
+                      <>
+                        <div className="font-medium text-gray-600">BF:</div>
+                        <div className="text-gray-900">{row.bf}</div>
+                      </>
+                    )}
+                    {row.gsm && (
+                      <>
+                        <div className="font-medium text-gray-600">GSM:</div>
+                        <div className="text-gray-900">{row.gsm}</div>
+                      </>
+                    )}
+                    {row.quality && (
+                      <>
+                        <div className="font-medium text-gray-600">
+                          Quality:
+                        </div>
+                        <div className="text-gray-900 truncate">
+                          {row.quality}
+                        </div>
+                      </>
+                    )}
+                    {row.quantity && (
+                      <>
+                        <div className="font-medium text-gray-600">
+                          Quantity:
+                        </div>
+                        <div className="text-gray-900">{row.quantity}</div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
       )}
 
       {/* Optimize Button */}
-      <div className="flex justify-center">
+      <div className="flex justify-center py-4">
         <Button
           onClick={handleOptimize}
           disabled={!isFormValid() || isOptimizing}
-          size="sm"
-          className="sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+          size="lg"
+          className="w-full sm:w-auto px-6 py-3 text-sm sm:text-base font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
         >
           {isOptimizing ? (
             <>

@@ -65,14 +65,11 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                   </span>
                   <ArrowRightIcon className="h-4 w-4 sm:h-5 sm:w-5 ml-2" />
                 </Button>
-                <Button
-                  onClick={() => onNavigate("api-docs")}
-                  variant="outline"
-                  className="border-white/30 text-white px-4 xs:px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 text-sm xs:text-base sm:text-lg lg:text-xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                <a href="https://forms.gle/M5k5Yrgc6j1u3wag7" target="_blank" className="border-white/30 text-white px-4 xs:px-6 sm:px-8 lg:px-10 py-2 sm:py-3 lg:py-3 text-sm xs:text-base sm:text-lg lg:text-xl text-center bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 cursor-pointer"
                 >
-                  <span className="xs:hidden">Demo</span>
-                  <span className="hidden xs:inline">Request a Demo</span>
-                </Button>
+                  <span className="xs:hidden">Connect</span>
+                  <span className="hidden xs:inline">Connect to the team</span>
+                </a>
               </div>
             </div>
 
@@ -772,7 +769,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
           <div className="flex flex-row sm:flex-row gap-2 sm:gap-4 justify-center mb-8">
             <Button
-              onClick={() => onNavigate("run")}
+              onClick={() => router.push("/run")}
               size="sm"
               className="flex-1 sm:w-auto px-2 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-xs sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center cursor-pointer"
             >
@@ -780,16 +777,15 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <span className="hidden sm:inline">Start Your Free Trial</span>
               <ArrowRightIcon className="h-4 w-4 sm:h-5 sm:w-5 ml-1 sm:ml-2" />
             </Button>
-            <Button
-              onClick={() => onNavigate("api-docs")}
-              size="sm"
-              className="flex-1 sm:w-auto px-2 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-xs sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center cursor-pointer"
+            <a
+              href="https://forms.gle/M5k5Yrgc6j1u3wag7"
+              className="flex-1 sm:w-auto px-2 sm:px-6 md:px-8  text-xs sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center cursor-pointer"
             >
               <span className="sm:hidden">Demo</span>
               <span className="hidden sm:inline">
                 Request a Personalized Demo
               </span>
-            </Button>
+            </a>
           </div>
 
           <p className="text-blue-200 text-sm">

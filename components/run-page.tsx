@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -12,7 +11,6 @@ import {
 import ManualInputTab from "@/components/manual-input-tab";
 import ExcelUploadTab from "@/components/excel-upload-tab";
 import ResultsTab from "@/components/results-tab";
-import WebSocketStatus from "@/components/websocket-status";
 import OptimizationProgress from "@/components/optimization-progress";
 
 interface RunPageProps {
@@ -59,10 +57,9 @@ export default function RunPage({
     }
   };
 
-  // When results arrive, scroll into view within the active tab
+  // Scroll results into view when ready
   useEffect(() => {
     if (optimizationResults && !isOptimizing) {
-      // slight delay to ensure DOM is painted
       setTimeout(() => {
         resultsRef.current?.scrollIntoView({
           behavior: "smooth",
@@ -73,28 +70,30 @@ export default function RunPage({
   }, [optimizationResults, isOptimizing]);
 
   return (
-    <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300 w-full max-w-7xl mx-auto">
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 sm:py-4 lg:py-6 flex flex-col items-center justify-center">
-        <CardTitle className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center text-gray-900">
+    <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300 w-full max-w-screen-2xl mx-auto px-3 sm:px-4 lg:px-6">
+      {/* Header */}
+      <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 md:py-4 lg:py-6 flex flex-col items-center justify-center">
+        <CardTitle
+          className="
+            font-bold text-center text-gray-900
+            text-[clamp(1.25rem,2.5vw,2.5rem)]
+          "
+        >
           Optimization Dashboard
         </CardTitle>
-        <CardDescription className="text-center text-gray-600 text-sm sm:text-base lg:text-lg mt-1 sm:mt-2">
+        <CardDescription
+          className="
+            text-center text-gray-600 mt-1 md:mt-2
+            text-[clamp(0.875rem,1.5vw,1.25rem)]
+          "
+        >
           Submit your cutting requirements and get optimized cutting patterns
         </CardDescription>
       </CardHeader>
-      {/* <CardContent className="p-6"> */}
-      {/* WebSocket Status */}
-      {/* <div className="mb-4">
-          <WebSocketStatus 
-            isConnected={wsConnected}
-            isOptimizing={isOptimizing}
-            lastMessage={wsMessage}
-          />
-        </div>
-         */}
+
       {/* Optimization Progress */}
       {isOptimizing && (
-        <div className="mb-4 sm:mb-6 px-4 sm:px-6">
+        <div className="mb-4 md:mb-6 px-3 sm:px-4 lg:px-6">
           <OptimizationProgress
             isOptimizing={isOptimizing}
             message={wsMessage || "Processing your optimization request..."}
@@ -103,25 +102,49 @@ export default function RunPage({
         </div>
       )}
 
+      {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-6 sm:mb-8 bg-blue-100/50 backdrop-blur-sm mx-4 sm:mx-6">
+        <TabsList
+          className="
+            flex flex-row sm:flex-row gap-2 sm:gap-4 
+            w-full mb-6 md:mb-8 
+            bg-blue-100/50 backdrop-blur-sm p-1 rounded-lg
+          "
+        >
           <TabsTrigger
             value="manual"
-            className="text-xs sm:text-sm lg:text-base font-medium cursor-pointer data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all duration-200 hover:bg-blue-50 py-2 sm:py-2.5 lg:py-3"
+            className="
+              flex-1 font-medium cursor-pointer transition-all duration-200
+              py-2 md:py-2.5 lg:py-3
+              text-[clamp(0.75rem,1.5vw,1rem)]
+              data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm
+              hover:bg-blue-50
+            "
           >
-            <span className="sm:hidden">Manual</span>
-            <span className="hidden sm:inline">Manual Input</span>
+            <span className="md:hidden">Manual</span>
+            <span className="hidden md:inline">Manual Input</span>
           </TabsTrigger>
+
           <TabsTrigger
             value="excel"
-            className="text-xs sm:text-sm lg:text-base font-medium cursor-pointer data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm transition-all duration-200 hover:bg-blue-50 py-2 sm:py-2.5 lg:py-3"
+            className="
+              flex-1 font-medium cursor-pointer transition-all duration-200
+              py-2 md:py-2.5 lg:py-3
+              text-[clamp(0.75rem,1.5vw,1rem)]
+              data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm
+              hover:bg-blue-50
+            "
           >
-            <span className="sm:hidden">Excel</span>
-            <span className="hidden sm:inline">Excel Upload</span>
+            <span className="md:hidden">Excel</span>
+            <span className="hidden md:inline">Excel Upload</span>
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="manual" className="space-y-4 sm:space-y-6 animate-fade-in px-4 sm:px-6">
+        {/* Manual Input Tab */}
+        <TabsContent
+          value="manual"
+          className="space-y-4 md:space-y-6 animate-fade-in px-3 sm:px-4 lg:px-6"
+        >
           <ManualInputTab
             onOptimizationStart={() => {
               setWsConnected(true);
@@ -135,7 +158,11 @@ export default function RunPage({
             optimizationResults={optimizationResults}
           />
           {optimizationResults && resultSource === "manual" && (
-            <div ref={resultsRef} className="mt-4 sm:mt-6" data-results-section>
+            <div
+              ref={resultsRef}
+              className="mt-4 md:mt-6"
+              data-results-section
+            >
               <ResultsTab
                 results={optimizationResults}
                 formData={optimizationResults.formData}
@@ -144,7 +171,11 @@ export default function RunPage({
           )}
         </TabsContent>
 
-        <TabsContent value="excel" className="space-y-4 sm:space-y-6 animate-fade-in px-4 sm:px-6">
+        {/* Excel Upload Tab */}
+        <TabsContent
+          value="excel"
+          className="space-y-4 md:space-y-6 animate-fade-in px-3 sm:px-4 lg:px-6"
+        >
           <ExcelUploadTab
             onOptimizationStart={() => {
               setWsConnected(true);
@@ -157,7 +188,11 @@ export default function RunPage({
             isOptimizing={isOptimizing}
           />
           {optimizationResults && resultSource === "excel" && (
-            <div ref={resultsRef} className="mt-4 sm:mt-6" data-results-section>
+            <div
+              ref={resultsRef}
+              className="mt-4 md:mt-6"
+              data-results-section
+            >
               <ResultsTab
                 results={optimizationResults}
                 formData={optimizationResults.formData}
@@ -166,7 +201,6 @@ export default function RunPage({
           )}
         </TabsContent>
       </Tabs>
-      {/* </CardContent> */}
     </Card>
   );
 }

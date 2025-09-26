@@ -582,7 +582,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
 
       {/* Grouped Accordion for Size Buckets */}
       <div className="space-y-4">
-        <div className="flex flex-row sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900">
             Size Bucket Results
           </h2>
@@ -759,7 +759,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                   <h4 className="text-lg font-semibold text-gray-900 mb-4">
                     Pattern Details
                   </h4>
-                  <div className="overflow-x-auto">
+                  <div className="overflow-x-auto hidden md:block">
                     <table className="w-full text-sm border border-gray-200 rounded-lg">
                       <thead>
                         <tr className="border-b border-gray-200 bg-gray-50">
@@ -886,6 +886,70 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                         )}
                       </tbody>
                     </table>
+                  </div>
+                  <div className="md:hidden space-y-3">
+                    {currentStrategy.results[0].cutting_plans.map(
+                      (plan: any, planIndex: number) => (
+                        <div
+                          key={planIndex}
+                          className="bg-white rounded-lg p-3 border border-gray-200 text-xs"
+                        >
+                          <div className="flex justify-between items-center mb-2">
+                            <h5 className="font-semibold text-gray-900 text-sm">
+                              {planIndex + 1}. {plan.item_details.item_name}
+                            </h5>
+                            <Badge
+                              variant="secondary"
+                              className="text-green-600 bg-green-100"
+                            >
+                              {plan.usage_percent.toFixed(2)}%
+                            </Badge>
+                          </div>
+                          <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                            <div className="text-gray-600">Sets:</div>
+                            <div className="text-gray-900 font-medium">
+                              {plan.sets}
+                            </div>
+                            <div className="text-gray-600">Waste/Set:</div>
+                            <div className="text-gray-900">
+                              {plan.wastage_mm} mm
+                            </div>
+                            <div className="text-gray-600">Total Waste:</div>
+                            <div className="text-gray-900">
+                              {plan.total_wastage_mm} mm
+                            </div>
+                            <div className="text-gray-600">Usage/Set:</div>
+                            <div className="text-gray-900">
+                              {plan.usage_mm} mm
+                            </div>
+                            <div className="text-gray-600">Total Usage:</div>
+                            <div className="text-gray-900">
+                              {plan.total_usage_mm} mm
+                            </div>
+                          </div>
+                          <div className="mt-2 pt-2 border-t border-gray-200">
+                            <div className="font-medium text-gray-800 mb-1">
+                              Sizes:
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              {plan.sizes
+                                .filter((s: any) => s.actual_size > 0)
+                                .map((size: any, i: number) => (
+                                  <div
+                                    key={i}
+                                    className="bg-gray-100 p-2 rounded text-center"
+                                  >
+                                    <div className="font-semibold text-gray-900">
+                                      {size.actual_size}
+                                      {size.uom}
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               </div>
@@ -1083,7 +1147,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                         <h4 className="text-lg font-semibold text-gray-900 mb-4">
                           Pattern Details - {bucketLabel}
                         </h4>
-                        <div className="overflow-x-auto">
+                        <div className="overflow-x-auto hidden md:block">
                           <table className="w-full text-sm border border-gray-200 rounded-lg">
                             <thead>
                               <tr className="border-b border-gray-200 bg-gray-50">
@@ -1193,6 +1257,72 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                               )}
                             </tbody>
                           </table>
+                        </div>
+                        <div className="md:hidden space-y-3">
+                          {bucket.cutting_plans.map(
+                            (plan: any, planIndex: number) => (
+                              <div
+                                key={planIndex}
+                                className="bg-white rounded-lg p-3 border border-gray-200 text-xs"
+                              >
+                                <div className="flex justify-between items-center mb-2">
+                                  <h5 className="font-semibold text-gray-900 text-sm">
+                                    {planIndex + 1}. {
+                                      plan.item_details.item_name
+                                    }
+                                  </h5>
+                                  <Badge
+                                    variant="secondary"
+                                    className="text-green-600 bg-green-100"
+                                  >
+                                    {plan.usage_percent.toFixed(2)}%
+                                  </Badge>
+                                </div>
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                                  <div className="text-gray-600">Sets:</div>
+                                  <div className="text-gray-900 font-medium">
+                                    {plan.sets}
+                                  </div>
+                                  <div className="text-gray-600">Waste/Set:</div>
+                                  <div className="text-gray-900">
+                                    {plan.wastage_mm} mm
+                                  </div>
+                                  <div className="text-gray-600">Total Waste:</div>
+                                  <div className="text-gray-900">
+                                    {plan.total_wastage_mm} mm
+                                  </div>
+                                  <div className="text-gray-600">Usage/Set:</div>
+                                  <div className="text-gray-900">
+                                    {plan.usage_mm} mm
+                                  </div>
+                                  <div className="text-gray-600">Total Usage:</div>
+                                  <div className="text-gray-900">
+                                    {plan.total_usage_mm} mm
+                                  </div>
+                                </div>
+                                <div className="mt-2 pt-2 border-t border-gray-200">
+                                  <div className="font-medium text-gray-800 mb-1">
+                                    Sizes:
+                                  </div>
+                                  <div className="flex flex-wrap gap-2">
+                                    {plan.sizes
+                                      .filter((s: any) => s.actual_size > 0)
+                                      .map((size: any, i: number) => (
+                                        <div
+                                          key={i}
+                                          className="bg-gray-100 p-2 rounded text-center"
+                                        >
+                                          <div className="font-semibold text-gray-900">
+                                            {size.actual_size}
+                                            {size.uom}
+                                          </div>
+                                        </div>
+                                      ))}
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          )}
                         </div>
                       </div>
                     </div>
