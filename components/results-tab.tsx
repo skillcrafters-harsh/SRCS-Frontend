@@ -328,14 +328,14 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 min-h-screen animate-fade-in max-w-full bg-gradient-to-br from-blue-50/20 via-white to-indigo-50/30 p-3 sm:p-6 rounded-xl">
+    <div className="space-y-3 sm:space-y-4 lg:space-y-6 min-h-screen animate-fade-in max-w-full bg-gradient-to-br from-blue-50/20 via-white to-indigo-50/30 p-2 sm:p-3 lg:p-6 rounded-xl">
       {/* Main Dashboard Grid - Mobile First */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
         {/* Pie Chart - Full width on mobile */}
         <Card className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 border-gray-200 shadow-sm hover:shadow-md p-0 transition-all duration-300 lg:order-1">
-          <CardHeader className="bg-gradient-to-r from-gray-50 via-blue-50/50 to-indigo-50/30 border-b border-gray-200 p-3 sm:p-4">
-            <CardTitle className="flex items-center gap-2 text-gray-900 text-sm sm:text-base">
-              <ChartPieIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+          <CardHeader className="bg-gradient-to-r from-gray-50 via-blue-50/50 to-indigo-50/30 border-b border-gray-200 p-2 sm:p-3 lg:p-4">
+            <CardTitle className="flex items-center gap-1 sm:gap-2 text-gray-900 text-xs sm:text-sm lg:text-base">
+              <ChartPieIcon className="h-3 w-3 sm:h-4 sm:w-4 lg:h-5 lg:w-5" />
               Roll Utilization
             </CardTitle>
           </CardHeader>
