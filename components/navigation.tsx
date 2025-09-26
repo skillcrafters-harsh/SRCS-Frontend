@@ -3,7 +3,14 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { HomeIcon, DocumentTextIcon, PlayIcon, BookOpenIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  HomeIcon,
+  DocumentTextIcon,
+  PlayIcon,
+  BookOpenIcon,
+  Bars3Icon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -19,16 +26,27 @@ export default function Navigation() {
   ];
 
   return (
-    <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-border sticky top-0 z-40">
+    <header className="bg-white/95 backdrop-blur-md shadow-sm border-b border-border fixed top-0 left-0 right-0 z-50">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center animate-slide-in-left">
             <div className="flex-shrink-0">
-              <img src="/main-logo.png" alt="Smart Roll Cutting Solution" className="w-12 h-12 sm:w-14 sm:h-14" />
+              <img
+                src="/main-logo.png"
+                alt="Smart Roll Cutting Solution"
+                className="w-12 h-12 sm:w-14 sm:h-14"
+              />
             </div>
             <div className="w-[100%]">
-              <div className="text-lg sm:text-xl font-bold text-foreground uppercase" style={{fontFamily: 'Helvetica', color: '#08429d'}}>Smart Roll</div>
-              <div className="text-sm sm:text-[11px] uppercase w-[85%] mx-auto">Cutting Solution</div>
+              <div
+                className="text-lg sm:text-xl font-bold text-foreground uppercase"
+                style={{ fontFamily: "Helvetica", color: "#08429d" }}
+              >
+                Smart Roll
+              </div>
+              <div className="md:text-[10px] text-[9px] uppercase w-[85%] mx-auto">
+                Cutting Solution
+              </div>
             </div>
           </Link>
 

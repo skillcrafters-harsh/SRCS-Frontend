@@ -56,7 +56,7 @@ export default function ManualInputTab({
     soNo: "Reshmia",
   });
 
-  console.log(isOptimizing)
+  console.log(isOptimizing);
   const [optionalFields, setOptionalFields] = useState({
     dia: false,
     bf: false,
@@ -68,7 +68,7 @@ export default function ManualInputTab({
   const [rollSpecs, setRollSpecs] = useState<RollSpec[]>([
     {
       id: "1",
-      itemName: "Plan Pattern 1",
+      itemName: "Pattern 1",
       dia: "",
       bf: "",
       gsm: "",
@@ -175,7 +175,7 @@ export default function ManualInputTab({
       ...prev,
       {
         id: newId,
-        itemName: "Plan Pattern 1",
+        itemName: "Pattern 1",
         dia: "",
         bf: "",
         gsm: "",
@@ -238,24 +238,26 @@ export default function ManualInputTab({
           nor: parseInt(spec.nor),
           roll_id: `R${index + 1}`,
         };
-        
+
         if (optionalFields.dia && spec.dia) roll.dia = parseFloat(spec.dia);
         if (optionalFields.bf && spec.bf) roll.bf = parseFloat(spec.bf);
         if (optionalFields.gsm && spec.gsm) roll.gsm = parseFloat(spec.gsm);
         if (optionalFields.quality && spec.quality) roll.quality = spec.quality;
-        if (optionalFields.quantity && spec.quantity) roll.quantity = spec.quantity;
-        
+        if (optionalFields.quantity && spec.quantity)
+          roll.quantity = spec.quantity;
+
         return roll;
-      })
+      }),
     };
 
     const jsonString = JSON.stringify(jsonData, null, 2);
-    
+
     // Fallback for older browsers
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(jsonString)
+      navigator.clipboard
+        .writeText(jsonString)
         .then(() => {
-          toast.success('JSON data copied to clipboard!');
+          toast.success("JSON data copied to clipboard!");
         })
         .catch(() => {
           fallbackCopyTextToClipboard(jsonString);
@@ -266,26 +268,26 @@ export default function ManualInputTab({
   };
 
   const fallbackCopyTextToClipboard = (text: string) => {
-    const textArea = document.createElement('textarea');
+    const textArea = document.createElement("textarea");
     textArea.value = text;
-    textArea.style.top = '0';
-    textArea.style.left = '0';
-    textArea.style.position = 'fixed';
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
     document.body.appendChild(textArea);
     textArea.focus();
     textArea.select();
-    
+
     try {
-      const successful = document.execCommand('copy');
+      const successful = document.execCommand("copy");
       if (successful) {
-        toast.success('JSON data copied to clipboard!');
+        toast.success("JSON data copied to clipboard!");
       } else {
-        toast.error('Failed to copy JSON data');
+        toast.error("Failed to copy JSON data");
       }
     } catch (err) {
-      toast.error('Failed to copy JSON data');
+      toast.error("Failed to copy JSON data");
     }
-    
+
     document.body.removeChild(textArea);
   };
 
@@ -327,16 +329,17 @@ export default function ManualInputTab({
     if (isFormValid()) {
       // Start optimization
       onOptimizationStart();
-      
+
       // Use WebSocket for optimization
-      const wsUrl = process.env.NEXT_PUBLIC_WS_BASE_URL || 'ws://192.168.29.138:8000';
-      console.log('Connecting to WebSocket:', `${wsUrl}/ws/optimize-cutting`);
+      const wsUrl =
+        process.env.NEXT_PUBLIC_WS_BASE_URL || "ws://192.168.29.138:8000";
+      console.log("Connecting to WebSocket:", `${wsUrl}/ws/optimize-cutting`);
       const ws = new WebSocket(`${wsUrl}/ws/optimize-cutting`);
-      
-      console.log('WebSocket created, readyState:', ws.readyState);
-      
+
+      console.log("WebSocket created, readyState:", ws.readyState);
+
       ws.onopen = () => {
-        console.log('WebSocket connected successfully!');
+        console.log("WebSocket connected successfully!");
         const payload = {
           decal_size: parseInt(formData.motherRollWidth),
           no_of_cut: parseInt(formData.maxCuts),
@@ -353,45 +356,45 @@ export default function ManualInputTab({
             ...(spec.quantity && { quantity: spec.quantity }),
           })),
         };
-        
+
         ws.send(JSON.stringify(payload));
       };
-      
+
       ws.onmessage = (event) => {
         try {
           const result = JSON.parse(event.data);
-          console.log('WebSocket response:', result);
-          
+          console.log("WebSocket response:", result);
+
           if (result.status) {
             const resultWithFormData = {
               data: result.data,
-              formData: formData
+              formData: formData,
             };
-            toast.success('Optimization completed successfully!');
+            toast.success("Optimization completed successfully!");
             onOptimizationComplete(resultWithFormData);
           } else {
-            toast.error(`Error: ${result.message || 'Optimization failed'}`);
+            toast.error(`Error: ${result.message || "Optimization failed"}`);
             onOptimizationComplete(null);
           }
-          
+
           ws.close();
         } catch (error) {
           console.error("WebSocket message error:", error);
-          toast.error('Error processing server response');
+          toast.error("Error processing server response");
           onOptimizationComplete(null);
           ws.close();
         }
       };
-      
+
       ws.onerror = (error) => {
         console.error("WebSocket error:", error);
-        console.log('WebSocket readyState on error:', ws.readyState);
-        toast.error('Failed to connect to optimization server');
+        console.log("WebSocket readyState on error:", ws.readyState);
+        toast.error("Failed to connect to optimization server");
         onOptimizationComplete(null);
       };
-      
+
       ws.onclose = (event) => {
-        console.log('WebSocket connection closed:', event.code, event.reason);
+        console.log("WebSocket connection closed:", event.code, event.reason);
       };
     }
   };
@@ -507,11 +510,11 @@ export default function ManualInputTab({
                 >
                   {field.toUpperCase()}
                   <div className="text-xs font-normal text-gray-600">
-                    {field === 'dia' && 'Roll Diameter in inches'}
-                    {field === 'bf' && 'Bursting Factor (strength)'}
-                    {field === 'gsm' && 'Grams per Square Meter'}
-                    {field === 'quality' && 'Paper Quality type'}
-                    {field === 'quantity' && 'Auto calculated quantity'}
+                    {field === "dia" && "Roll Diameter in inches"}
+                    {field === "bf" && "Bursting Factor (strength)"}
+                    {field === "gsm" && "Grams per Square Meter"}
+                    {field === "quality" && "Paper Quality type"}
+                    {field === "quantity" && "Auto calculated quantity"}
                   </div>
                 </Label>
               </div>
@@ -522,7 +525,9 @@ export default function ManualInputTab({
         {/* Roll Specifications */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 px-3 sm:px-4 md:px-6 gap-2 sm:gap-0">
           <div>
-            <h3 className="text-base sm:text-lg font-semibold">2. Cutting Specifications</h3>
+            <h3 className="text-base sm:text-lg font-semibold">
+              2. Cutting Specifications
+            </h3>
             <p className="text-xs sm:text-sm">
               Add all the roll sizes and requirements you need to optimize.
             </p>
@@ -532,7 +537,7 @@ export default function ManualInputTab({
               onClick={copyJsonData}
               variant="outline"
               size="sm"
-              className="flex items-center gap-2 bg-gradient-to-r from-green-400 to-green-400 hover:from-green-700 hover:to-green-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+              className="flex cursor-pointer items-center gap-2 bg-gradient-to-r from-green-400 to-green-400 hover:from-green-700 hover:to-green-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
             >
               <ClipboardDocumentIcon className="h-4 w-4" />
               Copy JSON
@@ -541,7 +546,7 @@ export default function ManualInputTab({
               onClick={addRollSpec}
               variant="outline"
               size="sm"
-              className="flex items-center gap-2 bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+              className="flex items-center gap-2 cursor-pointer bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
             >
               <PlusIcon className="h-4 w-4" />
               Add Roll
@@ -549,54 +554,73 @@ export default function ManualInputTab({
           </div>
         </div>
         <CardContent className="p-6">
-          <div className="overflow-x-auto">
+          {/* Desktop Table View */}
+          <div className="hidden md:block overflow-x-auto">
             <table className="w-full border-collapse">
               <thead>
                 <tr className="border-b-2 border-blue-200 bg-blue-50">
                   <th className="text-left p-3 font-semibold text-gray-900">
-                    Item Name <span style={{color:"red"}}>*</span>
-                    <div className="text-xs font-normal text-gray-600">Product type (Kraft Paper Roll)</div>
+                    Item Name <span style={{ color: "red" }}>*</span>
+                    <div className="text-xs font-normal text-gray-600">
+                      Product type (Kraft Paper Roll)
+                    </div>
                   </th>
                   {optionalFields.dia && (
                     <th className="text-left p-3 font-semibold text-gray-900">
                       DIA (IN)
-                      <div className="text-xs font-normal text-gray-600">Roll Diameter in inches</div>
+                      <div className="text-xs font-normal text-gray-600">
+                        Roll Diameter in inches
+                      </div>
                     </th>
                   )}
                   {optionalFields.bf && (
                     <th className="text-left p-3 font-semibold text-gray-900">
                       BF
-                      <div className="text-xs font-normal text-gray-600">Bursting Factor (strength)</div>
+                      <div className="text-xs font-normal text-gray-600">
+                        Bursting Factor (strength)
+                      </div>
                     </th>
                   )}
                   {optionalFields.gsm && (
                     <th className="text-left p-3 font-semibold text-gray-900">
                       GSM
-                      <div className="text-xs font-normal text-gray-600">Grams per Square Meter</div>
+                      <div className="text-xs font-normal text-gray-600">
+                        Grams per Square Meter
+                      </div>
                     </th>
                   )}
                   {optionalFields.quality && (
                     <th className="text-left p-3 font-semibold text-gray-900">
                       Quality
-                      <div className="text-xs font-normal text-gray-600">Paper Quality type</div>
+                      <div className="text-xs font-normal text-gray-600">
+                        Paper Quality type
+                      </div>
                     </th>
                   )}
                   <th className="text-left p-3 font-semibold text-gray-900">
-                    Size <span style={{color:"red"}}>*</span>
-                    <div className="text-xs font-normal text-gray-600">Width of the cut roll</div>
+                    Size <span style={{ color: "red" }}>*</span>
+                    <div className="text-xs font-normal text-gray-600">
+                      Width of the cut roll
+                    </div>
                   </th>
                   <th className="text-left p-3 font-semibold text-gray-900">
-                    UOM <span style={{color:"red"}}>*</span>
-                    <div className="text-xs font-normal text-gray-600">Unit of Measurement</div>
+                    UOM <span style={{ color: "red" }}>*</span>
+                    <div className="text-xs font-normal text-gray-600">
+                      Unit of Measurement
+                    </div>
                   </th>
                   <th className="text-left p-3 font-semibold text-gray-900">
-                    NOR <span style={{color:"red"}}>*</span>
-                    <div className="text-xs font-normal text-gray-600">Number of Rolls Required</div>
+                    NOR <span style={{ color: "red" }}>*</span>
+                    <div className="text-xs font-normal text-gray-600">
+                      Number of Rolls Required
+                    </div>
                   </th>
                   {optionalFields.quantity && (
                     <th className="text-left p-3 font-semibold text-gray-900">
                       QTY (MM)
-                      <div className="text-xs font-normal text-gray-600">Auto calculated quantity</div>
+                      <div className="text-xs font-normal text-gray-600">
+                        Auto calculated quantity
+                      </div>
                     </th>
                   )}
                   <th className="text-left p-3 font-semibold text-gray-900">
@@ -616,7 +640,11 @@ export default function ManualInputTab({
                         value={spec.itemName}
                         placeholder="Enter item name"
                         onChange={(e) =>
-                          handleRollSpecChange(spec.id, "itemName", e.target.value)
+                          handleRollSpecChange(
+                            spec.id,
+                            "itemName",
+                            e.target.value
+                          )
                         }
                         className="min-w-[200px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
                       />
@@ -667,7 +695,11 @@ export default function ManualInputTab({
                           value={spec.quality}
                           placeholder="Enter quality"
                           onChange={(e) =>
-                            handleRollSpecChange(spec.id, "quality", e.target.value)
+                            handleRollSpecChange(
+                              spec.id,
+                              "quality",
+                              e.target.value
+                            )
                           }
                           className="min-w-[120px] border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 hover:shadow-lg hover:scale-[1.02] transition-all duration-300 hover:bg-blue-50/30 bg-white text-gray-900 font-medium"
                         />
@@ -729,7 +761,7 @@ export default function ManualInputTab({
                         onClick={() => duplicateRollSpec(spec.id)}
                         variant="ghost"
                         size="sm"
-                        className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                        className="text-blue-600 cursor-pointer hover:text-blue-700 hover:bg-blue-50"
                       >
                         <DocumentDuplicateIcon className="h-4 w-4" />
                       </Button>
@@ -738,7 +770,7 @@ export default function ManualInputTab({
                         variant="ghost"
                         size="sm"
                         disabled={rollSpecs.length === 1}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        className="text-red-600 cursor-pointer hover:text-red-700 hover:bg-red-50"
                       >
                         <TrashIcon className="h-4 w-4" />
                       </Button>
@@ -748,13 +780,103 @@ export default function ManualInputTab({
               </tbody>
             </table>
           </div>
+
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-4">
+            {rollSpecs.map((spec) => (
+              <div key={spec.id} className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                <div className="flex justify-between items-center mb-3">
+                  <h4 className="font-semibold text-gray-900">Roll #{spec.id}</h4>
+                  <div className="flex gap-1">
+                    <Button onClick={() => duplicateRollSpec(spec.id)} variant="ghost" size="sm" className="text-blue-600 cursor-pointer hover:text-blue-700 hover:bg-blue-50">
+                      <DocumentDuplicateIcon className="h-4 w-4" />
+                    </Button>
+                    <Button onClick={() => removeRollSpec(spec.id)} variant="ghost" size="sm" disabled={rollSpecs.length === 1} className="text-red-600 cursor-pointer hover:text-red-700 hover:bg-red-50">
+                      <TrashIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-3">
+                  <div>
+                    <Label className="text-xs font-medium text-gray-700">Item Name *</Label>
+                    <Input
+                      type="text"
+                      value={spec.itemName}
+                      placeholder="Pattern 1"
+                      onChange={(e) => handleRollSpecChange(spec.id, "itemName", e.target.value)}
+                      className="w-full border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-xs font-medium text-gray-700">Size (mm) *</Label>
+                      <Input type="number" value={spec.size} placeholder="Size" onChange={(e) => handleRollSpecChange(spec.id, "size", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                    </div>
+                    <div>
+                      <Label className="text-xs font-medium text-gray-700">Rolls Required *</Label>
+                      <Input type="number" value={spec.nor} placeholder="Qty" onChange={(e) => handleRollSpecChange(spec.id, "nor", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-xs font-medium text-gray-700">UOM *</Label>
+                    <Select value={spec.uom} onValueChange={(value) => handleRollSpecChange(spec.id, "uom", value)}>
+                      <SelectTrigger className="w-full border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium">
+                        <SelectValue placeholder="Select UOM" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.entries(uomOptions).map(([key, value]) => (
+                          <SelectItem key={key} value={value}>{value}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  {optionalFields.dia && (
+                    <div>
+                      <Label className="text-xs font-medium text-gray-700">DIA</Label>
+                      <Input type="number" value={spec.dia} placeholder="36" onChange={(e) => handleRollSpecChange(spec.id, "dia", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                    </div>
+                  )}
+                  {optionalFields.bf && (
+                    <div>
+                      <Label className="text-xs font-medium text-gray-700">BF</Label>
+                      <Input type="number" value={spec.bf} placeholder="BF" onChange={(e) => handleRollSpecChange(spec.id, "bf", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                    </div>
+                  )}
+                  {optionalFields.gsm && (
+                    <div>
+                      <Label className="text-xs font-medium text-gray-700">GSM</Label>
+                      <Input type="number" value={spec.gsm} placeholder="GSM" onChange={(e) => handleRollSpecChange(spec.id, "gsm", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                    </div>
+                  )}
+                  {optionalFields.quality && (
+                    <div>
+                      <Label className="text-xs font-medium text-gray-700">Quality</Label>
+                      <Input
+                        type="text"
+                        value={spec.quality}
+                        placeholder="Enter quality"
+                        onChange={(e) => handleRollSpecChange(spec.id, "quality", e.target.value)}
+                        className="w-full border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                      />
+                    </div>
+                  )}
+                  {optionalFields.quantity && (
+                    <div>
+                      <Label className="text-xs font-medium text-gray-700">Auto QTY</Label>
+                      <Input type="number" value={spec.quantity} readOnly className="bg-gray-100 border-gray-300 text-gray-700" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </CardContent>
         <div className="flex justify-center pt-1">
           <Button
             onClick={handleOptimize}
             disabled={!isFormValid() || isOptimizing}
             size="sm"
-            className="w-full sm:w-auto px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+            className="w-full sm:w-auto cursor-pointer px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
           >
             {isOptimizing ? (
               <>
@@ -767,7 +889,6 @@ export default function ManualInputTab({
           </Button>
         </div>
       </Card>
-
     </div>
   );
 }

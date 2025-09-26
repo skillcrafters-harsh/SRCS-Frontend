@@ -276,65 +276,64 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
   };
 
   return (
-    <div className="space-y-6 min-h-screen animate-fade-in max-w-full bg-gradient-to-br from-blue-50/20 via-white to-indigo-50/30 p-6 rounded-xl">
-      {/* Main Dashboard Grid - 1/3 and 2/3 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* 1/3: Pie Chart */}
-        <Card className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 border-gray-200 shadow-sm hover:shadow-md p-0 transition-all duration-300">
-          <CardHeader className="bg-gradient-to-r from-gray-50 via-blue-50/50 to-indigo-50/30 border-b border-gray-200 p-4 py-3">
-            <CardTitle className="flex items-center gap-2 text-gray-900">
-              <ChartPieIcon className="h-5 w-5" />
+    <div className="space-y-4 sm:space-y-6 min-h-screen animate-fade-in max-w-full bg-gradient-to-br from-blue-50/20 via-white to-indigo-50/30 p-3 sm:p-6 rounded-xl">
+      {/* Main Dashboard Grid - Mobile First */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+        {/* Pie Chart - Full width on mobile */}
+        <Card className="bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/20 border-gray-200 shadow-sm hover:shadow-md p-0 transition-all duration-300 lg:order-1">
+          <CardHeader className="bg-gradient-to-r from-gray-50 via-blue-50/50 to-indigo-50/30 border-b border-gray-200 p-3 sm:p-4">
+            <CardTitle className="flex items-center gap-2 text-gray-900 text-sm sm:text-base">
+              <ChartPieIcon className="h-4 w-4 sm:h-5 sm:w-5" />
               Roll Utilization
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-6 flex items-center justify-center">
-            <PieChart
-              data={{
-                utilized:
-                  currentStrategy.results.reduce(
-                    (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
-                      (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
-                    ), 0
-                  ) / currentStrategy.results.reduce(
-                    (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
-                  ),
-                wastage:
-                  100 - currentStrategy.results.reduce(
-                    (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
-                      (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
-                    ), 0
-                  ) / currentStrategy.results.reduce(
-                    (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
-                  ),
-              }}
-            />
+          <CardContent className="p-4 sm:p-6 flex items-center justify-center">
+            <div className="w-full max-w-[250px] sm:max-w-none">
+              <PieChart
+                data={{
+                  utilized:
+                    currentStrategy.results.reduce(
+                      (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
+                        (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
+                      ), 0
+                    ) / currentStrategy.results.reduce(
+                      (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
+                    ),
+                  wastage:
+                    100 - currentStrategy.results.reduce(
+                      (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
+                        (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
+                      ), 0
+                    ) / currentStrategy.results.reduce(
+                      (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
+                    ),
+                }}
+              />
+            </div>
           </CardContent>
         </Card>
 
-        {/* 2/3: Two Rows */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* 1st Row: 4 Metric Boxes Horizontally */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Metrics and Strategy - Stack on mobile */}
+        <div className="lg:col-span-2 space-y-4 sm:space-y-6 lg:order-2">
+          {/* Metric Boxes - 2x2 grid on mobile, 4 columns on larger screens */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
             <Card className="bg-gradient-to-br from-white via-blue-50/20 to-indigo-50/10 border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-              <CardContent className="p-3">
+              <CardContent className="p-2 sm:p-3">
                 <div className="text-center">
-                  <p className="text-xl font-bold text-gray-900 mb-1">
+                  <p className="text-lg sm:text-xl font-bold text-gray-900 mb-1">
                     {currentStrategy.total_rolls_used}
                   </p>
-                  <p className="text-xs font-medium text-gray-600 mb-1">
-                    Total Rolls Used
+                  <p className="text-xs font-medium text-gray-600">
+                    Total Rolls
                   </p>
-                  {/* <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mx-auto">
-                    <span className="text-blue-600 font-bold text-sm">R</span>
-                  </div> */}
                 </div>
               </CardContent>
             </Card>
 
             <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-              <CardContent className="p-3">
+              <CardContent className="p-2 sm:p-3">
                 <div className="text-center">
-                  <p className="text-xl font-bold text-green-600 mb-1">
+                  <p className="text-lg sm:text-xl font-bold text-green-600 mb-1">
                     {(
                       currentStrategy.results.reduce(
                         (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
@@ -343,65 +342,52 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                       ) / currentStrategy.results.reduce(
                         (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
                       )
-                    ).toFixed(2)}
+                    ).toFixed(1)}
                     %
                   </p>
-                  <p className="text-xs font-medium text-gray-600 mb-1">
+                  <p className="text-xs font-medium text-gray-600">
                     Efficiency
                   </p>
-                  {/* <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto">
-                    <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
-                    </svg>
-                  </div> */}
                 </div>
               </CardContent>
             </Card>
 
             <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-              <CardContent className="p-3">
+              <CardContent className="p-2 sm:p-3">
                 <div className="text-center">
-                  <p className="text-xl font-bold text-orange-600 mb-1">
-                    {currentStrategy.total_wastage_mm}mm
+                  <p className="text-lg sm:text-xl font-bold text-orange-600 mb-1">
+                    {currentStrategy.total_wastage_mm}<span className="text-xs">mm</span>
                   </p>
-                  <p className="text-xs font-medium text-gray-600 mb-1">
-                    Total Wastage
+                  <p className="text-xs font-medium text-gray-600">
+                    Wastage
                   </p>
-                  {/* <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mx-auto">
-                    <svg className="w-4 h-4 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                    </svg>
-                  </div> */}
                 </div>
               </CardContent>
             </Card>
 
             <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-              <CardContent className="p-3">
+              <CardContent className="p-2 sm:p-3">
                 <div className="text-center">
-                  {/* <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mx-auto">
-                    <span className="text-blue-600 font-bold text-sm">C</span>
-                  </div> */}
-                  <p className="text-xl font-bold text-blue-600 mb-1">
+                  <p className="text-lg sm:text-xl font-bold text-blue-600 mb-1">
                     {currentStrategy.total_cutter_changes}
                   </p>
-                  <p className="text-xs font-medium text-gray-600 mb-1">
-                    Cutter Changes
+                  <p className="text-xs font-medium text-gray-600">
+                    Cuts
                   </p>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* 2nd Row: Strategy Selection Horizontal */}
+          {/* Strategy Selection */}
           <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-all duration-300">
-            <CardHeader className="bg-gray-50 border-b border-gray-200 p-4 py-3">
-              <CardTitle className="text-gray-900">
+            <CardHeader className="bg-gray-50 border-b border-gray-200 p-3 sm:p-4">
+              <CardTitle className="text-gray-900 text-sm sm:text-base">
                 Strategy Comparison
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-4">
-              <div className="grid grid-cols-2 gap-4">
+            <CardContent className="p-3 sm:p-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div
                   className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 hover:shadow-sm ${
                     selectedStrategy === "min_cutter_changes"
@@ -522,24 +508,26 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
 
       {/* Grouped Accordion for Size Buckets */}
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-900">Size Bucket Results</h2>
-          <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">Size Bucket Results</h2>
+          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <Button
               onClick={handleExportExcel}
               size="sm"
-              className="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center border-0"
+              className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 w-full sm:w-auto"
             >
-              <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
-              Export Excel
+              <DocumentArrowDownIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Export Excel</span>
+              <span className="sm:hidden">Excel</span>
             </Button>
             <Button
               onClick={handleExportPDF}
               size="sm"
-              className="px-4 py-2 text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center border-0"
+              className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 w-full sm:w-auto"
             >
-              <DocumentArrowDownIcon className="h-4 w-4 mr-2" />
-              Export PDF
+              <DocumentArrowDownIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Export PDF</span>
+              <span className="sm:hidden">PDF</span>
             </Button>
           </div>
         </div>
@@ -549,18 +537,18 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
           // Single bucket - show directly without accordion
           <Card className="border border-gray-200 bg-white">
             <CardHeader className="hover:bg-gray-50 p-3">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-sm">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-xs sm:text-sm flex-shrink-0">
                   1
                 </div>
-                <div>
-                  <CardTitle className="text-base">
+                <div className="min-w-0 flex-1">
+                  <CardTitle className="text-sm sm:text-base truncate">
                     {currentStrategy.results[0].size_bucket}
                   </CardTitle>
-                  <div className="flex gap-4 text-xs text-gray-600">
+                  <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs text-gray-600">
                     <span>Wastage: <strong>{getBucketMetrics(currentStrategy.results[0]).totalWastage}mm</strong></span>
-                    <span>Cutter Changes: <strong>{getBucketMetrics(currentStrategy.results[0]).cutterChanges}</strong></span>
-                    <span>Rolls Used: <strong>{getBucketMetrics(currentStrategy.results[0]).rollsUsed}</strong></span>
+                    <span>Changes: <strong>{getBucketMetrics(currentStrategy.results[0]).cutterChanges}</strong></span>
+                    <span>Rolls: <strong>{getBucketMetrics(currentStrategy.results[0]).rollsUsed}</strong></span>
                   </div>
                 </div>
               </div>
@@ -746,23 +734,26 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                   className="cursor-pointer hover:bg-gray-50 p-3"
                   onClick={toggleSection}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-sm">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-start gap-3 min-w-0 flex-1">
+                      <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-xs sm:text-sm flex-shrink-0">
                         {bucketIndex + 1}
                       </div>
-                      <div>
-                        <CardTitle className="text-base">
-                          {bucketLabel} - Rolls: {rollSizes}
+                      <div className="min-w-0 flex-1">
+                        <CardTitle className="text-sm sm:text-base truncate">
+                          {bucketLabel}
                         </CardTitle>
-                        <div className="flex gap-4 text-xs text-gray-600">
+                        <div className="text-xs text-gray-500 truncate mb-1">
+                          Rolls: {rollSizes}
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs text-gray-600">
                           <span>Wastage: <strong>{metrics.totalWastage}mm</strong></span>
-                          <span>Cutter Changes: <strong>{metrics.cutterChanges}</strong></span>
-                          <span>Rolls Used: <strong>{metrics.rollsUsed}</strong></span>
+                          <span>Changes: <strong>{metrics.cutterChanges}</strong></span>
+                          <span>Rolls: <strong>{metrics.rollsUsed}</strong></span>
                         </div>
                       </div>
                     </div>
-                    <div>
+                    <div className="flex-shrink-0">
                       {isExpanded ? (
                         <ChevronUpIcon className="h-4 w-4 text-gray-500" />
                       ) : (
