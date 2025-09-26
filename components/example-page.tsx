@@ -47,29 +47,29 @@ export default function ExamplePage() {
   };
 
   return (
-    <div className="space-y-8 w-full max-w-7xl mx-auto ">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8 w-full max-w-7xl mx-auto">
       {/* Header */}
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">
+      <div className="text-center px-2 sm:px-4">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 sm:mb-4">
           Example Input & Output
         </h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-sm sm:text-base lg:text-lg text-gray-600">
           See how our optimization system works with real-world data examples
         </p>
       </div>
 
       {/* Example Input Section */}
       <Card className="shadow-lg w-full">
-        <CardHeader className="bg-blue-50 py-3 flex items-center">
-          <CardTitle className="text-xl text-gray-900">
+        <CardHeader className="bg-blue-50 py-2 sm:py-3 lg:py-4 flex items-center px-4 sm:px-6">
+          <CardTitle className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-900">
             Example Input Data
           </CardTitle>
-          <CardDescription className="text-gray-600">
+          <CardDescription className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">
             Sample cutting requirements for paper roll optimization
           </CardDescription>
         </CardHeader>
-        <CardContent className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <CardContent className="p-3 sm:p-4 lg:p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
             {/* Basic Information */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-900">

@@ -65,19 +65,25 @@ export default function ApiDocsPage() {
   )
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold tracking-tight">Get started with SRCS WebSocket API</h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+    <div className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-8 space-y-4 sm:space-y-6 lg:space-y-8">
+      <div className="text-center space-y-2 sm:space-y-4">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight">Get started with SRCS WebSocket API</h1>
+        <p className="text-sm sm:text-base lg:text-xl text-muted-foreground max-w-2xl mx-auto">
           Integrate real-time roll cutting optimization into your project in minutes.
         </p>
       </div>
 
       <Tabs defaultValue="react" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="react">React / Next.js</TabsTrigger>
-          <TabsTrigger value="vanilla">Vanilla JavaScript</TabsTrigger>
-          <TabsTrigger value="node">Node.js</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto sm:h-10">
+          <TabsTrigger value="react" className="text-xs sm:text-sm py-2 sm:py-1.5">
+            <span className="sm:hidden">React</span>
+            <span className="hidden sm:inline">React / Next.js</span>
+          </TabsTrigger>
+          <TabsTrigger value="vanilla" className="text-xs sm:text-sm py-2 sm:py-1.5">
+            <span className="sm:hidden">Vanilla JS</span>
+            <span className="hidden sm:inline">Vanilla JavaScript</span>
+          </TabsTrigger>
+          <TabsTrigger value="node" className="text-xs sm:text-sm py-2 sm:py-1.5">Node.js</TabsTrigger>
         </TabsList>
 
         <TabsContent value="react" className="space-y-6">
