@@ -26,7 +26,9 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
   const [selectedStrategy, setSelectedStrategy] = useState<
     "min_cutter_changes" | "min_wastage"
   >("min_wastage");
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(
+    new Set()
+  );
   // console.log(results)
   if (!results || !results.data) {
     return (
@@ -38,29 +40,36 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
   const responseData = results.data || results;
 
   const currentStrategy = responseData.strategies[selectedStrategy];
-  
+
   // Get bucket performance metrics
   const getBucketMetrics = (bucket: any) => {
-    const avgEfficiency = bucket.cutting_plans.reduce((acc: number, plan: any) => acc + plan.usage_percent, 0) / bucket.cutting_plans.length;
+    const avgEfficiency =
+      bucket.cutting_plans.reduce(
+        (acc: number, plan: any) => acc + plan.usage_percent,
+        0
+      ) / bucket.cutting_plans.length;
     return {
       avgEfficiency,
       totalWastage: bucket.summary.total_wastage_mm,
       cutterChanges: bucket.summary.total_cutter_changes,
-      rollsUsed: bucket.summary.total_stock_rolls
+      rollsUsed: bucket.summary.total_stock_rolls,
     };
   };
 
   const handleExportPDF = () => {
     const printWindow = window.open("", "_blank");
     if (printWindow) {
-      const allTablesHTML = currentStrategy.results.map((bucket: any, bucketIndex: number) => {
-        const bucketLabel = bucket.size_bucket || `Bucket ${bucketIndex + 1}`;
-        const metrics = getBucketMetrics(bucket);
-        
-        return `
+      const allTablesHTML = currentStrategy.results
+        .map((bucket: any, bucketIndex: number) => {
+          const bucketLabel = bucket.size_bucket || `Bucket ${bucketIndex + 1}`;
+          const metrics = getBucketMetrics(bucket);
+
+          return `
           <div style="margin-bottom: 40px; page-break-inside: avoid;">
             <h3 style="color: #1f2937; margin-bottom: 10px; padding: 10px; background-color: #f3f4f6; border-left: 4px solid #3b82f6;">
-              ${bucketLabel} - Efficiency: ${metrics.avgEfficiency.toFixed(1)}% | Wastage: ${metrics.totalWastage}mm
+              ${bucketLabel} - Efficiency: ${metrics.avgEfficiency.toFixed(
+            1
+          )}% | Wastage: ${metrics.totalWastage}mm
             </h3>
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
               <thead>
@@ -70,7 +79,10 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                   <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Sets</th>
                   ${Array.from(
                     { length: responseData.no_of_cut },
-                    (_, i) => `<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Size ${i + 1}</th>`
+                    (_, i) =>
+                      `<th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Size ${
+                        i + 1
+                      }</th>`
                   ).join("")}
                   <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Waste/Set (mm)</th>
                   <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Total Waste (mm)</th>
@@ -90,10 +102,18 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                       (s: any) => s.actual_size > 0
                     );
                     return `
-                    <tr style="${i % 2 === 0 ? 'background-color: #f9f9f9;' : ''}">
-                      <td style="border: 1px solid #ddd; padding: 8px;">${i + 1}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px; color: #2563eb; font-weight: 500;">${plan.item_details.item_name}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.sets}</td>
+                    <tr style="${
+                      i % 2 === 0 ? "background-color: #f9f9f9;" : ""
+                    }">
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        i + 1
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px; color: #2563eb; font-weight: 500;">${
+                        plan.item_details.item_name
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.sets
+                      }</td>
                       ${Array.from(
                         { length: responseData.no_of_cut },
                         (_, i) => {
@@ -103,15 +123,33 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                           }</td>`;
                         }
                       ).join("")}
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.wastage_mm}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.total_wastage_mm}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.wastage_qty || 0}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.total_wastage_qty || 0}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.usage_mm}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.total_usage_mm}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.usage_qty || 0}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px;">${plan.total_usage_qty || 0}</td>
-                      <td style="border: 1px solid #ddd; padding: 8px; color: #059669; font-weight: 500;">${plan.usage_percent.toFixed(2)}%</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.wastage_mm
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.total_wastage_mm
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.wastage_qty || 0
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.total_wastage_qty || 0
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.usage_mm
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.total_usage_mm
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.usage_qty || 0
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px;">${
+                        plan.total_usage_qty || 0
+                      }</td>
+                      <td style="border: 1px solid #ddd; padding: 8px; color: #059669; font-weight: 500;">${plan.usage_percent.toFixed(
+                        2
+                      )}%</td>
                     </tr>
                   `;
                   })
@@ -120,12 +158,15 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
             </table>
           </div>
         `;
-      }).join("");
-      
+        })
+        .join("");
+
       printWindow.document.write(`
         <html>
           <head>
-            <title>Cutting Optimization Results - ${selectedStrategy.replace('_', ' ').toUpperCase()}</title>
+            <title>Cutting Optimization Results - ${selectedStrategy
+              .replace("_", " ")
+              .toUpperCase()}</title>
             <style>
               body { 
                 font-family: Arial, sans-serif; 
@@ -167,10 +208,18 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
           <body>
             <h1>Cutting Optimization Results</h1>
             <div style="margin-bottom: 20px; padding: 15px; background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px;">
-              <strong>Strategy:</strong> ${selectedStrategy.replace('_', ' ').toUpperCase()}<br>
-              <strong>Total Rolls Used:</strong> ${currentStrategy.total_rolls_used}<br>
-              <strong>Total Wastage:</strong> ${currentStrategy.total_wastage_mm}mm<br>
-              <strong>Total Cutter Changes:</strong> ${currentStrategy.total_cutter_changes}<br>
+              <strong>Strategy:</strong> ${selectedStrategy
+                .replace("_", " ")
+                .toUpperCase()}<br>
+              <strong>Total Rolls Used:</strong> ${
+                currentStrategy.total_rolls_used
+              }<br>
+              <strong>Total Wastage:</strong> ${
+                currentStrategy.total_wastage_mm
+              }mm<br>
+              <strong>Total Cutter Changes:</strong> ${
+                currentStrategy.total_cutter_changes
+              }<br>
               <strong>Decal Size:</strong> ${responseData.decal_size}mm<br>
               <strong>Max Cuts:</strong> ${responseData.no_of_cut}
             </div>
@@ -185,7 +234,10 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
 
   const handleExportExcel = () => {
     const maxCuts = responseData.no_of_cut;
-    const sizeHeaders = Array.from({ length: maxCuts }, (_, i) => `Size ${i + 1}`);
+    const sizeHeaders = Array.from(
+      { length: maxCuts },
+      (_, i) => `Size ${i + 1}`
+    );
 
     const headers = [
       "Sr. No.",
@@ -204,14 +256,14 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
     ];
 
     let csvContent = "";
-    
+
     currentStrategy.results.forEach((bucket: any, bucketIndex: number) => {
       const bucketLabel = bucket.size_bucket || `Bucket ${bucketIndex + 1}`;
-      
+
       // Add bucket header
       csvContent += `\n${bucketLabel}\n`;
       csvContent += headers.join(",") + "\n";
-      
+
       // Add bucket data
       bucket.cutting_plans.forEach((plan: any, planIndex: number) => {
         const activeSizes = plan.sizes.filter((s: any) => s.actual_size > 0);
@@ -235,7 +287,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
           plan.total_usage_qty || 0,
           plan.usage_percent.toFixed(2) + "%",
         ];
-        
+
         csvContent += row.join(",") + "\n";
       });
     });
@@ -293,20 +345,37 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                 data={{
                   utilized:
                     currentStrategy.results.reduce(
-                      (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
-                        (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
-                      ), 0
-                    ) / currentStrategy.results.reduce(
-                      (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
+                      (acc: number, bucket: any) =>
+                        acc +
+                        bucket.cutting_plans.reduce(
+                          (planAcc: number, plan: any) =>
+                            planAcc + plan.usage_percent,
+                          0
+                        ),
+                      0
+                    ) /
+                    currentStrategy.results.reduce(
+                      (acc: number, bucket: any) =>
+                        acc + bucket.cutting_plans.length,
+                      0
                     ),
                   wastage:
-                    100 - currentStrategy.results.reduce(
-                      (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
-                        (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
-                      ), 0
-                    ) / currentStrategy.results.reduce(
-                      (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
-                    ),
+                    100 -
+                    currentStrategy.results.reduce(
+                      (acc: number, bucket: any) =>
+                        acc +
+                        bucket.cutting_plans.reduce(
+                          (planAcc: number, plan: any) =>
+                            planAcc + plan.usage_percent,
+                          0
+                        ),
+                      0
+                    ) /
+                      currentStrategy.results.reduce(
+                        (acc: number, bucket: any) =>
+                          acc + bucket.cutting_plans.length,
+                        0
+                      ),
                 }}
               />
             </div>
@@ -336,11 +405,19 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                   <p className="text-lg sm:text-xl font-bold text-green-600 mb-1">
                     {(
                       currentStrategy.results.reduce(
-                        (acc: number, bucket: any) => acc + bucket.cutting_plans.reduce(
-                          (planAcc: number, plan: any) => planAcc + plan.usage_percent, 0
-                        ), 0
-                      ) / currentStrategy.results.reduce(
-                        (acc: number, bucket: any) => acc + bucket.cutting_plans.length, 0
+                        (acc: number, bucket: any) =>
+                          acc +
+                          bucket.cutting_plans.reduce(
+                            (planAcc: number, plan: any) =>
+                              planAcc + plan.usage_percent,
+                            0
+                          ),
+                        0
+                      ) /
+                      currentStrategy.results.reduce(
+                        (acc: number, bucket: any) =>
+                          acc + bucket.cutting_plans.length,
+                        0
                       )
                     ).toFixed(1)}
                     %
@@ -356,11 +433,10 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
               <CardContent className="p-2 sm:p-3">
                 <div className="text-center">
                   <p className="text-lg sm:text-xl font-bold text-orange-600 mb-1">
-                    {currentStrategy.total_wastage_mm}<span className="text-xs">mm</span>
+                    {currentStrategy.total_wastage_mm}
+                    <span className="text-xs">mm</span>
                   </p>
-                  <p className="text-xs font-medium text-gray-600">
-                    Wastage
-                  </p>
+                  <p className="text-xs font-medium text-gray-600">Wastage</p>
                 </div>
               </CardContent>
             </Card>
@@ -371,9 +447,7 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                   <p className="text-lg sm:text-xl font-bold text-blue-600 mb-1">
                     {currentStrategy.total_cutter_changes}
                   </p>
-                  <p className="text-xs font-medium text-gray-600">
-                    Cuts
-                  </p>
+                  <p className="text-xs font-medium text-gray-600">Cuts</p>
                 </div>
               </CardContent>
             </Card>
@@ -508,137 +582,207 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
 
       {/* Grouped Accordion for Size Buckets */}
       <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900">Size Bucket Results</h2>
-          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-            <Button
-              onClick={handleExportExcel}
-              size="sm"
-              className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 w-full sm:w-auto"
-            >
-              <DocumentArrowDownIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Export Excel</span>
-              <span className="sm:hidden">Excel</span>
-            </Button>
-            <Button
-              onClick={handleExportPDF}
-              size="sm"
-              className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 w-full sm:w-auto"
-            >
-              <DocumentArrowDownIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
-              <span className="hidden sm:inline">Export PDF</span>
-              <span className="sm:hidden">PDF</span>
-            </Button>
+        <div className="flex flex-row sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+            Size Bucket Results
+          </h2>
+          <div className="flex flex-row gap-2">
+            <div>
+              <Button
+                onClick={handleExportExcel}
+                size="sm"
+                className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 w-full sm:w-auto"
+              >
+                <DocumentArrowDownIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Export Excel</span>
+                <span className="sm:hidden">Excel</span>
+              </Button>
+            </div>
+            <div>
+              <Button
+                onClick={handleExportPDF}
+                size="sm"
+                className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center border-0 w-full sm:w-auto"
+              >
+                <DocumentArrowDownIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+                <span className="hidden sm:inline">Export PDF</span>
+                <span className="sm:hidden">PDF</span>
+              </Button>
+            </div>
           </div>
         </div>
-        
+
         {/* Check if single bucket - show direct, otherwise show accordion */}
         {currentStrategy.results.length === 1 ? (
           // Single bucket - show directly without accordion
-          <Card className="border border-gray-200 bg-white">
+          <Card className="border border-gray-200 bg-white flex gap-0 flex-col">
             <CardHeader className="hover:bg-gray-50 p-3">
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-blue-500 text-white font-bold text-xs sm:text-sm flex-shrink-0">
                   1
                 </div>
-                <div className="min-w-0 flex-1">
+                <div className="min-w-0">
                   <CardTitle className="text-sm sm:text-base truncate">
                     {currentStrategy.results[0].size_bucket}
                   </CardTitle>
-                  <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs text-gray-600">
-                    <span>Wastage: <strong>{getBucketMetrics(currentStrategy.results[0]).totalWastage}mm</strong></span>
-                    <span>Changes: <strong>{getBucketMetrics(currentStrategy.results[0]).cutterChanges}</strong></span>
-                    <span>Rolls: <strong>{getBucketMetrics(currentStrategy.results[0]).rollsUsed}</strong></span>
+                  <div className="flex gap-1 sm:flex-row sm:gap-4 text-xs text-gray-600">
+                    <span>
+                      Wastage:{" "}
+                      <strong>
+                        {
+                          getBucketMetrics(currentStrategy.results[0])
+                            .totalWastage
+                        }
+                        mm
+                      </strong>
+                    </span>
+                    <span>
+                      Changes:{" "}
+                      <strong>
+                        {
+                          getBucketMetrics(currentStrategy.results[0])
+                            .cutterChanges
+                        }
+                      </strong>
+                    </span>
+                    <span>
+                      Rolls:{" "}
+                      <strong>
+                        {getBucketMetrics(currentStrategy.results[0]).rollsUsed}
+                      </strong>
+                    </span>
                   </div>
                 </div>
               </div>
             </CardHeader>
-            
+
             <CardContent className="p-3">
               <div className="space-y-6">
                 {/* Cutting Plans */}
                 <div className="space-y-4">
-                  {currentStrategy.results[0].cutting_plans.map((plan: any, index: number) => (
-                    <div key={index} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                      <div className="flex justify-between items-center mb-3">
-                        <h4 className="font-semibold text-gray-900">
-                          Plan {plan.plan_number} - {plan.item_details.item_name}
-                        </h4>
-                        <div className="flex gap-2 text-sm text-gray-600">
-                          <span>Sets: {plan.sets}</span>
-                          <span>Usage: {plan.usage_percent.toFixed(2)}%</span>
+                  {currentStrategy.results[0].cutting_plans.map(
+                    (plan: any, index: number) => (
+                      <div
+                        key={index}
+                        className="bg-gray-50 rounded-lg p-4 border border-gray-200"
+                      >
+                        <div className="flex justify-between items-center mb-3">
+                          <h4 className="font-semibold text-gray-900">
+                            Plan {plan.plan_number} -{" "}
+                            {plan.item_details.item_name}
+                          </h4>
+                          <div className="flex gap-2 text-sm text-gray-600">
+                            <span>Sets: {plan.sets}</span>
+                            <span>Usage: {plan.usage_percent.toFixed(2)}%</span>
+                          </div>
                         </div>
-                      </div>
-                      
-                      {/* Visual Bar */}
-                      <div className="mb-3">
-                        <div className="flex rounded-lg overflow-hidden h-8 bg-gray-200">
+
+                        {/* Visual Bar */}
+                        <div className="mb-3">
+                          <div className="flex rounded-lg overflow-hidden h-8 bg-gray-200">
+                            {plan.sizes
+                              .filter((size: any) => size.actual_size > 0)
+                              .map((size: any, sizeIndex: number) => {
+                                const percentage =
+                                  (size.size_mm /
+                                    (plan.usage_mm + plan.wastage_mm)) *
+                                  100;
+                                return (
+                                  <div
+                                    key={sizeIndex}
+                                    className="flex items-center justify-center text-white text-xs font-medium"
+                                    style={{
+                                      width: `${percentage}%`,
+                                      backgroundColor: getColorForId(size.id),
+                                    }}
+                                    title={`${size.actual_size}${size.uom}`}
+                                  >
+                                    {percentage > 8 &&
+                                      `${size.actual_size}${size.uom}`}
+                                  </div>
+                                );
+                              })}
+                            {plan.wastage_mm > 0 && (
+                              <div
+                                className="flex items-center justify-center text-gray-600 text-xs"
+                                style={{
+                                  width: `${
+                                    (plan.wastage_mm /
+                                      (plan.usage_mm + plan.wastage_mm)) *
+                                    100
+                                  }%`,
+                                  backgroundColor: "#E5E7EB",
+                                }}
+                              >
+                                Waste
+                              </div>
+                            )}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            Usage: {plan.usage_mm}mm | Wastage:{" "}
+                            {plan.wastage_mm}mm | Qty: {plan.usage_qty}
+                          </div>
+                        </div>
+
+                        {/* Size Details */}
+                        <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
                           {plan.sizes
                             .filter((size: any) => size.actual_size > 0)
-                            .map((size: any, sizeIndex: number) => {
-                              const percentage = (size.size_mm / (plan.usage_mm + plan.wastage_mm)) * 100;
-                              return (
+                            .map((size: any, sizeIndex: number) => (
+                              <div
+                                key={sizeIndex}
+                                className="bg-white rounded p-2 border text-center"
+                              >
                                 <div
-                                  key={sizeIndex}
-                                  className="flex items-center justify-center text-white text-xs font-medium"
+                                  className="w-2 h-2 rounded-full mx-auto mb-1"
                                   style={{
-                                    width: `${percentage}%`,
                                     backgroundColor: getColorForId(size.id),
                                   }}
-                                  title={`${size.actual_size}${size.uom}`}
-                                >
-                                  {percentage > 8 && `${size.actual_size}${size.uom}`}
-                                </div>
-                              );
-                            })}
-                          {plan.wastage_mm > 0 && (
-                            <div
-                              className="flex items-center justify-center text-gray-600 text-xs"
-                              style={{
-                                width: `${(plan.wastage_mm / (plan.usage_mm + plan.wastage_mm)) * 100}%`,
-                                backgroundColor: "#E5E7EB",
-                              }}
-                            >
-                              Waste
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1">
-                          Usage: {plan.usage_mm}mm | Wastage: {plan.wastage_mm}mm | Qty: {plan.usage_qty}
+                                ></div>
+                                <p className="text-xs font-medium">
+                                  {size.actual_size}
+                                  {size.uom}
+                                </p>
+                                <p className="text-xs text-gray-500">
+                                  {size.size_mm}mm
+                                </p>
+                              </div>
+                            ))}
                         </div>
                       </div>
-                      
-                      {/* Size Details */}
-                      <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
-                        {plan.sizes
-                          .filter((size: any) => size.actual_size > 0)
-                          .map((size: any, sizeIndex: number) => (
-                            <div key={sizeIndex} className="bg-white rounded p-2 border text-center">
-                              <div className="w-2 h-2 rounded-full mx-auto mb-1" style={{ backgroundColor: getColorForId(size.id) }}></div>
-                              <p className="text-xs font-medium">{size.actual_size}{size.uom}</p>
-                              <p className="text-xs text-gray-500">{size.size_mm}mm</p>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
-                
+
                 {/* Pattern Details Table */}
                 <div className="mt-6">
-                  <h4 className="text-lg font-semibold text-gray-900 mb-4">Pattern Details</h4>
+                  <h4 className="text-lg font-semibold text-gray-900 mb-4">
+                    Pattern Details
+                  </h4>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm border border-gray-200 rounded-lg">
                       <thead>
                         <tr className="border-b border-gray-200 bg-gray-50">
-                          <th className="text-left p-3 font-medium text-gray-900">Sr. No.</th>
-                          <th className="text-left p-3 font-medium text-gray-900">Item Name</th>
-                          <th className="text-left p-3 font-medium text-gray-900">Sets</th>
-                          {Array.from({ length: responseData.no_of_cut }, (_, i) => (
-                            <th key={i} className="text-left p-3 font-medium text-gray-900">
-                              Size {i + 1}
-                            </th>
-                          ))}
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            Sr. No.
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            Item Name
+                          </th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            Sets
+                          </th>
+                          {Array.from(
+                            { length: responseData.no_of_cut },
+                            (_, i) => (
+                              <th
+                                key={i}
+                                className="text-left p-3 font-medium text-gray-900"
+                              >
+                                Size {i + 1}
+                              </th>
+                            )
+                          )}
                           <th className="text-left p-3 font-medium text-gray-900">
                             <div>Waste/Set</div>
                             <div className="text-xs font-normal">(mm)</div>
@@ -671,37 +815,75 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                             <div>Total Usage</div>
                             <div className="text-xs font-normal">Qty</div>
                           </th>
-                          <th className="text-left p-3 font-medium text-gray-900">Usage %</th>
+                          <th className="text-left p-3 font-medium text-gray-900">
+                            Usage %
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {currentStrategy.results[0].cutting_plans.map((plan: any, planIndex: number) => {
-                          const activeSizes = plan.sizes.filter((s: any) => s.actual_size > 0);
-                          return (
-                            <tr key={planIndex} className="border-b border-gray-100 hover:bg-gray-50">
-                              <td className="p-3 text-gray-900 font-medium">{planIndex + 1}</td>
-                              <td className="p-3 text-blue-600 font-medium">{plan.item_details.item_name}</td>
-                              <td className="p-3 text-gray-900">{plan.sets}</td>
-                              {Array.from({ length: responseData.no_of_cut }, (_, i) => {
-                                const size = activeSizes[i];
-                                return (
-                                  <td key={i} className="p-3 text-gray-900">
-                                    {size ? `${size.actual_size}${size.uom}` : "-"}
-                                  </td>
-                                );
-                              })}
-                              <td className="p-3 text-gray-900">{plan.wastage_mm}</td>
-                              <td className="p-3 text-gray-900">{plan.total_wastage_mm}</td>
-                              <td className="p-3 text-gray-900">{plan.wastage_qty || 0}</td>
-                              <td className="p-3 text-gray-900">{plan.total_wastage_qty || 0}</td>
-                              <td className="p-3 text-gray-900">{plan.usage_mm}</td>
-                              <td className="p-3 text-gray-900">{plan.total_usage_mm}</td>
-                              <td className="p-3 text-gray-900">{plan.usage_qty || 0}</td>
-                              <td className="p-3 text-gray-900">{plan.total_usage_qty || 0}</td>
-                              <td className="p-3 text-green-600 font-medium">{plan.usage_percent.toFixed(2)}%</td>
-                            </tr>
-                          );
-                        })}
+                        {currentStrategy.results[0].cutting_plans.map(
+                          (plan: any, planIndex: number) => {
+                            const activeSizes = plan.sizes.filter(
+                              (s: any) => s.actual_size > 0
+                            );
+                            return (
+                              <tr
+                                key={planIndex}
+                                className="border-b border-gray-100 hover:bg-gray-50"
+                              >
+                                <td className="p-3 text-gray-900 font-medium">
+                                  {planIndex + 1}
+                                </td>
+                                <td className="p-3 text-blue-600 font-medium">
+                                  {plan.item_details.item_name}
+                                </td>
+                                <td className="p-3 text-gray-900">
+                                  {plan.sets}
+                                </td>
+                                {Array.from(
+                                  { length: responseData.no_of_cut },
+                                  (_, i) => {
+                                    const size = activeSizes[i];
+                                    return (
+                                      <td key={i} className="p-3 text-gray-900">
+                                        {size
+                                          ? `${size.actual_size}${size.uom}`
+                                          : "-"}
+                                      </td>
+                                    );
+                                  }
+                                )}
+                                <td className="p-3 text-gray-900">
+                                  {plan.wastage_mm}
+                                </td>
+                                <td className="p-3 text-gray-900">
+                                  {plan.total_wastage_mm}
+                                </td>
+                                <td className="p-3 text-gray-900">
+                                  {plan.wastage_qty || 0}
+                                </td>
+                                <td className="p-3 text-gray-900">
+                                  {plan.total_wastage_qty || 0}
+                                </td>
+                                <td className="p-3 text-gray-900">
+                                  {plan.usage_mm}
+                                </td>
+                                <td className="p-3 text-gray-900">
+                                  {plan.total_usage_mm}
+                                </td>
+                                <td className="p-3 text-gray-900">
+                                  {plan.usage_qty || 0}
+                                </td>
+                                <td className="p-3 text-gray-900">
+                                  {plan.total_usage_qty || 0}
+                                </td>
+                                <td className="p-3 text-green-600 font-medium">
+                                  {plan.usage_percent.toFixed(2)}%
+                                </td>
+                              </tr>
+                            );
+                          }
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -712,12 +894,15 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
         ) : (
           // Multiple buckets - show accordion
           currentStrategy.results.map((bucket: any, bucketIndex: number) => {
-            const bucketLabel = bucket.size_bucket || `Bucket ${bucketIndex + 1}`;
+            const bucketLabel =
+              bucket.size_bucket || `Bucket ${bucketIndex + 1}`;
             const metrics = getBucketMetrics(bucket);
             const isHighPerforming = metrics.avgEfficiency > 85;
             const isExpanded = expandedSections.has(bucket.size_bucket);
-            const rollSizes = bucket.verification?.map((v: any) => v.size_mm).join(' + ') || 'N/A';
-            
+            const rollSizes =
+              bucket.verification?.map((v: any) => v.size_mm).join(" + ") ||
+              "N/A";
+
             const toggleSection = () => {
               const newExpanded = new Set(expandedSections);
               if (isExpanded) {
@@ -727,10 +912,13 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
               }
               setExpandedSections(newExpanded);
             };
-          
+
             return (
-              <Card key={bucketIndex} className="border border-gray-200 bg-white">
-                <CardHeader 
+              <Card
+                key={bucketIndex}
+                className="border border-gray-200 bg-white"
+              >
+                <CardHeader
                   className="cursor-pointer hover:bg-gray-50 p-3"
                   onClick={toggleSection}
                 >
@@ -747,9 +935,15 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                           Rolls: {rollSizes}
                         </div>
                         <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-xs text-gray-600">
-                          <span>Wastage: <strong>{metrics.totalWastage}mm</strong></span>
-                          <span>Changes: <strong>{metrics.cutterChanges}</strong></span>
-                          <span>Rolls: <strong>{metrics.rollsUsed}</strong></span>
+                          <span>
+                            Wastage: <strong>{metrics.totalWastage}mm</strong>
+                          </span>
+                          <span>
+                            Changes: <strong>{metrics.cutterChanges}</strong>
+                          </span>
+                          <span>
+                            Rolls: <strong>{metrics.rollsUsed}</strong>
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -762,183 +956,253 @@ export default function ResultsTab({ results, formData }: ResultsTabProps) {
                     </div>
                   </div>
                 </CardHeader>
-              
-              {isExpanded && (
-                <CardContent className="p-3 border-t border-gray-200">
-                  <div className="space-y-6">
-                    {/* Cutting Plans */}
-                    <div className="space-y-4">
-                      {bucket.cutting_plans.map((plan: any, index: number) => (
-              <div
-                key={index}
-                className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-sm transition-all duration-300 animate-slide-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 space-y-1 sm:space-y-0">
-                  <h4 className="font-semibold text-gray-900">
-                    Plan {plan.plan_number} - {plan.item_details.item_name}
-                  </h4>
-                  <div className="flex gap-2 text-sm text-gray-600">
-                    <span>Sets: {plan.sets}</span>
-                    <span>Usage: {plan.usage_percent.toFixed(2)}%</span>
-                  </div>
-                </div>
 
-                {/* Horizontal Bar Visualization */}
-                <div className="mb-3">
-                  <div className="flex rounded-lg overflow-hidden h-8 bg-gray-200">
-                    {plan.sizes
-                      .filter((size: any) => size.actual_size > 0)
-                      .map((size: any, sizeIndex: number) => {
-                        const totalUsage = plan.usage_mm;
-                        const sizeUsage = size.size_mm;
-                        const percentage =
-                          totalUsage > 0
-                            ? (sizeUsage / (totalUsage + plan.wastage_mm)) * 100
-                            : 0;
-                        return (
-                          <div
-                            key={sizeIndex}
-                            className="flex items-center justify-center text-white text-xs font-medium transition-all duration-300 hover:opacity-80 border-r border-white/30"
-                            style={{
-                              width: `${percentage}%`,
-                              backgroundColor: getColorForId(size.id),
-                              minWidth: percentage > 5 ? "auto" : "0",
-                            }}
-                            title={`${size.actual_size}${size.uom}`}
-                          >
-                            {percentage > 8 && `${size.actual_size}${size.uom}`}
-                          </div>
-                        );
-                      })}
-                    {/* Wastage section */}
-                    {plan.wastage_mm > 0 && (
-                      <div
-                        className="flex items-center justify-center text-gray-600 text-xs border-l border-gray-400"
-                        style={{
-                          width: `${
-                            (plan.wastage_mm /
-                              (plan.total_usage_mm + plan.wastage_mm)) *
-                            100
-                          }%`,
-                          backgroundColor: "#E5E7EB",
-                        }}
-                        title={`Wastage: ${plan.wastage_mm}mm`}
-                      >
-                        {(plan.wastage_mm /
-                          (plan.total_usage_mm + plan.wastage_mm)) *
-                          100 >
-                          5 && "Waste"}
-                      </div>
-                    )}
-                  </div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    Wastage: {plan.wastage_mm}mm | Usage: {plan.usage_mm}mm |
-                    Qty: {plan.usage_qty}
-                  </div>
-                </div>
+                {isExpanded && (
+                  <CardContent className="p-3 border-t border-gray-200">
+                    <div className="space-y-6">
+                      {/* Cutting Plans */}
+                      <div className="space-y-4">
+                        {bucket.cutting_plans.map(
+                          (plan: any, index: number) => (
+                            <div
+                              key={index}
+                              className="bg-gray-50 rounded-lg p-4 border border-gray-200 hover:shadow-sm transition-all duration-300 animate-slide-in"
+                              style={{ animationDelay: `${index * 100}ms` }}
+                            >
+                              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 space-y-1 sm:space-y-0">
+                                <h4 className="font-semibold text-gray-900">
+                                  Plan {plan.plan_number} -{" "}
+                                  {plan.item_details.item_name}
+                                </h4>
+                                <div className="flex gap-2 text-sm text-gray-600">
+                                  <span>Sets: {plan.sets}</span>
+                                  <span>
+                                    Usage: {plan.usage_percent.toFixed(2)}%
+                                  </span>
+                                </div>
+                              </div>
 
-                {/* Size Details Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
-                  {plan.sizes
-                    .filter((size: any) => size.actual_size > 0)
-                    .map((size: any, sizeIndex: number) => (
-                      <div
-                        key={sizeIndex}
-                        className="bg-white rounded p-2 border border-gray-200 hover:bg-gray-50 transition-colors duration-200 text-center"
-                      >
-                        <div className="flex items-center justify-center mb-1">
-                          <div
-                            className="w-2 h-2 rounded-full border border-gray-300"
-                            style={{ backgroundColor: getColorForId(size.id) }}
-                          ></div>
-                        </div>
-                        <p className="text-gray-900 font-medium text-xs">
-                          {size.actual_size}
-                          {size.uom}
-                        </p>
-                        <p className="text-gray-600 text-xs">
-                          {size.size_mm}mm
-                        </p>
+                              {/* Horizontal Bar Visualization */}
+                              <div className="mb-3">
+                                <div className="flex rounded-lg overflow-hidden h-8 bg-gray-200">
+                                  {plan.sizes
+                                    .filter((size: any) => size.actual_size > 0)
+                                    .map((size: any, sizeIndex: number) => {
+                                      const totalUsage = plan.usage_mm;
+                                      const sizeUsage = size.size_mm;
+                                      const percentage =
+                                        totalUsage > 0
+                                          ? (sizeUsage /
+                                              (totalUsage + plan.wastage_mm)) *
+                                            100
+                                          : 0;
+                                      return (
+                                        <div
+                                          key={sizeIndex}
+                                          className="flex items-center justify-center text-white text-xs font-medium transition-all duration-300 hover:opacity-80 border-r border-white/30"
+                                          style={{
+                                            width: `${percentage}%`,
+                                            backgroundColor: getColorForId(
+                                              size.id
+                                            ),
+                                            minWidth:
+                                              percentage > 5 ? "auto" : "0",
+                                          }}
+                                          title={`${size.actual_size}${size.uom}`}
+                                        >
+                                          {percentage > 8 &&
+                                            `${size.actual_size}${size.uom}`}
+                                        </div>
+                                      );
+                                    })}
+                                  {/* Wastage section */}
+                                  {plan.wastage_mm > 0 && (
+                                    <div
+                                      className="flex items-center justify-center text-gray-600 text-xs border-l border-gray-400"
+                                      style={{
+                                        width: `${
+                                          (plan.wastage_mm /
+                                            (plan.total_usage_mm +
+                                              plan.wastage_mm)) *
+                                          100
+                                        }%`,
+                                        backgroundColor: "#E5E7EB",
+                                      }}
+                                      title={`Wastage: ${plan.wastage_mm}mm`}
+                                    >
+                                      {(plan.wastage_mm /
+                                        (plan.total_usage_mm +
+                                          plan.wastage_mm)) *
+                                        100 >
+                                        5 && "Waste"}
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="text-xs text-gray-500 mt-1">
+                                  Wastage: {plan.wastage_mm}mm | Usage:{" "}
+                                  {plan.usage_mm}mm | Qty: {plan.usage_qty}
+                                </div>
+                              </div>
+
+                              {/* Size Details Grid */}
+                              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+                                {plan.sizes
+                                  .filter((size: any) => size.actual_size > 0)
+                                  .map((size: any, sizeIndex: number) => (
+                                    <div
+                                      key={sizeIndex}
+                                      className="bg-white rounded p-2 border border-gray-200 hover:bg-gray-50 transition-colors duration-200 text-center"
+                                    >
+                                      <div className="flex items-center justify-center mb-1">
+                                        <div
+                                          className="w-2 h-2 rounded-full border border-gray-300"
+                                          style={{
+                                            backgroundColor: getColorForId(
+                                              size.id
+                                            ),
+                                          }}
+                                        ></div>
+                                      </div>
+                                      <p className="text-gray-900 font-medium text-xs">
+                                        {size.actual_size}
+                                        {size.uom}
+                                      </p>
+                                      <p className="text-gray-600 text-xs">
+                                        {size.size_mm}mm
+                                      </p>
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+                          )
+                        )}
                       </div>
-                    ))}
-                </div>
-              </div>
-                      ))}
-                    </div>
-                    
-                    {/* Pattern Details Table for this bucket */}
-                    <div className="mt-6">
-                      <h4 className="text-lg font-semibold text-gray-900 mb-4">Pattern Details - {bucketLabel}</h4>
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm border border-gray-200 rounded-lg">
-                          <thead>
-                            <tr className="border-b border-gray-200 bg-gray-50">
-                              <th className="text-left p-3 font-medium text-gray-900">Sr. No.</th>
-                              <th className="text-left p-3 font-medium text-gray-900">Item Name</th>
-                              <th className="text-left p-3 font-medium text-gray-900">Sets</th>
-                              {Array.from({ length: responseData.no_of_cut }, (_, i) => (
-                                <th key={i} className="text-left p-3 font-medium text-gray-900">
-                                  Size {i + 1}
+
+                      {/* Pattern Details Table for this bucket */}
+                      <div className="mt-6">
+                        <h4 className="text-lg font-semibold text-gray-900 mb-4">
+                          Pattern Details - {bucketLabel}
+                        </h4>
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm border border-gray-200 rounded-lg">
+                            <thead>
+                              <tr className="border-b border-gray-200 bg-gray-50">
+                                <th className="text-left p-3 font-medium text-gray-900">
+                                  Sr. No.
                                 </th>
-                              ))}
-                              <th className="text-left p-3 font-medium text-gray-900">
-                                <div>Waste/Set</div>
-                                <div className="text-xs font-normal">(mm)</div>
-                              </th>
-                              <th className="text-left p-3 font-medium text-gray-900">
-                                <div>Total Waste</div>
-                                <div className="text-xs font-normal">(mm)</div>
-                              </th>
-                              <th className="text-left p-3 font-medium text-gray-900">
-                                <div>Usage/Set</div>
-                                <div className="text-xs font-normal">(mm)</div>
-                              </th>
-                              <th className="text-left p-3 font-medium text-gray-900">
-                                <div>Total Usage</div>
-                                <div className="text-xs font-normal">(mm)</div>
-                              </th>
-                              <th className="text-left p-3 font-medium text-gray-900">Usage %</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {bucket.cutting_plans.map((plan: any, planIndex: number) => {
-                              const activeSizes = plan.sizes.filter((s: any) => s.actual_size > 0);
-                              return (
-                                <tr key={planIndex} className="border-b border-gray-100 hover:bg-gray-50">
-                                  <td className="p-3 text-gray-900 font-medium">{planIndex + 1}</td>
-                                  <td className="p-3 text-blue-600 font-medium">{plan.item_details.item_name}</td>
-                                  <td className="p-3 text-gray-900">{plan.sets}</td>
-                                  {Array.from({ length: responseData.no_of_cut }, (_, i) => {
-                                    const size = activeSizes[i];
-                                    return (
-                                      <td key={i} className="p-3 text-gray-900">
-                                        {size ? `${size.actual_size}${size.uom}` : "-"}
+                                <th className="text-left p-3 font-medium text-gray-900">
+                                  Item Name
+                                </th>
+                                <th className="text-left p-3 font-medium text-gray-900">
+                                  Sets
+                                </th>
+                                {Array.from(
+                                  { length: responseData.no_of_cut },
+                                  (_, i) => (
+                                    <th
+                                      key={i}
+                                      className="text-left p-3 font-medium text-gray-900"
+                                    >
+                                      Size {i + 1}
+                                    </th>
+                                  )
+                                )}
+                                <th className="text-left p-3 font-medium text-gray-900">
+                                  <div>Waste/Set</div>
+                                  <div className="text-xs font-normal">
+                                    (mm)
+                                  </div>
+                                </th>
+                                <th className="text-left p-3 font-medium text-gray-900">
+                                  <div>Total Waste</div>
+                                  <div className="text-xs font-normal">
+                                    (mm)
+                                  </div>
+                                </th>
+                                <th className="text-left p-3 font-medium text-gray-900">
+                                  <div>Usage/Set</div>
+                                  <div className="text-xs font-normal">
+                                    (mm)
+                                  </div>
+                                </th>
+                                <th className="text-left p-3 font-medium text-gray-900">
+                                  <div>Total Usage</div>
+                                  <div className="text-xs font-normal">
+                                    (mm)
+                                  </div>
+                                </th>
+                                <th className="text-left p-3 font-medium text-gray-900">
+                                  Usage %
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {bucket.cutting_plans.map(
+                                (plan: any, planIndex: number) => {
+                                  const activeSizes = plan.sizes.filter(
+                                    (s: any) => s.actual_size > 0
+                                  );
+                                  return (
+                                    <tr
+                                      key={planIndex}
+                                      className="border-b border-gray-100 hover:bg-gray-50"
+                                    >
+                                      <td className="p-3 text-gray-900 font-medium">
+                                        {planIndex + 1}
                                       </td>
-                                    );
-                                  })}
-                                  <td className="p-3 text-gray-900">{plan.wastage_mm}</td>
-                                  <td className="p-3 text-gray-900">{plan.total_wastage_mm}</td>
-                                  <td className="p-3 text-gray-900">{plan.usage_mm}</td>
-                                  <td className="p-3 text-gray-900">{plan.total_usage_mm}</td>
-                                  <td className="p-3 text-green-600 font-medium">{plan.usage_percent.toFixed(2)}%</td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
+                                      <td className="p-3 text-blue-600 font-medium">
+                                        {plan.item_details.item_name}
+                                      </td>
+                                      <td className="p-3 text-gray-900">
+                                        {plan.sets}
+                                      </td>
+                                      {Array.from(
+                                        { length: responseData.no_of_cut },
+                                        (_, i) => {
+                                          const size = activeSizes[i];
+                                          return (
+                                            <td
+                                              key={i}
+                                              className="p-3 text-gray-900"
+                                            >
+                                              {size
+                                                ? `${size.actual_size}${size.uom}`
+                                                : "-"}
+                                            </td>
+                                          );
+                                        }
+                                      )}
+                                      <td className="p-3 text-gray-900">
+                                        {plan.wastage_mm}
+                                      </td>
+                                      <td className="p-3 text-gray-900">
+                                        {plan.total_wastage_mm}
+                                      </td>
+                                      <td className="p-3 text-gray-900">
+                                        {plan.usage_mm}
+                                      </td>
+                                      <td className="p-3 text-gray-900">
+                                        {plan.total_usage_mm}
+                                      </td>
+                                      <td className="p-3 text-green-600 font-medium">
+                                        {plan.usage_percent.toFixed(2)}%
+                                      </td>
+                                    </tr>
+                                  );
+                                }
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              )}
-            </Card>
+                  </CardContent>
+                )}
+              </Card>
             );
           })
         )}
       </div>
-
-
     </div>
   );
 }

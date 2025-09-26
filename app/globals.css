@@ -363,3 +363,28 @@
 ::-webkit-scrollbar-thumb:hover {
   background: color-mix(in srgb, var(--primary) 80%, black);
 }
+/* Custom VW-based font sizes */
+.text-vw-xs { font-size: 2vw; }
+.text-vw-sm { font-size: 2.5vw; }
+.text-vw-base { font-size: 3vw; }
+.text-vw-lg { font-size: 3.5vw; }
+.text-vw-xl { font-size: 4vw; }
+.text-vw-2xl { font-size: 4.5vw; }
+
+@media (min-width: 640px) {
+  .text-vw-xs { font-size: 1.5vw; }
+  .text-vw-sm { font-size: 2vw; }
+  .text-vw-base { font-size: 2.5vw; }
+  .text-vw-lg { font-size: 3vw; }
+  .text-vw-xl { font-size: 3.5vw; }
+  .text-vw-2xl { font-size: 4vw; }
+}
+
+@media (min-width: 1024px) {
+  .text-vw-xs { font-size: 0.75rem; }
+  .text-vw-sm { font-size: 0.875rem; }
+  .text-vw-base { font-size: 1rem; }
+  .text-vw-lg { font-size: 1.125rem; }
+  .text-vw-xl { font-size: 1.25rem; }
+  .text-vw-2xl { font-size: 1.5rem; }
+}

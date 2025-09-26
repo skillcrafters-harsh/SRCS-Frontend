@@ -406,10 +406,10 @@ export default function ManualInputTab({
       {/* Basic Information */}
       <Card className="shadow-lg border-blue-200 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
         <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 ">
-          <CardTitle className="text-lg font-semibold">
+          <CardTitle className="text-vw-lg font-semibold">
             1. Enter Your Roll Details
           </CardTitle>
-          <p className="text-sm mt-1">
+          <p className="text-vw-sm mt-1">
             Begin by providing the key inputs for your optimization run.
           </p>
         </CardHeader>
@@ -486,7 +486,7 @@ export default function ManualInputTab({
 
         {/* Optional Fields */}
         <div className="px-3 sm:px-4 md:px-6 py-3 sm:py-4 border-b border-blue-100">
-          <h3 className="text-md font-semibold text-gray-900 mb-4">
+          <h3 className="text-vw-base font-semibold text-gray-900 mb-4">
             Configure Optional Fields
           </h3>
           <div className="grid grid-cols-2 gap-3">
@@ -506,7 +506,7 @@ export default function ManualInputTab({
                 />
                 <Label
                   htmlFor={`${field}-checkbox`}
-                  className="text-xs font-medium cursor-pointer text-gray-900"
+                  className="text-vw-xs font-medium cursor-pointer text-gray-900"
                 >
                   {field.toUpperCase()}
                   <div className="text-xs font-normal text-gray-600">
@@ -523,34 +523,38 @@ export default function ManualInputTab({
         </div>
 
         {/* Roll Specifications */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 px-3 sm:px-4 md:px-6 gap-2 sm:gap-0">
-          <div>
-            <h3 className="text-base sm:text-lg font-semibold">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 py-3 px-3 sm:px-4 md:px-6 gap-3 md:gap-0">
+          <div className="flex flex-col items-start">
+            <h3 className="text-vw-base font-semibold">
               2. Cutting Specifications
             </h3>
-            <p className="text-xs sm:text-sm">
+            <p className="text-vw-xs">
               Add all the roll sizes and requirements you need to optimize.
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button
-              onClick={copyJsonData}
-              variant="outline"
-              size="sm"
-              className="flex cursor-pointer items-center gap-2 bg-gradient-to-r from-green-400 to-green-400 hover:from-green-700 hover:to-green-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
-            >
-              <ClipboardDocumentIcon className="h-4 w-4" />
-              Copy JSON
-            </Button>
-            <Button
-              onClick={addRollSpec}
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2 cursor-pointer bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
-            >
-              <PlusIcon className="h-4 w-4" />
-              Add Roll
-            </Button>
+          <div className="flex flex-row sm:flex-row gap-2 w-full md:w-auto justify-end">
+            <div>
+              <Button
+                onClick={copyJsonData}
+                variant="outline"
+                size="sm"
+                className="flex cursor-pointer items-center gap-2 bg-gradient-to-r from-green-400 to-green-400 hover:from-green-700 hover:to-green-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+              >
+                <ClipboardDocumentIcon className="h-4 w-4" />
+                Copy JSON
+              </Button>
+            </div>
+            <div>
+              <Button
+                onClick={addRollSpec}
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 cursor-pointer bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+              >
+                <PlusIcon className="h-4 w-4" />
+                Add Roll
+              </Button>
+            </div>
           </div>
         </div>
         <CardContent className="p-6">
@@ -784,86 +788,184 @@ export default function ManualInputTab({
           {/* Mobile Card View */}
           <div className="md:hidden space-y-4">
             {rollSpecs.map((spec) => (
-              <div key={spec.id} className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+              <div
+                key={spec.id}
+                className="bg-blue-50 rounded-lg p-4 border border-blue-200"
+              >
                 <div className="flex justify-between items-center mb-3">
-                  <h4 className="font-semibold text-gray-900">Roll #{spec.id}</h4>
+                  <h4 className="font-semibold text-gray-900">
+                    Roll #{spec.id}
+                  </h4>
                   <div className="flex gap-1">
-                    <Button onClick={() => duplicateRollSpec(spec.id)} variant="ghost" size="sm" className="text-blue-600 cursor-pointer hover:text-blue-700 hover:bg-blue-50">
+                    <Button
+                      onClick={() => duplicateRollSpec(spec.id)}
+                      variant="ghost"
+                      size="sm"
+                      className="text-blue-600 cursor-pointer hover:text-blue-700 hover:bg-blue-50"
+                    >
                       <DocumentDuplicateIcon className="h-4 w-4" />
                     </Button>
-                    <Button onClick={() => removeRollSpec(spec.id)} variant="ghost" size="sm" disabled={rollSpecs.length === 1} className="text-red-600 cursor-pointer hover:text-red-700 hover:bg-red-50">
+                    <Button
+                      onClick={() => removeRollSpec(spec.id)}
+                      variant="ghost"
+                      size="sm"
+                      disabled={rollSpecs.length === 1}
+                      className="text-red-600 cursor-pointer hover:text-red-700 hover:bg-red-50"
+                    >
                       <TrashIcon className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 gap-3">
                   <div>
-                    <Label className="text-xs font-medium text-gray-700">Item Name *</Label>
+                    <Label className="text-xs font-medium text-gray-700">
+                      Item Name *
+                    </Label>
                     <Input
                       type="text"
                       value={spec.itemName}
                       placeholder="Pattern 1"
-                      onChange={(e) => handleRollSpecChange(spec.id, "itemName", e.target.value)}
+                      onChange={(e) =>
+                        handleRollSpecChange(
+                          spec.id,
+                          "itemName",
+                          e.target.value
+                        )
+                      }
                       className="w-full border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-xs font-medium text-gray-700">Size (mm) *</Label>
-                      <Input type="number" value={spec.size} placeholder="Size" onChange={(e) => handleRollSpecChange(spec.id, "size", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                      <Label className="text-xs font-medium text-gray-700">
+                        Size (mm) *
+                      </Label>
+                      <Input
+                        type="number"
+                        value={spec.size}
+                        placeholder="Size"
+                        onChange={(e) =>
+                          handleRollSpecChange(spec.id, "size", e.target.value)
+                        }
+                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                      />
                     </div>
                     <div>
-                      <Label className="text-xs font-medium text-gray-700">Rolls Required *</Label>
-                      <Input type="number" value={spec.nor} placeholder="Qty" onChange={(e) => handleRollSpecChange(spec.id, "nor", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                      <Label className="text-xs font-medium text-gray-700">
+                        Rolls Required *
+                      </Label>
+                      <Input
+                        type="number"
+                        value={spec.nor}
+                        placeholder="Qty"
+                        onChange={(e) =>
+                          handleRollSpecChange(spec.id, "nor", e.target.value)
+                        }
+                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                      />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-xs font-medium text-gray-700">UOM *</Label>
-                    <Select value={spec.uom} onValueChange={(value) => handleRollSpecChange(spec.id, "uom", value)}>
+                    <Label className="text-xs font-medium text-gray-700">
+                      UOM *
+                    </Label>
+                    <Select
+                      value={spec.uom}
+                      onValueChange={(value) =>
+                        handleRollSpecChange(spec.id, "uom", value)
+                      }
+                    >
                       <SelectTrigger className="w-full border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium">
                         <SelectValue placeholder="Select UOM" />
                       </SelectTrigger>
                       <SelectContent>
                         {Object.entries(uomOptions).map(([key, value]) => (
-                          <SelectItem key={key} value={value}>{value}</SelectItem>
+                          <SelectItem key={key} value={value}>
+                            {value}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
                   {optionalFields.dia && (
                     <div>
-                      <Label className="text-xs font-medium text-gray-700">DIA</Label>
-                      <Input type="number" value={spec.dia} placeholder="36" onChange={(e) => handleRollSpecChange(spec.id, "dia", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                      <Label className="text-xs font-medium text-gray-700">
+                        DIA
+                      </Label>
+                      <Input
+                        type="number"
+                        value={spec.dia}
+                        placeholder="36"
+                        onChange={(e) =>
+                          handleRollSpecChange(spec.id, "dia", e.target.value)
+                        }
+                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                      />
                     </div>
                   )}
                   {optionalFields.bf && (
                     <div>
-                      <Label className="text-xs font-medium text-gray-700">BF</Label>
-                      <Input type="number" value={spec.bf} placeholder="BF" onChange={(e) => handleRollSpecChange(spec.id, "bf", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                      <Label className="text-xs font-medium text-gray-700">
+                        BF
+                      </Label>
+                      <Input
+                        type="number"
+                        value={spec.bf}
+                        placeholder="BF"
+                        onChange={(e) =>
+                          handleRollSpecChange(spec.id, "bf", e.target.value)
+                        }
+                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                      />
                     </div>
                   )}
                   {optionalFields.gsm && (
                     <div>
-                      <Label className="text-xs font-medium text-gray-700">GSM</Label>
-                      <Input type="number" value={spec.gsm} placeholder="GSM" onChange={(e) => handleRollSpecChange(spec.id, "gsm", e.target.value)} className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium" />
+                      <Label className="text-xs font-medium text-gray-700">
+                        GSM
+                      </Label>
+                      <Input
+                        type="number"
+                        value={spec.gsm}
+                        placeholder="GSM"
+                        onChange={(e) =>
+                          handleRollSpecChange(spec.id, "gsm", e.target.value)
+                        }
+                        className="border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
+                      />
                     </div>
                   )}
                   {optionalFields.quality && (
                     <div>
-                      <Label className="text-xs font-medium text-gray-700">Quality</Label>
+                      <Label className="text-xs font-medium text-gray-700">
+                        Quality
+                      </Label>
                       <Input
                         type="text"
                         value={spec.quality}
                         placeholder="Enter quality"
-                        onChange={(e) => handleRollSpecChange(spec.id, "quality", e.target.value)}
+                        onChange={(e) =>
+                          handleRollSpecChange(
+                            spec.id,
+                            "quality",
+                            e.target.value
+                          )
+                        }
                         className="w-full border-2 border-gray-300 focus:border-blue-600 focus:ring-2 focus:ring-blue-200 hover:border-blue-500 bg-white text-gray-900 font-medium"
                       />
                     </div>
                   )}
                   {optionalFields.quantity && (
                     <div>
-                      <Label className="text-xs font-medium text-gray-700">Auto QTY</Label>
-                      <Input type="number" value={spec.quantity} readOnly className="bg-gray-100 border-gray-300 text-gray-700" />
+                      <Label className="text-xs font-medium text-gray-700">
+                        Auto QTY
+                      </Label>
+                      <Input
+                        type="number"
+                        value={spec.quantity}
+                        readOnly
+                        className="bg-gray-100 border-gray-300 text-gray-700"
+                      />
                     </div>
                   )}
                 </div>
@@ -876,7 +978,7 @@ export default function ManualInputTab({
             onClick={handleOptimize}
             disabled={!isFormValid() || isOptimizing}
             size="sm"
-            className="w-full sm:w-auto cursor-pointer px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
+            className="sm:w-auto cursor-pointer px-3 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-sm sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-400 to-blue-400 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl border-0"
           >
             {isOptimizing ? (
               <>
