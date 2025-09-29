@@ -1,0 +1,12 @@
+# Allow all web crawlers to access all content
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://srcs.vercel.app/sitemap.xml
+
+# Additional sitemaps for better indexing
+Sitemap: https://srcs.vercel.app/sitemap-0.xml
+
+# Crawl-delay for better server performance
+Crawl-delay: 1

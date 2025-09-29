@@ -1,0 +1,798 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  PlayIcon,
+  ArrowRightIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  WrenchScrewdriverIcon,
+  ChartBarIcon,
+  ClockIcon,
+  StarIcon,
+} from "@heroicons/react/24/outline";
+
+interface HomePageProps {
+  onNavigate: (tab: string) => void;
+}
+
+export default function HomePage({ onNavigate }: HomePageProps) {
+  const router = useRouter();
+
+  return (
+    <div className="space-y-0">
+      {/* Hero Section - Problem-Solution Hook */}
+      <div className="relative min-h-screen sm:min-h-[80vh] lg:min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900">
+        {/* Background Video/Image Option */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40"></div>
+          <img
+            src="/nowatermark/bg.png"
+            alt="Smart Roll Cutting Manufacturing Background"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+            {/* Text Content */}
+            <div className="text-white space-y-4 sm:space-y-6 lg:space-y-8 text-center lg:text-left">
+              <div className="space-y-3 sm:space-y-4 lg:space-y-6">
+                <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight">
+                  Stop Wasteful Roll Cutting.
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400 block mt-1 sm:mt-2">
+                    Start Boosting Profits.
+                  </span>
+                </h1>
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                  Smart Roll Cutting's AI-powered platform transforms manual,
+                  error-prone material planning into automated, optimized
+                  production.
+                </p>
+              </div>
+
+              <div className="flex flex-col xs:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+                <Button
+                  onClick={() => router.push("/run")}
+                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 xs:px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 text-sm xs:text-base sm:text-lg lg:text-xl font-semibold transition-all duration-300 hover:scale-105 shadow-xl cursor-pointer"
+                >
+                  <span className="xs:hidden">Start Trial</span>
+                  <span className="hidden xs:inline">
+                    Start Your Free Trial
+                  </span>
+                  <ArrowRightIcon className="h-4 w-4 sm:h-5 sm:w-5 ml-2" />
+                </Button>
+                <a href="https://forms.gle/M5k5Yrgc6j1u3wag7" target="_blank" className="border-white/30 text-white px-4 xs:px-6 sm:px-8 lg:px-10 py-2 sm:py-3 lg:py-3 text-sm xs:text-base sm:text-lg lg:text-xl text-center bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                >
+                  <span className="xs:hidden">Connect</span>
+                  <span className="hidden xs:inline">Connect to the team</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Hero Video */}
+            <div className="relative mt-6 lg:mt-0 order-first lg:order-last">
+              <div className="aspect-video rounded-lg sm:rounded-xl lg:rounded-2xl overflow-hidden border border-white/20 shadow-lg">
+                <video
+                  className="w-full h-full object-cover"
+                  controls
+                  poster="/hero-section-thumbnail.png"
+                >
+                  <source src="/hero-section-video.mp4" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Problem Agitation Section */}
+      <div className="bg-gray-50 py-8 sm:py-12 md:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3 sm:mb-4 lg:mb-6">
+              Reduce Waste, Save Costs
+            </h2>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Every day you delay optimization, you're losing money. Here's
+              what's really costing you:
+            </p>
+          </div>
+
+          {/* Problem 1: Material Wastage & Rising Costs */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center mb-12 sm:mb-16 lg:mb-20">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-red-100 text-red-700 rounded-full text-xs sm:text-sm font-semibold">
+                <ExclamationTriangleIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+                Problem #1
+              </div>
+              <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+                Are You Throwing Profits Away?
+              </h3>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
+                Manual calculations and inefficient cutting patterns lead to
+                massive material scrap. Every inch of wasted paper is money lost
+                directly from your bottom line, causing your operational costs
+                to spiral upwards.
+              </p>
+              <div className="bg-red-50 border-l-4 border-red-400 p-3 sm:p-4">
+                <p className="text-red-800 font-semibold text-sm sm:text-base lg:text-lg">
+                  "The average manufacturer loses 15-25% of material to poor
+                  cutting patterns. That's thousands of dollars every month."
+                </p>
+              </div>
+            </div>
+            <div className="relative order-first lg:order-last">
+              <img
+                src="/nowatermark/wastage.png"
+                alt="High Material Wastage - Frustrated worker with waste pile"
+                className="rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl lg:shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-red-500 text-white px-2 py-1 sm:px-3 sm:py-1.5 lg:px-4 lg:py-2 rounded-full font-bold text-xs sm:text-sm lg:text-base">
+                Costs Rising
+              </div>
+            </div>
+          </div>
+
+          {/* Problem 2: Downtime & Lost Productivity */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center mb-12 sm:mb-16 lg:mb-20">
+            <div className="order-2 lg:order-1 relative">
+              <img
+                src="/nowatermark/_wasteNdowntime.png"
+                alt="Downtime and Lost Productivity - Worker with hands up"
+                className="rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl lg:shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-orange-500 text-white px-2 py-1 sm:px-3 sm:py-1.5 lg:px-4 lg:py-2 rounded-full font-bold text-xs sm:text-sm lg:text-base">
+                Profit Loss
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 space-y-4 sm:space-y-6">
+              <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-orange-100 text-orange-700 rounded-full text-xs sm:text-sm font-semibold">
+                <ClockIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+                Problem #2
+              </div>
+              <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+                Downtime is Your Biggest Enemy.
+              </h3>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
+                Miscalculations don't just waste material; they halt production.
+                Machine downtime, re-runs, and rework kill productivity, delay
+                orders, and erode your competitive edge.
+              </p>
+              <div className="bg-orange-50 border-l-4 border-orange-400 p-3 sm:p-4">
+                <p className="text-orange-800 font-semibold text-sm sm:text-base lg:text-lg">
+                  "Every hour of unplanned downtime costs manufacturers an
+                  average of $260,000 per year."
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Problem 3: Maintenance & Frequent Changes */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-10 lg:gap-12 items-center">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 bg-purple-100 text-purple-700 rounded-full text-xs sm:text-sm font-semibold">
+                <WrenchScrewdriverIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1.5 sm:mr-2" />
+                Problem #3
+              </div>
+              <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+                Frequent Cutter Changes Draining Your Resources?
+              </h3>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
+                Sub-optimal cutting plans can lead to excessive wear and tear on
+                your machinery, necessitating frequent, costly cutter changes
+                and increasing your overall maintenance expenditure.
+              </p>
+              <div className="bg-purple-50 border-l-4 border-purple-400 p-3 sm:p-4">
+                <p className="text-purple-800 font-semibold text-sm sm:text-base lg:text-lg">
+                  "Poor cutting patterns can increase maintenance costs by up to
+                  40% due to excessive equipment wear."
+                </p>
+              </div>
+            </div>
+            <div className="relative order-first lg:order-last">
+              <img
+                src="/nowatermark/cutter_changes.png"
+                alt="Higher Maintenance Costs - Worker fixing cutter"
+                className="rounded-lg sm:rounded-xl lg:rounded-2xl shadow-xl lg:shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-purple-500 text-white px-2 py-1 sm:px-3 sm:py-1.5 lg:px-4 lg:py-2 rounded-full font-bold text-xs sm:text-sm lg:text-base">
+                Higher Costs
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Solution Section - Smart Roll Cutting's Transformation */}
+      <div className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              How SRCS Solves Roll Cutting Challenges
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Stop losing money to inefficiency. Here's how Smart Roll Cutting
+              transforms your operation:
+            </p>
+          </div>
+
+          {/* Solution 1: Guaranteed Waste Reduction */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center mb-16 lg:mb-20">
+            <div className="space-y-6">
+              <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                <CheckCircleIcon className="h-4 w-4 mr-2" />
+                Solution #1
+              </div>
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+                Achieve Up To 40% Waste Reduction Instantly.
+              </h3>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                Our AI-powered optimization engine generates the most efficient
+                cutting patterns in seconds, dramatically reducing material
+                waste and turning your current losses into significant savings.
+                See the impact directly on our intuitive dashboard.
+              </p>
+              <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                <p className="text-green-800 font-semibold">
+                  "Our customers see an average of 40% waste reduction within
+                  the first month of implementation."
+                </p>
+              </div>
+              <div className="flex items-center space-x-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600">40%</div>
+                  <div className="text-sm text-gray-600">Less Waste</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-600">$50K+</div>
+                  <div className="text-sm text-gray-600">Monthly Savings</div>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <img
+                src="/nowatermark/SRCS_solution.png"
+                alt="Smart Roll Cutting Dashboard - Happy worker with reduced costs"
+                className="rounded-2xl shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -top-4 -right-4 bg-green-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
+                Costs Reduced
+              </div>
+            </div>
+          </div>
+
+          {/* Solution 2: Boost Productivity & Profit Growth */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
+            <div className="order-2 lg:order-1 relative">
+              <img
+                src="/nowatermark/fewCutterchange.png"
+                alt="Profit Growth - Two happy workers with growth graph"
+                className="rounded-2xl shadow-2xl w-full h-auto"
+              />
+              <div className="absolute -bottom-4 -left-4 bg-blue-500 text-white px-3 py-1 sm:px-4 sm:py-2 rounded-full font-bold text-sm sm:text-base lg:text-lg">
+                Profit Growth
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 space-y-6">
+              <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">
+                <ChartBarIcon className="h-4 w-4 mr-2" />
+                Solution #2
+              </div>
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+                Maximize Uptime. Maximize Profit.
+              </h3>
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+                By providing optimized plans, Smart Roll Cutting enables longer,
+                uninterrupted production runs, minimizes cutter changes, and
+                eliminates costly re-runs. This leads to increased throughput,
+                reduced labor, and a clear path to sustained profit growth.
+              </p>
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                <p className="text-blue-800 font-semibold">
+                  "Longer runs without interruptions mean 25% more production
+                  capacity and 30% higher profit margins."
+                </p>
+              </div>
+              <div className="flex items-center space-x-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-600">25%</div>
+                  <div className="text-sm text-gray-600">More Production</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600">30%</div>
+                  <div className="text-sm text-gray-600">Higher Margins</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* How It Works Section */}
+      <div className="bg-gray-50 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Real-Time Optimized Cutting Plans
+            </h2>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
+              Get started in minutes, see results immediately. Our 3-step
+              process makes optimization effortless.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Step 1 */}
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+                1
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900">Integrate</h3>
+              <p className="text-gray-600">
+                Connect Smart Roll Cutting to your existing ERP and production
+                data. Seamless integration with your current workflow.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+                2
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900">Optimize</h3>
+              <p className="text-gray-600">
+                Our AI analyzes your orders and materials to generate the
+                perfect cut plan. Get optimized patterns in seconds.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+                3
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900">Produce</h3>
+              <p className="text-gray-600">
+                Execute with confidence, knowing you're maximizing material and
+                minimizing downtime. Start saving immediately.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Future Enhancements Section - Strategic Investment Focus */}
+      <div className="bg-gradient-to-br from-green-50 via-white to-blue-50 py-6 sm:py-8 lg:py-10">
+        <div className="max-w-7xl mx-auto ">
+          {/* Strategic Investment Hook */}
+          <div className="text-center mb-16">
+            {/* <Badge className="bg-green-100 text-green-700 border-green-300 px-4 py-2 text-sm mb-4">
+              <CheckCircleIcon className="h-4 w-4 mr-2" />
+              Strategic Investment
+            </Badge> */}
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+              Your Investment Today Powers Tomorrow's Growth
+            </h2>
+            <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Smart Roll Cutting isn't just solving today's paper cutting
+              challenges—it's your gateway to industry-wide optimization. Our
+              universal AI engine adapts to any roll-based material, ensuring
+              your investment scales with your business expansion.
+            </p>
+          </div>
+
+          {/* ROI Promise */}
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-12 border border-green-200">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="text-3xl font-bold text-green-600 mb-2">
+                  Future-Proof
+                </div>
+                <p className="text-gray-600">
+                  One platform, multiple industries
+                </p>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-blue-600 mb-2">
+                  Scalable ROI
+                </div>
+                <p className="text-gray-600">Investment grows with expansion</p>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-purple-600 mb-2">
+                  Zero Risk
+                </div>
+                <p className="text-gray-600">Proven technology foundation</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Industry Expansion Roadmap */}
+          <div className="mb-12">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-8 text-center">
+              Expanding Beyond Paper: Your Competitive Advantage
+            </h3>
+            <p className="text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+              While competitors focus on single-industry solutions, Smart Roll
+              Cutting is building the universal optimization platform. Get ahead
+              of the curve with technology that grows with your business.
+            </p>
+          </div>
+
+          {/* Visual Industry Cards with Business Impact */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            {/* Plastics & Film */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white">
+                      Plastics & Film
+                    </h4>
+                    <p className="text-blue-100 text-sm">Coming Q2 2024</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Expand into the $350B flexible packaging market. Same waste
+                  reduction principles, specialized for industrial wraps and
+                  packaging films.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold">
+                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  Projected 35% waste reduction
+                </div>
+              </div>
+            </div>
+
+            {/* Textiles & Fabrics */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gradient-to-r from-green-500 to-green-600 p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white">
+                      Textiles & Fabrics
+                    </h4>
+                    <p className="text-green-100 text-sm">Coming Q3 2024</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Enter the $1.3T textile industry with pattern-aware
+                  optimization. Handle complex fabric layouts from apparel to
+                  automotive upholstery.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold">
+                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  Projected 25% material savings
+                </div>
+              </div>
+            </div>
+
+            {/* Metal & Coil */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gradient-to-r from-gray-500 to-gray-600 p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white">
+                      Metal & Coil Processing
+                    </h4>
+                    <p className="text-gray-100 text-sm">Coming Q4 2024</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  Optimize high-value metal coil cutting for steel, aluminum,
+                  and specialty alloys. Maximize yield from expensive raw
+                  materials.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold">
+                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  Projected $500K+ annual savings
+                </div>
+              </div>
+            </div>
+
+            {/* Adhesives & Labels */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300">
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 p-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
+                      />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold text-white">
+                      Precision Labels
+                    </h4>
+                    <p className="text-purple-100 text-sm">Coming 2025</p>
+                  </div>
+                </div>
+              </div>
+              <div className="p-6">
+                <p className="text-gray-600 mb-4">
+                  High-precision optimization for adhesive materials and
+                  intricate label cutting with perfect alignment and zero waste
+                  tolerance.
+                </p>
+                <div className="flex items-center text-green-600 text-sm font-semibold">
+                  <ArrowRightIcon className="h-4 w-4 mr-2" />
+                  Projected 99.5% precision rate
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Investment CTA */}
+          {/* <div className="text-center bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
+            <h3 className="text-2xl font-bold mb-4">
+              Secure Your Multi-Industry Advantage Today
+            </h3>
+            <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
+              Start with paper optimization now. Automatically unlock new
+              industries as we expand—no additional setup, no extra costs for
+              existing customers.
+            </p>
+            <Button
+              onClick={() => onNavigate("run")}
+              className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3"
+            >
+              Lock In Your Future Advantage
+              <ArrowRightIcon className="h-5 w-5 ml-2" />
+            </Button>
+          </div> */}
+        </div>
+      </div>
+
+      {/* Social Proof and Credibility Section */}
+      <div className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12 lg:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Industries We Serve (Paper, Textile, Metal, Plastic)
+            </h2>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600">
+              Join hundreds of manufacturers who are transforming their
+              operations
+            </p>
+          </div>
+
+          {/* Testimonial */}
+          <div className="bg-gray-50 rounded-2xl p-6 sm:p-8 mb-12">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="flex justify-center mb-6">
+                <div className="flex space-x-1">
+                  {[...Array(5)].map((_, i) => (
+                    <StarIcon
+                      key={i}
+                      className="h-6 w-6 text-yellow-400 fill-current"
+                    />
+                  ))}
+                </div>
+              </div>
+              <blockquote className="text-lg sm:text-xl lg:text-2xl font-medium text-gray-900 mb-6">
+                "Smart Roll Cutting changed our entire operation. We saw an
+                immediate 30% reduction in waste, and our team now works with
+                unparalleled efficiency. The ROI was clear within months."
+              </blockquote>
+              <div className="flex items-center justify-center space-x-4">
+                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                  MR
+                </div>
+                <div className="text-left">
+                  <div className="font-semibold text-gray-900">
+                    Maria Rodriguez
+                  </div>
+                  <div className="text-gray-600">
+                    Operations Director, Global Manufacturing Co.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Key Statistics */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-green-600 mb-2">
+                40%
+              </div>
+              <div className="text-base sm:text-lg text-gray-600">
+                Average Waste Reduction
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-blue-600 mb-2">
+                95%
+              </div>
+              <div className="text-base sm:text-lg text-gray-600">
+                Customer Retention Rate
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl sm:text-4xl font-bold text-purple-600 mb-2">
+                $2M+
+              </div>
+              <div className="text-base sm:text-lg text-gray-600">
+                Average Annual Savings
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* SEO Content Section */}
+      {/* <div className="bg-white py-12 sm:py-16 lg:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="prose max-w-none">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
+              SRCS Vercel: Advanced Roll Cutting Optimization Software
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-gray-700">
+              <div>
+                <h3 className="text-xl font-semibold mb-4">
+                  Roll Cutting Problem Solver
+                </h3>
+                <p className="mb-4">
+                  SRCS Vercel Smart Roll Cutting System solves complex roll
+                  cutting problems with advanced optimization algorithms. Our
+                  roll cutting calculator generates optimal cutting patterns for
+                  manufacturing industries, reducing material waste and
+                  improving production efficiency.
+                </p>
+                <p className="mb-4">
+                  Key features include roll cutting optimization, cutting
+                  pattern generation, material waste reduction, and automated
+                  cutting solutions for paper roll cutting, textile cutting
+                  optimization, metal roll cutting, and plastic roll cutting
+                  applications.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-4">
+                  Smart Manufacturing Solutions
+                </h3>
+                <p className="mb-4">
+                  Our Smart Roll Cutting System (SRCS) provides cutting
+                  efficiency software, production optimization tools, and waste
+                  minimization solutions. The roll optimization system helps
+                  manufacturers achieve cutting cost reduction through
+                  intelligent cutting plan generation.
+                </p>
+                <p className="mb-4">
+                  SRCS Vercel offers industrial cutting software with roll
+                  cutting algorithms designed for fabric cutting optimization,
+                  automated cutting solutions, and smart manufacturing tools
+                  that deliver measurable results.
+                </p>
+              </div>
+            </div>
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">
+                Why Choose SRCS Vercel for Roll Cutting Optimization?
+              </h3>
+              <ul className="list-disc list-inside space-y-2 text-gray-700">
+                <li>
+                  Advanced roll cutting optimization algorithms for maximum
+                  efficiency
+                </li>
+                <li>Free roll cutting calculator with instant results</li>
+                <li>Material waste reduction up to 30% guaranteed</li>
+                <li>Cutting pattern optimization for all industries</li>
+                <li>Smart Roll Cutting System with AI-powered solutions</li>
+                <li>Roll cutting problem solver with proven results</li>
+                <li>
+                  Industrial cutting software for manufacturing excellence
+                </li>
+                <li>Automated cutting solutions for improved productivity</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div> */}
+
+      {/* Final Call to Action */}
+      <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900 py-12 sm:py-16 lg:py-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6">
+            Ready to Revolutionize Your Production?
+          </h2>
+          <p className="text-base sm:text-lg lg:text-xl text-blue-100 mb-8 leading-relaxed">
+            Stop letting inefficiency erode your margins. Join the hundreds of
+            manufacturers who are transforming their operations with Smart Roll
+            Cutting.
+          </p>
+
+          <div className="flex flex-row sm:flex-row gap-2 sm:gap-4 justify-center mb-8">
+            <Button
+              onClick={() => router.push("/run")}
+              size="sm"
+              className="flex-1 sm:w-auto px-2 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 text-xs sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center cursor-pointer"
+            >
+              <span className="sm:hidden">Start Trial</span>
+              <span className="hidden sm:inline">Start Your Free Trial</span>
+              <ArrowRightIcon className="h-4 w-4 sm:h-5 sm:w-5 ml-1 sm:ml-2" />
+            </Button>
+            <a
+              href="https://forms.gle/M5k5Yrgc6j1u3wag7"
+              className="flex-1 sm:w-auto px-2 sm:px-6 md:px-8  text-xs sm:text-base md:text-lg font-medium sm:font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white hover:scale-105 transition-all duration-300 shadow-xl flex items-center justify-center cursor-pointer"
+            >
+              <span className="sm:hidden">Demo</span>
+              <span className="hidden sm:inline">
+                Request a Personalized Demo
+              </span>
+            </a>
+          </div>
+
+          <p className="text-blue-200 text-sm">
+            No credit card required • 30-day free trial • Cancel anytime
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
