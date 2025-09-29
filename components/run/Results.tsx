@@ -992,7 +992,7 @@ export default function Results() {
                                     sizeIndex,   
                                   });
                                   const total = (plan.usage_mm || 0) + (plan.wastage_mm || 0);
-                                  const sizeUsage = size.size_mm || size.actual_size || 0;
+                                  const sizeUsage = Number(size.size_mm ?? size.actual_size ?? size.size ?? 0);
                                   const percentage = total > 0 ? (sizeUsage / total) * 100 : 0;
                                   const isHighlighted = highlightedSize === sizeKey;
                                   return (
