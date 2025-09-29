@@ -12,6 +12,30 @@ import {
   ChartPieIcon,
 } from "@heroicons/react/24/outline";
 
+type PlanSize = {
+  actual_size?: number | string;
+  size?: number | string;
+  size_mm?: number;
+  uom?: string;
+  id?: string | number;
+  size_id?: string | number;
+};
+
+type PlanWithSizes = {
+  sizes?: PlanSize[];
+};
+
+type SizeKeyContext = {
+  bucketIndex?: number;
+  planIndex: number;
+  sizeIndex: number;
+};
+
+type SizeKeyEntry = {
+  size: PlanSize;
+  key: string;
+};
+
 interface PieChartData {
   utilized: number;
   wastage: number;
@@ -480,12 +504,14 @@ export default function Results() {
     );
   };
 
-  const getFilteredSizes = (plan: any) =>
-    (plan.sizes || []).filter((size: any) => (size.actual_size || size.size) > 0);
+  const getFilteredSizes = (plan: PlanWithSizes | undefined): PlanSize[] =>
+    (plan?.sizes || []).filter(
+      (size): size is PlanSize => Number(size.actual_size || size.size) > 0
+    );
 
   const generateSizeKey = (
-    size: any,
-    context: { bucketIndex?: number; planIndex: number; sizeIndex: number }
+    size: PlanSize,
+    context: SizeKeyContext
   ) => {
     if (size?.id) return String(size.id);
     if (size?.size_id) return String(size.size_id);
@@ -773,15 +799,14 @@ export default function Results() {
                       {/* Visual Bar - Exact Reference Implementation */}
                       <div className="mb-3">
                         <div className="flex rounded-lg overflow-hidden h-8 bg-gray-200">
-                          {getFilteredSizes(plan).map((size: any, sizeIndex: number) => {
+                          {getFilteredSizes(plan).map((size, sizeIndex) => {
                             const sizeKey = generateSizeKey(size, {
                               planIndex: index,
                               sizeIndex,
                             });
-                            const percentage =
-                              (size.size_mm /
-                                (plan.usage_mm + plan.wastage_mm)) *
-                              100;
+                            const total = (plan.usage_mm || 0) + (plan.wastage_mm || 0);
+                            const sizeUsage = Number(size.size_mm ?? size.actual_size ?? size.size ?? 0);
+                            const percentage = total > 0 ? (sizeUsage / total) * 100 : 0;
                             const isHighlighted = highlightedSize === sizeKey;
                             return (
                               <div
@@ -840,11 +865,11 @@ export default function Results() {
                       {/* Size Details - Show only unique IDs */}
                       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2">
                         {(() => {
-                          const uniqueSizes = getFilteredSizes(plan).reduce(
+                          const uniqueSizes = getFilteredSizes(plan).reduce<SizeKeyEntry[]>(
                             (
-                              acc: { size: any; key: string }[],
-                              size: any,
-                              sizeIndex: number
+                              acc,
+                              size,
+                              sizeIndex
                             ) => {
                               const sizeKey = generateSizeKey(size, {
                                 planIndex: index,
@@ -855,7 +880,7 @@ export default function Results() {
                               }
                               return acc;
                             },
-                            [] as { size: any; key: string }[]
+                            []
                           );
 
                           return uniqueSizes.map(({ size, key }) => (
@@ -960,7 +985,7 @@ export default function Results() {
                             {/* Horizontal Bar Visualization with Highlight */}
                             <div className="mb-3">
                               <div className="flex rounded-lg overflow-hidden h-8 bg-gray-200">
-                                {getFilteredSizes(plan).map((size: any, sizeIndex: number) => {
+                                {getFilteredSizes(plan).map((size, sizeIndex) => {
                                   const sizeKey = generateSizeKey(size, {
                                     bucketIndex,
                                     planIndex: index,
@@ -1026,11 +1051,11 @@ export default function Results() {
                             {/* Size Details Grid - Show only unique IDs */}
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2">
                               {(() => {
-                                const uniqueSizes = getFilteredSizes(plan).reduce(
+                                const uniqueSizes = getFilteredSizes(plan).reduce<SizeKeyEntry[]>(
                                   (
-                                    acc: { size: any; key: string }[],
-                                    size: any,
-                                    sizeIndex: number
+                                    acc,
+                                    size,
+                                    sizeIndex
                                   ) => {
                                     const sizeKey = generateSizeKey(size, {
                                       bucketIndex,
@@ -1042,7 +1067,7 @@ export default function Results() {
                                     }
                                     return acc;
                                   },
-                                  [] as { size: any; key: string }[]
+                                  []
                                 );
 
                                 return uniqueSizes.map(({ size, key }) => (
