@@ -16,10 +16,10 @@ import {
 } from "@heroicons/react/24/outline";
 
 interface HomePageProps {
-  onNavigate: (tab: string) => void;
+ 
 }
 
-export default function HomePage({ onNavigate }: HomePageProps) {
+export default function HomePage() {
   const router = useRouter();
 
   return (
