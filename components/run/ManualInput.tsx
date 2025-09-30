@@ -52,10 +52,10 @@ export default function ManualInputTab({
 }: ManualInputTabProps) {
   const { setState } = useOptimize();
   const [formData, setFormData] = useState({
-    motherRollWidth: "4500",
-    maxCuts: "7",
-    customerName: "Himesh",
-    soNo: "Reshmia",
+    motherRollWidth: "",
+    maxCuts: "",
+    customerName: "",
+    soNo: "",
   });
 
   // console.log(isOptimizing);
@@ -69,31 +69,31 @@ export default function ManualInputTab({
 
   const [rollSpecs, setRollSpecs] = useState<RollSpec[]>([
     {
-      id: "1",
-      itemName: "Pattern 1",
+      id: "",
+      itemName: "",
       dia: "",
       bf: "",
       gsm: "",
       quality: "",
-      size: "32",
-      uom: "IN - Inches",
-      nor: "5",
+      size: "",
+      uom: "",
+      nor: "",
       quantity: 0,
     },
   ]);
 
-  const itemOptions = {
-    1: "Plan Pattern 1",
-    2: "KRAFT PAPER SIZE (1 TO 150)",
-  };
+  // const itemOptions = {
+  //   1: "Plan Pattern 1",
+  //   2: "KRAFT PAPER SIZE (1 TO 150)",
+  // };
 
-  const qualityOptions = {
-    1: "GOLDEN",
-    2: "NATURAL",
-    3: "FLUTING",
-    4: "GREY",
-    5: "BROWN",
-  };
+  // const qualityOptions = {
+  //   1: "GOLDEN",
+  //   2: "NATURAL",
+  //   3: "FLUTING",
+  //   4: "GREY",
+  //   5: "BROWN",
+  // };
 
   const uomOptions = {
     1: "IN - Inches",

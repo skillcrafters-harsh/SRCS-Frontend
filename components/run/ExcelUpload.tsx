@@ -38,10 +38,10 @@ export default function ExcelUploadTab({
 }: ExcelUploadTabProps) {
   const { setState } = useOptimize();
   const [formData, setFormData] = useState({
-    motherRollWidth: "4500",
-    maxCuts: "7",
-    customerName: "Chirag",
-    soNo: "Chapli",
+    motherRollWidth: "",
+    maxCuts: "",
+    customerName: "",
+    soNo: "",
   });
 
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
