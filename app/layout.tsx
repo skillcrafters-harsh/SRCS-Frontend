@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import Footer from "@/components/footer";
+import { GoToTopButton } from "@/components/go-to-top-button";
 
 export const metadata: Metadata = {
   title:
@@ -116,6 +117,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Navbar />
         <main className="flex-1 pt-14 sm:pt-16">{children}</main>
         <Footer />
+        <GoToTopButton />
         <Toaster richColors position="top-right" closeButton />
       </body>
     </html>
